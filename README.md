@@ -1,7 +1,7 @@
 # team2-intranet-project-
 [2조] 토이프로젝트I - 사내 인트라넷 서비스 구현 
 
-[**🖥️인트라넷 서비스 Preview (Render)**](https://intranet-solution.onrender.com/)
+[**🖥️인트라넷 서비스 Preview (Render)**](https://intranet-solution.onrender.com/) / [**😼배포 리포지토리**](https://github.com/DFE-1st-toy-project-group-2/intranet-solution)
 
 ## 설치
 ```
