@@ -21,8 +21,8 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.AUTO_ACTIONS }}
         with:
           source-directory: 'output'
-          destination-github-username: nakyeonko3
-          destination-repository-name: Owner-avatar-team2-intranet-project--
+          destination-github-username: DFE-1st-toy-project-group-2
+          destination-repository-name: intranet-solution
           user-email: ${{ secrets.EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: main
