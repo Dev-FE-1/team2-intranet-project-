@@ -1,6 +1,8 @@
 # team2-intranet-project-
 [2조] 토이프로젝트I - 사내 인트라넷 서비스 구현 
 
+[**🖥️인트라넷 서비스 Preview (Render)**](https://intranet-solution.onrender.com/)
+
 ## 설치
 ```
 npm install
