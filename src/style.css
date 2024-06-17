@@ -1,96 +1,47 @@
+@import './css/reset.css';
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  --color-black: #181818;
+  --color-white: #ffffff;
+  --color-brace: #aaac49;
+  --color-caramel: #ffda98;
+  --color-teal-grean: #0c8681;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* primary */
+  --color-ocean-blue: #4b49ac;
+  --color-jordy-blue: #98bdff;
+  /* supporting */
+  --color-french-skyblue: #7da0fa;
+  --color-slate-blue: #7978e9;
+  --color-coral-light: #f3797e;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  /* Grayscale */
+  --color-simple-gray: #6b6b6b;
+  --color-dark-gray: #545454;
+  --color-regular-gray: #b9b9b9;
+  --color-light-gray: #c7c7c7;
+  --color-pale-gray: #cccccc;
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  /* font-size */
+  --font-large: 18px;
+  --font-medium: 16px;
+  --font-small: 14px;
+  --font-micro: 12px;
+
+  /* size */
+  --base-space: 8px;
+  --size-border: 4px;
+
+  --size-button-small: 100px;
+  --size-button-medium: 150px;
+  --size-button-large: 200px;
+  --size-button-xlarge: 250px;
+  --size-button-jumbo: 300px;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vanilla:hover {
-  filter: drop-shadow(0 0 2em #f7df1eaa);
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  transform: rotate(0.04deg); /* font Anti-aliasing */
+  font-optical-sizing: auto;
 }
