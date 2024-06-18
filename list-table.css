@@ -1,0 +1,107 @@
+:root {
+  /* list-table */
+  --size-img-small: 36px;
+  --size-tablePadding: 1.5rem;
+  --size-l-table-width: 90vw;
+  --size-l-table-height: 70vh;
+  --color-lightest-gray: #eeeeee;
+  --size-button-height: 32px;
+  --postion-seacrhIcon-left: 0.7rem;
+}
+
+table {
+  table-layout: fixed;
+}
+
+th,
+td {
+  padding: 0.6rem 3rem;
+}
+
+table th {
+  color: var(--color-dark-gray);
+}
+
+.-padding--short {
+  padding-right: 0rem;
+}
+
+td img {
+  width: var(--size-img-small);
+  height: var(--size-img-small);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.l-table {
+  width: var(--size-l-table-width);
+  height: var(--size-l-table-height);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.l-table__header {
+  display: flex;
+  justify-content: space-between;
+  width: 990px;
+}
+
+.l-table__header__button,
+.l-table__header__search {
+  margin: 0.5rem 5rem;
+  position: relative;
+}
+
+.l-table__header__button button {
+  border-radius: 5px;
+  border: none;
+  width: var(--size-button-small);
+  height: var(--size-button-height);
+  margin: 0rem 0.4rem;
+  font-size: var(--font-small);
+}
+
+button.-enroll {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+button.-delete {
+  background-color: var(--color-lightest-gray);
+  color: var(--color-dark-gray);
+}
+
+.l-table__header__search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.l-table__header__search svg {
+  position: absolute;
+  left: var(--postion-seacrhIcon-left);
+  fill: var(--color-light-gray);
+  width: var(--font-large);
+}
+
+.l-table__header__search.active svg {
+  display: none;
+}
+
+.l-table__header__search input {
+  border-color: var(--color-pale-gray);
+  border-radius: 5px;
+  width: var(--size-button-xlarge);
+  height: var(--size-button-height);
+  padding-left: 3rem;
+}
+
+.l-table__header__search input::placeholder {
+  font-size: var(--font-small);
+  color: var(--color-dark-gray);
+}

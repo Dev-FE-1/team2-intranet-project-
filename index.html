@@ -6,10 +6,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/css/fonts.css" crossorigin />
     <link rel="stylesheet" href="./src/style.css" />
+    <!-- 수정해야될 부분 -->
+    <link rel="stylesheet" href="list-table.css" />
+    <script defer src="list-table.js"></script>
+    <!--  -->
     <title>Vite App</title>
   </head>
   <body>
     <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <!-- 수정해야될 부분 -->
+    <section class="l-table">
+      <div class="l-table__header">
+        <div class="l-table__header__button">
+          <button class="-enroll -round">임직원 등록</button>
+          <button class="-delete -round">임직원 삭제</button>
+        </div>
+        <div class="l-table__header__search">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            fill="#e8eaed"
+          >
+            <path
+              d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"
+            />
+          </svg>
+          <form action="" role="search">
+            <input type="search" placeholder="이름 또는 이메일로 검색하기" />
+          </form>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th class="-padding--short">
+              <div class="l-table__radio">
+                <label for=""><input type="checkbox" /></label>
+              </div>
+            </th>
+            <th>프로필사진</th>
+            <th>이름</th>
+            <th>이메일</th>
+            <th>휴대폰 번호</th>
+            <th>직급</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="-padding--short">
+              <div class="l-table__radio">
+                <label for=""><input type="checkbox" /></label>
+              </div>
+            </th>
+            <td>
+              <img src="https://i.imgur.com/JJEqrWE.png" />
+            </td>
+            <td>홍길동</td>
+            <td>braveleelo@gmail.com</td>
+            <td>010-1234-5678</td>
+            <td>부장</td>
+          </tr>
+          <tr>
+            <th class="-padding--short">
+              <div class="l-table__radio">
+                <label for=""><input type="checkbox" /></label>
+              </div>
+            </th>
+            <td>
+              <img src="https://i.imgur.com/JJEqrWE.png" />
+            </td>
+            <td>홍길동</td>
+            <td>braveleelo@gmail.com</td>
+            <td>010-1234-5678</td>
+            <td>부장</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <!-- 수정해야 될 부분 -->
+    <!-- <script type="module" src="/src/main.js"></script> -->
   </body>
 </html>
