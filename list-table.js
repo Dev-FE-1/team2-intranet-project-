@@ -8,3 +8,13 @@ input.addEventListener('input', () => {
     searchHeader.classList.remove('active');
   }
 });
+window.addEventListener('DOMContentLoaded', function () {
+  const selectAllCheckbox = document.getElementById('selectAll');
+  const checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+
+  selectAllCheckbox.addEventListener('change', function () {
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = selectAllCheckbox.checked;
+    });
+  });
+});
