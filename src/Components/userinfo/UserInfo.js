@@ -56,12 +56,12 @@ export class UserInfo {
           <option value="대리">대리</option>
         </select>
       </li>
-      <div class="user-info__btn ">
-        <button class="btn btn--cancel">취소</button>
-        <button class="btn btn--save">저장</button>
+      <div class="user-info__btns ">
+        <button class="user-info__btn user-info__btn--cancel">취소</button>
+        <button class="user-info__btn user-info__btn--save">저장</button>
       </div>
-      <div class="user-info__btn">
-        <button class="btn btn--edit">정보변경</button>
+      <div class="user-info__btns">
+        <button class="user-info__btn user-info__btn--edit">정보변경</button>
       </div>
     </ul>
   </div>
@@ -78,15 +78,16 @@ export class UserInfo {
   }
 
   btnHandler() {
-    this.el.querySelectorAll('.btn').forEach((btn) => {
+    this.el.querySelectorAll('.user-info__btn').forEach((btn) => {
       btn.addEventListener('click', (e) => {
+        console.log(e.target);
         e.preventDefault();
-        if (e.target.classList.contains('btn--edit')) {
+        if (e.target.classList.contains('user-info__btn--edit')) {
           this.formChange('수정');
-        } else if (e.target.classList.contains('btn--cancel')) {
+        } else if (e.target.classList.contains('user-info__btn--cancel')) {
           this.formChange('조회');
           console.log(this.state);
-        } else if (e.target.classList.contains('btn--save')) {
+        } else if (e.target.classList.contains('user-info__btn--save')) {
           console.log(this.saveValue());
         }
       });
@@ -95,7 +96,7 @@ export class UserInfo {
 
   pageChange() {
     const sel = this.el.querySelector('#user-position');
-    const btn = this.el.querySelectorAll('.user-info__btn');
+    const btn = this.el.querySelectorAll('.user-info__btns');
     if (this.info === '조회') {
       const inputEl = this.el.querySelectorAll('input');
       inputEl.forEach((el) => {
