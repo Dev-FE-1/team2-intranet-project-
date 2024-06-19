@@ -1,4 +1,4 @@
-@import './css/reset.css';
+@import '/src/assets/style/core/reset.css';
 :root {
   --color-black: #181818;
   --color-white: #ffffff;
@@ -18,8 +18,8 @@
   --color-simple-gray: #6b6b6b;
   --color-dark-gray: #545454;
   --color-regular-gray: #b9b9b9;
-  --color-light-gray: #c7c7c7;
-  --color-pale-gray: #cccccc;
+  --color-light-gray: #d0d7de;
+  --color-pale-gray: #efefef;
 
   /* font-size */
   --font-large: 18px;
@@ -36,6 +36,9 @@
   --size-button-large: 200px;
   --size-button-xlarge: 250px;
   --size-button-jumbo: 300px;
+
+  /* box-shadow */
+  --box-floating-shadow: 0px 6px 12px -3px #424a530a, 0px 6px 18px 0px #424a531f;
 }
 
 body {
