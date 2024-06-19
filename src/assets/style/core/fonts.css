@@ -1,0 +1,63 @@
+/* Korean */
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 100;
+  src:
+    url('/src/assets/style/core/fonts/NotoSansKR-Thin.woff2') format('woff2'),
+    url('/src/assets/style/core/fonts/NotoSansKR-Thin.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 300;
+  src:
+    url('/src/assets/style/core/fonts/NotoSansKR-Light.woff2') format('woff2'),
+    url('/src/assets/style/core/fonts/NotoSansKR-Light.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 400;
+  src:
+    url('/src/assets/style/core/fonts/NotoSansKR-Regular.woff2') format('woff2'),
+    url('/src/assets/style/core/fonts/NotoSansKR-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 700;
+  src:
+    url('/src/assets/style/core/fonts/NotoSansKR-Bold.woff2') format('woff2'),
+    url('/src/assets/style/core/fonts/NotoSansKR-Bold.woff') format('woff');
+}
+
+/* English */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src:
+    url('/src/assets/style/core/fonts/OpenSans-Light.woff2') format('woff2'),
+    url('/src/assets/style/core/fonts/OpenSans-Light.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src:
+    url('/src/assets/style/core/fonts/OpenSans-Regular.woff2') format('woff2'),
+    url('/src/assets/style/core/fonts/OpenSans-Regular.woff') format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src:
+    url('/src/assets/style/core/fonts/OpenSans-Bold.woff2') format('woff2'),
+    url('/src/assets/style/core/fonts/OpenSans-Bold.woff') format('woff');
+}
