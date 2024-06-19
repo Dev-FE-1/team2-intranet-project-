@@ -13,7 +13,7 @@ ul {
   list-style: none;
   padding: 0;
 }
-.btn {
+.user-info__btn {
   width: var(--size-button-small);
   padding: 8px 0px;
   border-radius: 5px;
@@ -101,29 +101,29 @@ ul {
 }
 
 /* 버튼 */
-.user-info__btn {
+.user-info__btns {
   display: flex;
   position: relative;
   margin-top: 40px;
   left: 50%;
   gap: 10px;
 }
-.btn--save:hover {
+.user-info__btn--save:hover {
   background-color: #eeeeee;
   color: var(--color-black);
 }
-.btn--cancel {
+.user-info__btn--cancel {
   background-color: #eeeeee;
   color: var(--color-black);
 }
-.btn--cancel:hover {
+.user-info__btn--cancel:hover {
   background-color: var(--color-black);
   color: white;
 }
-.btn--edit {
+.user-info__btn--edit {
   margin-left: 50px;
 }
-.btn--edit:hover {
+.user-info__btn--edit:hover {
   background-color: #eeeeee;
   color: var(--color-black);
 }
