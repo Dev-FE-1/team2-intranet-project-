@@ -45,6 +45,5 @@ body {
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 400;
   font-size: 16px;
-  transform: rotate(0.04deg); /* font Anti-aliasing */
   font-optical-sizing: auto;
 }
