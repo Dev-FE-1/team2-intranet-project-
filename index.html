@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/src/assets/style/core/fonts.css" crossorigin />
     <link rel="stylesheet" href="/src/assets/style/style.css" />
+    <link rel="stylesheet" href="list-table.css" />
+    <script defer src="list-table.js"></script>
     <title>Vite App</title>
   </head>
   <body>
@@ -18,19 +20,8 @@
           <button class="c-button c-button-delete">임직원 삭제</button>
         </div>
         <div class="l-table__header__search">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="24px"
-            viewBox="0 -960 960 960"
-            width="24px"
-            fill="#e8eaed"
-          >
-            <path
-              d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"
-            />
-          </svg>
           <form action="#" class="l-table__header__search-form">
-            <label for="search" class="readable-hidden">검색</label>
+            <label for="search">검색</label>
             <input type="search" id="serach" placeholder="이름 또는 이메일로 검색하기" />
           </form>
         </div>
@@ -41,7 +32,7 @@
             <th>
               <div class="c-checkbox">
                 <input type="checkbox" id="selectAll" class="c-checkbox__input" id="selectAll" />
-                <label for="selectAll" class="readable-hidden">Select All</label>
+                <label for="selectAll">Select All</label>
               </div>
             </th>
             <th>프로필사진</th>
@@ -56,7 +47,7 @@
             <th>
               <div class="c-checkbox">
                 <input type="checkbox" id="row1" class="c-checkbox__input" />
-                <label for="row1" class="readable-hidden">Row 1</label>
+                <label for="row1">Row 1</label>
               </div>
             </th>
             <td>
@@ -71,7 +62,52 @@
             <th>
               <div class="c-checkbox">
                 <input type="checkbox" id="row2" class="c-checkbox__input" />
-                <label for="row2" class="readable-hidden">Row 2</label>
+                <label for="row2">Row 2</label>
+              </div>
+            </th>
+            <td>
+              <img src="https://i.imgur.com/JJEqrWE.png" alt="Profile Picture" />
+            </td>
+            <td>홍길동</td>
+            <td>braveleelo@gmail.com</td>
+            <td>010-1234-5678</td>
+            <td>과장</td>
+          </tr>
+          <tr>
+            <th>
+              <div class="c-checkbox">
+                <input type="checkbox" id="row3" class="c-checkbox__input" />
+                <label for="row3">Row 3</label>
+              </div>
+            </th>
+            <td>
+              <img src="https://i.imgur.com/JJEqrWE.png" alt="Profile Picture" />
+            </td>
+            <td>홍길동</td>
+            <td>braveleelo@gmail.com</td>
+            <td>010-1234-5678</td>
+            <td>과장</td>
+          </tr>
+          <tr>
+            <th>
+              <div class="c-checkbox">
+                <input type="checkbox" id="row4" class="c-checkbox__input" />
+                <label for="row4">Row 4</label>
+              </div>
+            </th>
+            <td>
+              <img src="https://i.imgur.com/JJEqrWE.png" alt="Profile Picture" />
+            </td>
+            <td>홍길동</td>
+            <td>braveleelo@gmail.com</td>
+            <td>010-1234-5678</td>
+            <td>과장</td>
+          </tr>
+          <tr>
+            <th>
+              <div class="c-checkbox">
+                <input type="checkbox" id="row5" class="c-checkbox__input" />
+                <label for="row5">Row 5</label>
               </div>
             </th>
             <td>
