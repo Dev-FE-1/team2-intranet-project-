@@ -1,30 +1,31 @@
-:root {
+.employee-list {
   /* list-table */
   --size-img-small: 36px;
   --size-tablePadding: 1.5rem;
-  --size-l-table-width: 800px;
-  --size-l-table-height: 100vh;
+  --size-employee-list-width: 30vw;
+  --size-employee-list-height: 100vh;
   --color-lightest-gray: #eeeeee;
   --size-button-height: 32px;
   --postion-seacrhIcon-left: 0.9rem;
+  --size-l-table-header-margin: 30px;
 }
 
-.l-table th,
-.l-table td {
+.employee-list th,
+.employee-list td {
   margin: 0;
-  padding: 0.5vh 0.7vw;
+  padding: 0.5vh 0.2vw;
   text-align: center;
 }
-.l-table table label .l-table th:first-child {
+.employee-list table label .employee-list th:first-child {
   width: 0.5vw;
   padding-right: 0rem;
 }
 
-.l-table th {
+.employee-list th {
   color: var(--color-dark-gray);
 }
 
-.l-table td img {
+.employee-list td img {
   display: block;
   width: var(--size-img-small);
   height: var(--size-img-small);
@@ -32,12 +33,12 @@
   margin-right: auto;
 }
 
-.l-table table {
-  width: var(--size-l-table-width);
+.employee-list table {
+  width: var(--size-employee-list-width);
 }
 
-.l-table table label,
-.l-table .l-table__header__search-form label {
+.employee-list table label,
+.employee-list .employee-list__header__search-form label {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -46,36 +47,36 @@
   clip: rect(0, 0, 0, 0);
 }
 
-.l-table input,
-.l-table button {
+.employee-list input,
+.employee-list button {
   margin: 0vh 0.2vw;
 }
 
-.l-table {
+.employee-list {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  width: var(--size-l-table-width);
-  min-height: var(--size-l-table-height);
+  width: var(--size-employee-list-width);
+  height: var(--size-employee-list-height);
   white-space: nowrap;
 }
 
-.l-table__header {
+.employee-list__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: var(--size-l-table-width);
+  width: var(--size-employee-list-width);
   height: 6vh;
   padding: 2rem 0vw;
 }
 
-.l-table__header .l-table__header__button,
-.l-table__header .l-table__header__search {
-  margin: 0vh 3vw;
+.employee-list__header .employee-list__header__button,
+.employee-list__header .employee-list__header__search {
+  margin: 0vh var(--size-l-table-header-margin);
 }
 
-.l-table__header__button .c-button {
+.employee-list__header__button .c-button {
   width: var(--size-button-small);
   height: var(--size-button-height);
   border: none;
@@ -84,51 +85,62 @@
   cursor: pointer;
 }
 
-.l-table__header__button .c-button-enroll {
+.employee-list__header__button .c-button-enroll {
   background-color: var(--color-black);
   color: var(--color-white);
 }
 
-.l-table__header__button .c-button-delete {
+.employee-list__header__button .c-button-delete {
   background-color: var(--color-lightest-gray);
   color: var(--color-dark-gray);
 }
 
-.l-table__header__search {
+.employee-list__header__search {
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
 }
 
-.l-table__header__search input {
+.employee-list__header__search input {
   position: relative;
   width: var(--size-button-xlarge);
   height: var(--size-button-height);
-  padding-left: 3rem;
+  padding-left: 2rem;
   border: 1px solid var(--color-light-gray);
   border-radius: 5px;
 }
 
-.l-table__header__search::after {
-  position: absolute;
-  top: 0.3rem;
-  left: 9%;
-  z-index: 1;
-  width: 50px;
-  height: 50px;
-  background-image: url(/src/assets/images/search_icon.svg);
-  background-repeat: no-repeat;
-  filter: brightness(80%);
-  content: ' ';
-  object-fit: contain;
-}
-
-.active .l-table__header__search::after {
+.employee-list__header__search::after {
   display: none;
 }
 
-.l-table__header__search input::placeholder {
+.active form::after {
+  display: block;
+  position: absolute;
+  top: 0.2rem;
+  left: 0.5rem;
+  width: 30px;
+  height: 30px;
+  filter: brightness(80%);
+  background-image: url(/src/assets/images/search_icon.svg);
+  background-repeat: no-repeat;
+  content: ' ';
+}
+
+.employee-list__header__search input::placeholder {
   color: var(--color-dark-gray);
   font-size: var(--font-small);
+}
+
+@media screen and (max-width: 1750px) {
+  .employee-list {
+    width: 80vw;
+  }
+  .employee-list table {
+    width: 80vw;
+  }
+  .employee-list__header {
+    width: 80vw;
+  }
 }
