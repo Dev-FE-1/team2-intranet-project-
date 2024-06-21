@@ -75,4 +75,10 @@ export default class Modal {
       modalbtn.className = 'modal__btn modal__btn--start';
     }
   }
+  res(fn) {
+    const modalbtn = this.el.querySelector('.modal__btn--click');
+    console.log(modalbtn);
+
+    modalbtn.addEventListener('click', () => fn(true));
+  }
 }
