@@ -70,7 +70,6 @@ app.get('/api/users', (req, res) => {
         error: err.message,
       });
     }
-
     res.json({
       status: 'OK',
       data: rows,
@@ -104,6 +103,7 @@ const employees = [
   },
 ];
 
+// employees 배열 안의 직원 정보들을 다 Employees 테이블에 넣음.
 indb.insertEmployees(employees);
 
 app.get('/api/employees', (req, res) => {
@@ -111,6 +111,48 @@ app.get('/api/employees', (req, res) => {
     res.json({
       status: 'OK',
       data: employees,
+    });
+  });
+});
+
+const attendances = [
+  {
+    name: '프론트',
+    type: '조퇴',
+    content: '조퇴 할래요.',
+    profileImg: 'https://i.imgur.com/4RPlpYo.png',
+  },
+  {
+    type: '연차',
+    content: '연차를 쓰고 싶어요.',
+    profileImg: 'https://i.imgur.com/4RPlpYo.png',
+  },
+  {
+    name: '고낙연',
+    type: '기타',
+    content: '기타 사유',
+    profileImg: 'https://i.imgur.com/4RPlpYo.png',
+  },
+  {
+    name: '젠슨황',
+    type: '반차',
+    content: '나 반차 쓴다.',
+    profileImg: 'https://i.imgur.com/4RPlpYo.png',
+  },
+  {
+    name: '김나성',
+    type: '조퇴',
+    content: ' 급성 장염으로 질병 조퇴 요청합니다.',
+  },
+];
+
+indb.insertAttendances(attendances);
+
+app.get('/api/attendances', (req, res) => {
+  indb.getAllAttendances((attendance) => {
+    res.json({
+      status: 'OK',
+      data: attendance,
     });
   });
 });
