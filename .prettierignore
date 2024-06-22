@@ -3,3 +3,5 @@ build
 coverage
 package-lock.json
 package.json
+design
+src/assets/images
