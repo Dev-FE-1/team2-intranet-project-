@@ -1,0 +1,107 @@
+.mypage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  background-color: #fff;
+  overflow: hidden;
+}
+.mypage__bg-img {
+  height: 50%;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-image: url('https://images.unsplash.com/photo-1718301701595-53a1e2ea5d49?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+}
+.mypage__info {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 1100px;
+  height: 50%;
+}
+.mypage__list {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  width: 100%;
+}
+.mypage__name,
+.mypage__list > li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 200px;
+}
+.mypage__list > li {
+  padding-left: 30px;
+}
+.mypage__name span:nth-child(1),
+.mypage__list span:nth-child(1) {
+  font-size: 18px;
+  font-weight: 700;
+}
+.mypage__name {
+  align-items: center;
+}
+.mypage__state,
+.mypage__state-end {
+  display: inline-block;
+  width: 55px;
+  padding: 4px;
+  border-radius: 8px;
+  font-size: var(--font-micro);
+}
+.mypage__state {
+  width: 55px;
+  border: 1px solid #88d8a2;
+  background-color: #b0fdca;
+}
+.mypage__state-end {
+  min-width: 70px;
+  border: 1px solid #f43535;
+  background-color: #f3797e;
+}
+/* 사용자 이미지 */
+.mypage__profile {
+  position: absolute;
+  top: -60px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.mypage__profile img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mypage__btns .mypage__btns--info {
+  position: absolute;
+  top: 15%;
+  right: 10%;
+  width: var(--size-button-medium);
+  padding: 10px 0px;
+  border-radius: 5px;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  background-color: var(--color-pale-gray);
+  color: var(--color-black);
+  cursor: pointer;
+  transition: 0.3s;
+}
+.mypage__btns .mypage__btns--info:hover {
+  background-color: var(--color-dark-gray);
+  color: var(--color-white);
+}
