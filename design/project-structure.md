@@ -14,7 +14,7 @@ src
 │           │    └── Card.js
 │           ├── header
 │           │    ├── Header.css
-│           │    └── Headdr.js        
+│           │    └── Headdr.js
 │           └── footer
 │                ├── Footer.css
 │                └── Footer.js  
