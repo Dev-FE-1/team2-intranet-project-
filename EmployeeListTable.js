@@ -1,14 +1,14 @@
 import axios from 'axios';
 import './EmployeeListTable.css';
 
-export default class EmployeeListTable {
-  constructor() {
+export class EmployeeListTable {
+  constructor (){
     this.elem = document.createElement('section');
     this.render();
     this.updateTableRows();
-  }
+  };
 
-  render(state) {
+  render = (state) => {
     this.elem.innerHTML = /* HTML */ `
       <section class="employee-list">
         <div class="employee-list__header">
@@ -46,14 +46,14 @@ export default class EmployeeListTable {
       </section>
     `;
     this.setAddEventListener();
-  }
+  };
 
-  async updateTableRows() {
+  updateTableRows = async () => {
     const employees = await this.getEmployees();
     this.render({ employees });
-  }
+  };
 
-  async getEmployees() {
+  getEmployees = async () => {
     try {
       const response = await axios.get('/api/employees');
       return [...response.data.data];
@@ -61,9 +61,9 @@ export default class EmployeeListTable {
       console.log('Error get employees');
       return [];
     }
-  }
+  };
 
-  tableRowTemplate(data) {
+  tableRowTemplate = (data) => {
     return /* HTML */ ` <tr>
       <td>
         <div class="c-checkbox">
@@ -79,22 +79,22 @@ export default class EmployeeListTable {
       <td>${data.phone}</td>
       <td>${data.position}</td>
     </tr>`;
-  }
+  };
 
-  tableRows(employees) {
+  tableRows = (employees) => {
     return employees.map((employee) => this.tableRowTemplate(employee)).join('');
-  }
+  };
 
-  setAddEventListener() {
+  setAddEventListener = () => {
     this.elem.addEventListener('input', (e) => {
       if (e.target.id === 'search') {
         this.elem.classList.toggle('active', e.target.value.length > 0);
       }
     });
     this.setAllCheckboxEvent();
-  }
+  };
 
-  setAllCheckboxEvent() {
+  setAllCheckboxEvent = () => {
     this.elem.addEventListener('change', (e) => {
       if (e.target.id === 'selectAll') {
         const checkboxes = document.querySelectorAll('.c-checkbox__input');
@@ -103,5 +103,5 @@ export default class EmployeeListTable {
         });
       }
     });
-  }
+  };
 }
