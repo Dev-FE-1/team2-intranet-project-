@@ -14,7 +14,7 @@ src
 │           │    └── Card.js
 │           ├── header
 │           │    ├── Header.css
-│           │    └── Headdr.js        
+│           │    └── Headdr.js
 │           └── footer
 │                ├── Footer.css
 │                └── Footer.js  
@@ -43,12 +43,3 @@ src
                  ├── UserDash.css
                  └── UserDash.js
 
-
-index.html 브라우저에 업로드될 HTML파일
-api fetch 관련 유틸리티
-asserts gif, png와 같은 이미지 정적 파일
-components UI를 출력하는 컴포넌트 ( prop의 함수에 의해 state를 변경 )
-container 데이터와 데이터 조작에 관한 함수를 components를 제공
-styles css 파일
-App.js App 컴포넌트
-index.js 애플리케이션의 시작점 (App을 생성)
