@@ -29,7 +29,7 @@ export class EmployeeListTable {
             <tr>
               <th>
                 <div class="c-checkbox">
-                  <input type="checkbox" id="selectAll" class="c-checkbox__input" id="selectAll" />
+                  <input type="checkbox" id="selectAll" class="c-checkbox__input" />
                   <label for="selectAll">Select All</label>
                 </div>
               </th>
@@ -44,12 +44,12 @@ export class EmployeeListTable {
         </table>
       </section>
     `;
-    this.setAddEventListener();
+    this.attachEventListeners();
     const employees = await this.getEmployees();
-    this.renderEmployeeListTableRows({ employees, cid: '.employee-list__rows' });
+    this.renderEmployeeListTableRows({ cid: '.employee-list__rows', employees });
   };
 
-  renderEmployeeListTableRows = async ({ employees, cid }) => {
+  renderEmployeeListTableRows = async ({ cid, employees }) => {
     const employeeListTableRows = new EmployeeListTableRows({
       cid,
       employees,
@@ -57,43 +57,39 @@ export class EmployeeListTable {
     employeeListTableRows.render();
   };
 
-  searchEmployees = ({ userSearchInput, employees }) => {
-    return employees.filter(
+  searchEmployees = async ({ userSearchInput, employees }) => {
+    console.log(employees);
+    const searchResult = employees.filter(
       (employee) =>
         employee.name.includes(userSearchInput) ||
         employee.email.includes(userSearchInput) ||
         employee.position.includes(userSearchInput),
     );
+    this.renderEmployeeListTableRows({ employees: searchResult, cid: '.employee-list__rows' });
   };
 
   getEmployees = async () => {
     try {
       const response = await axios.get('/api/employees');
       return [...response.data.data];
-    } catch {
-      console.log('Error get employees');
+    } catch (error) {
+      console.error('Error get employees', error);
       return [];
     }
   };
 
-  setAddEventListener = () => {
+  attachEventListeners = () => {
     this.container.addEventListener('input', (e) => {
       if (e.target.id === 'search') {
-        e.stopPropagation();
         this.container.classList.toggle('active', e.target.value.length > 0);
       }
     });
     this.container.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (e.target.classList.contains('employee-list__header__search-form')) {
-        e.stopPropagation();
-        const userSearchInput = e.target.querySelector('input');
+        const userSearchInput = e.target.querySelector('input').value;
         const employees = await this.getEmployees();
-        const searchResult = this.searchEmployees({
-          userSearchInput: userSearchInput.value,
-          employees,
-        });
-        this.renderEmployeeListTableRows({ employees: searchResult, cid: '.employee-list__rows' });
+        this.searchEmployees({ userSearchInput, employees });
       }
     });
   };
