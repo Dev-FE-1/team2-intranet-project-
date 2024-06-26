@@ -2,11 +2,11 @@ import axios from 'axios';
 import './EmployeeListTable.css';
 
 export class EmployeeListTable {
-  constructor (){
+  constructor() {
     this.elem = document.createElement('section');
     this.render();
     this.updateTableRows();
-  };
+  }
 
   render = (state) => {
     this.elem.innerHTML = /* HTML */ `
