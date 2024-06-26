@@ -1,15 +1,16 @@
 import axios from 'axios';
 import './EmployeeListTable.css';
+import { EmployeeListTableRows } from './EmployeeListTableRows.js';
+// import { compile } from 'handlebars';
 
 export class EmployeeListTable {
-  constructor() {
-    this.elem = document.createElement('section');
-    this.render();
-    this.updateTableRows();
+  constructor({ cid = '#app', ...props }) {
+    this.container = document.querySelector(`${cid}`);
+    this.props = props;
   }
 
-  render = (state) => {
-    this.elem.innerHTML = /* HTML */ `
+  render = async () => {
+    this.container.innerHTML = /* HTML */ `
       <section class="employee-list">
         <div class="employee-list__header">
           <div class="employee-list__header__button">
@@ -39,18 +40,30 @@ export class EmployeeListTable {
               <th>직급</th>
             </tr>
           </thead>
-          <tbody>
-            ${state ? this.tableRows(state.employees) : ''}
-          </tbody>
+          <tbody class="employee-list__rows"></tbody>
         </table>
       </section>
     `;
     this.setAddEventListener();
+    const employees = await this.getEmployees();
+    this.renderEmployeeListTableRows({ employees, cid: '.employee-list__rows' });
   };
 
-  updateTableRows = async () => {
-    const employees = await this.getEmployees();
-    this.render({ employees });
+  renderEmployeeListTableRows = async ({ employees, cid }) => {
+    const employeeListTableRows = new EmployeeListTableRows({
+      cid,
+      employees,
+    });
+    employeeListTableRows.render();
+  };
+
+  searchEmployees = ({ userSearchInput, employees }) => {
+    return employees.filter(
+      (employee) =>
+        employee.name.includes(userSearchInput) ||
+        employee.email.includes(userSearchInput) ||
+        employee.position.includes(userSearchInput),
+    );
   };
 
   getEmployees = async () => {
@@ -63,44 +76,24 @@ export class EmployeeListTable {
     }
   };
 
-  tableRowTemplate = (data) => {
-    return /* HTML */ ` <tr>
-      <td>
-        <div class="c-checkbox">
-          <input type="checkbox" class="c-checkbox__input" />
-          <label></label>
-        </div>
-      </td>
-      <td>
-        <img src="${data.profileImg}" alt="프로필 사진" />
-      </td>
-      <td>${data.name}</td>
-      <td>${data.email}</td>
-      <td>${data.phone}</td>
-      <td>${data.position}</td>
-    </tr>`;
-  };
-
-  tableRows = (employees) => {
-    return employees.map((employee) => this.tableRowTemplate(employee)).join('');
-  };
-
   setAddEventListener = () => {
-    this.elem.addEventListener('input', (e) => {
+    this.container.addEventListener('input', (e) => {
       if (e.target.id === 'search') {
-        this.elem.classList.toggle('active', e.target.value.length > 0);
+        e.stopPropagation();
+        this.container.classList.toggle('active', e.target.value.length > 0);
       }
     });
-    this.setAllCheckboxEvent();
-  };
-
-  setAllCheckboxEvent = () => {
-    this.elem.addEventListener('change', (e) => {
-      if (e.target.id === 'selectAll') {
-        const checkboxes = document.querySelectorAll('.c-checkbox__input');
-        checkboxes.forEach((checkbox) => {
-          checkbox.checked = e.target.checked;
+    this.container.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (e.target.classList.contains('employee-list__header__search-form')) {
+        e.stopPropagation();
+        const userSearchInput = e.target.querySelector('input');
+        const employees = await this.getEmployees();
+        const searchResult = this.searchEmployees({
+          userSearchInput: userSearchInput.value,
+          employees,
         });
+        this.renderEmployeeListTableRows({ employees: searchResult, cid: '.employee-list__rows' });
       }
     });
   };
