@@ -1,10 +1,9 @@
 import axios from 'axios';
 import './EmployeeListTable.css';
 import { EmployeeListTableRows } from './EmployeeListTableRows.js';
-// import { compile } from 'handlebars';
 
 export class EmployeeListTable {
-  constructor({ cid = '#app', ...props }) {
+  constructor({ cid = '#content', ...props }) {
     this.container = document.querySelector(`${cid}`);
     this.props = props;
   }
@@ -85,8 +84,8 @@ export class EmployeeListTable {
       }
     });
     this.container.addEventListener('submit', async (e) => {
-      e.preventDefault();
       if (e.target.classList.contains('employee-list__header__search-form')) {
+        e.preventDefault();
         const userSearchInput = e.target.querySelector('input').value;
         const employees = await this.getEmployees();
         this.searchEmployees({ userSearchInput, employees });

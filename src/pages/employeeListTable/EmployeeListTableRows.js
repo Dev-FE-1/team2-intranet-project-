@@ -32,10 +32,10 @@ export class EmployeeListTableRows {
         </tr>
         {{/each}}`,
     )({ employees: employees });
-    this.setEventListeners();
+    this.attachEventListeners();
   };
 
-  setEventListeners = () => {
+  attachEventListeners = () => {
     document.addEventListener('change', (e) => {
       if (e.target.id === 'selectAll') {
         const checkboxes = document.querySelectorAll('.c-checkbox__input');
