@@ -2,6 +2,8 @@ import ProfileImage from './clara-shin/pages/ProfileImage';
 import Loading from './clara-shin/pages/loading';
 import './clara-shin/css/ProfileImage.css';
 import './clara-shin/css/Loading.css';
+import Pagination from './clara-shin/pages/Pagination';
+import './clara-shin/css/pagination.css';
 
 function app() {
   //   const anchors = document.querySelectorAll('nav a');
@@ -31,6 +33,7 @@ function route() {
   // const homePage = new Page('#app', { title: '홈 대시보드' });
   const profileImage = new ProfileImage(content, {});
   const loading = new Loading(content, {});
+  const pagination = new Pagination(content, {});
 
   switch (path) {
     case '/pages/clara-shin/pages/dashboad':
@@ -40,7 +43,7 @@ function route() {
       profileImage.render();
       break;
     case '/pages/clara-shin/pages/pagination':
-      content.innerHTML = `<h1>페이지네이션 컴포넌트</h1>`;
+      pagination.render();
       break;
     case '/pages/clara-shin/pages/apply-leave':
       content.innerHTML = `<h1>근태신청 페이지</h1><a href='/pages/clara-shin/pages/profile-image'>홈으로</>`;
