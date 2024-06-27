@@ -44,7 +44,9 @@ export class EmployeeListTable {
       </section>
     `;
     this.attachEventListeners();
+    console.time('timer1');
     const employees = await this.getEmployees();
+    console.timeEnd('timer1');
     this.renderEmployeeListTableRows({ cid: '.employee-list__rows', employees });
   };
 

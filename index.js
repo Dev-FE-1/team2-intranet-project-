@@ -1,4 +1,11 @@
-import { EmployeeListTable, AttendanceList, navBar, layout, pageNotFound } from './src/pages';
+import {
+  EmployeeListTable,
+  AttendanceList,
+  navBar,
+  layout,
+  pageNotFound,
+  AttendanceApply,
+} from './src/pages';
 
 const rootElementIdName = '#app';
 
@@ -36,6 +43,7 @@ const route = () => {
   const content = document.querySelector('#content');
   const employeeListTable = new EmployeeListTable({ cid: '#content' });
   const attendanceList = new AttendanceList({ cid: '#content' });
+  const attendanceApply = new AttendanceApply({ cid: '#content' });
 
   switch (path) {
     case '/':
@@ -46,6 +54,9 @@ const route = () => {
       break;
     case '/attendances':
       attendanceList.render();
+      break;
+    case '/attendances/apply':
+      attendanceApply.render();
       break;
     default:
       content.innerHTML = pageNotFound();
