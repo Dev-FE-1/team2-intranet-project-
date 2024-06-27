@@ -2,10 +2,18 @@ import express from 'express';
 import morgan from 'morgan';
 import fs from 'fs';
 import db from './database.js';
+import { indb, initializeDatabase } from './initalizeData.js';
+import cors from 'cors';
 
 const THRESHOLD = 2000;
 const port = process.env.PORT || 8080;
 const app = express();
+
+app.use(
+  cors({
+    origin: '*', // 모든 출처 허용 옵션. true 를 써도 된다.
+  }),
+);
 
 app.use((req, res, next) => {
   const delayTime = Math.floor(Math.random() * THRESHOLD);
@@ -81,30 +89,8 @@ app.listen(port, () => {
   console.log(`ready to ${port}`);
 });
 
-import InMemoDatabase from './inMemoDatabase.js';
-
-//인메모리 데이터베이스, node 서버 껐다가 키면 사라지도록 db가 초기화 되도록 설정해둠.
-const indb = new InMemoDatabase();
-
-const employees = [
-  {
-    name: '홍길동',
-    email: '765idoll@gmail.com',
-    phone: '010-1234-5678',
-    position: '사원',
-    profileImg: 'https://i.imgur.com/JJEqrWE.png',
-  },
-  {
-    name: '김길동',
-    email: 'kimPhoneHi256@gmail.com',
-    phone: '010-1234-5678',
-    position: '대리',
-    profileImg: 'https://i.imgur.com/JJEqrWE.png',
-  },
-];
-
-// employees 배열 안의 직원 정보들을 다 Employees 테이블에 넣음.
-indb.insertEmployees(employees);
+//employees, attendances 테이블 데이터베이스 초기화
+initializeDatabase();
 
 app.get('/api/employees', (req, res) => {
   indb.getAllEmployees((employees) => {
@@ -115,38 +101,33 @@ app.get('/api/employees', (req, res) => {
   });
 });
 
-const attendances = [
-  {
-    name: '프론트',
-    type: '조퇴',
-    content: '조퇴 할래요.',
-    profileImg: 'https://i.imgur.com/4RPlpYo.png',
-  },
-  {
-    type: '연차',
-    content: '연차를 쓰고 싶어요.',
-    profileImg: 'https://i.imgur.com/4RPlpYo.png',
-  },
-  {
-    name: '고낙연',
-    type: '기타',
-    content: '기타 사유',
-    profileImg: 'https://i.imgur.com/4RPlpYo.png',
-  },
-  {
-    name: '젠슨황',
-    type: '반차',
-    content: '나 반차 쓴다.',
-    profileImg: 'https://i.imgur.com/4RPlpYo.png',
-  },
-  {
-    name: '김나성',
-    type: '조퇴',
-    content: ' 급성 장염으로 질병 조퇴 요청합니다.',
-  },
-];
+app.get('/api/employees/:id', (req, res) => {
+  const id = req.params.id;
+  indb.getEmployeeById(id, (employee) => {
+    res.json({
+      status: 'OK',
+      data: employee,
+    });
+  });
+});
 
-indb.insertAttendances(attendances);
+app.post('/api/employees', (req, res) => {
+  const employee = req.body;
+  console.log(employee);
+  indb.insertEmployee(employee);
+  res.json({
+    status: 'OK',
+  });
+});
+
+app.put('/api/employees', (req, res) => {
+  const employee = req.body;
+  console.log(employee);
+  indb.updateEmployee(employee);
+  res.json({
+    status: 'OK',
+  });
+});
 
 app.get('/api/attendances', (req, res) => {
   indb.getAllAttendances((attendance) => {
