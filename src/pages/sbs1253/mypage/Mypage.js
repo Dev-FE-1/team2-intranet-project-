@@ -1,6 +1,6 @@
-import { routeRender } from '../route/route';
+// import { routeRender } from '../route/route';
 import './Mypage.css';
-import UserInfo from '../userinfo/UserInfo';
+// import UserInfo from '../userinfo/UserInfo';
 // import Modal from './modal';
 export default class Mypage {
   constructor(props = {}) {
@@ -54,16 +54,18 @@ export default class Mypage {
 
   goUserInfo() {
     const goBtn = this.el.querySelector('.mypage__btns--info');
-    goBtn.addEventListener('click', () => {
+    goBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       // const url = `/info?userId=${this.userid}&info=change&permission=user`;
       // history.pushState(null, null, url);
       // routeRender([{ path: '/info', component: UserInfo }]);
-      history.pushState(null, null, '/info');
-      routeRender([{ path: '/info', component: UserInfo }], {
-        userId: this.userid,
-        info: 'change',
-        permission: 'user',
-      });
+      // 아래가 변경된 코드입니다.
+      // history.pushState(null, null, '/info');
+      // routeRender([{ path: '/info', component: UserInfo }], {
+      //   userId: this.userid,
+      //   info: 'change',
+      //   permission: 'user',
+      // });
     });
   }
 
