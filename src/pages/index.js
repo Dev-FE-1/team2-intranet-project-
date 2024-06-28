@@ -1,9 +1,11 @@
 import ProfileImage from './clara-shin/pages/ProfileImage';
-import Loading from './clara-shin/pages/loading';
+import Loading from './clara-shin/pages/Loading';
 import './clara-shin/css/ProfileImage.css';
 import './clara-shin/css/Loading.css';
 import Pagination from './clara-shin/pages/Pagination';
 import './clara-shin/css/pagination.css';
+import LeaveApplicationForm from './clara-shin/pages/LeaveApplicationForm';
+import './clara-shin/css/LeaveApplicationForm.css';
 
 function app() {
   //   const anchors = document.querySelectorAll('nav a');
@@ -14,11 +16,9 @@ function app() {
 }
 
 function navigatePage(event) {
-  event && event.preventDefault(); // anchor 기본동작 금지
-
   const anchor = event.target.closest('a');
-
   if (anchor && anchor.href) {
+    event && event.preventDefault(); // anchor 기본동작 금지
     const path = anchor.getAttribute('href'); //클릭이벤트 대상의 경로
     history.pushState(null, null, path);
     route();
@@ -34,6 +34,7 @@ function route() {
   const profileImage = new ProfileImage(content, {});
   const loading = new Loading(content, {});
   const pagination = new Pagination(content, {});
+  const leaveApplicationForm = new LeaveApplicationForm(content, {});
 
   switch (path) {
     case '/pages/clara-shin/pages/dashboad':
@@ -45,8 +46,8 @@ function route() {
     case '/pages/clara-shin/pages/pagination':
       pagination.render();
       break;
-    case '/pages/clara-shin/pages/apply-leave':
-      content.innerHTML = `<h1>근태신청 페이지</h1><a href='/pages/clara-shin/pages/profile-image'>홈으로</>`;
+    case '/pages/clara-shin/pages/leave-application-form':
+      leaveApplicationForm.render();
       break;
     case '/pages/clara-shin/pages/loading':
       loading.render();
