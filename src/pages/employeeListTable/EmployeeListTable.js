@@ -1,7 +1,9 @@
 import axios from 'axios';
 import './EmployeeListTable.css';
 import { EmployeeListTableRows } from './EmployeeListTableRows.js';
+import { PageNation } from '../../components/pagination/PageNation.js';
 
+customElements.define('page-nation', PageNation);
 export class EmployeeListTable {
   constructor({ cid = '#content', ...props }) {
     this.container = document.querySelector(`${cid}`);
@@ -41,12 +43,11 @@ export class EmployeeListTable {
           </thead>
           <tbody class="employee-list__rows"></tbody>
         </table>
+        <page-nation></page-nation>
       </section>
     `;
     this.attachEventListeners();
-    console.time('timer1');
     const employees = await this.getEmployees();
-    console.timeEnd('timer1');
     this.renderEmployeeListTableRows({ cid: '.employee-list__rows', employees });
   };
 
