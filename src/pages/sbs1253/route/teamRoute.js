@@ -1,20 +1,15 @@
 import Mypage from '../mypage/Mypage';
 import UserInfo from '../userinfo/UserInfo';
-function nav() {
-  return /* HTML */ ` <h1>Home</h1>
-    <ul>
-      <li>
-        <a href="/"><span>Home</span></a>
-      </li>
-      <li><a href="/info">유저정보</a></li>
-      <li><a href="/mypage">마이페이지</a></li>
-    </ul>`;
-}
+import { UserHeader } from '../header/Header';
+import Footer from '../footer/Footer';
+
 const app = () => {
-  const content = document.querySelector('#app');
-  const view = document.createElement('view');
-  content.innerHTML = nav();
-  content.append(view);
+  const appEl = document.querySelector('#app');
+  const header = new UserHeader();
+  const footer = new Footer();
+  const routerView = document.createElement('router-view');
+
+  appEl.append(header.render(), routerView, footer.render());
 
   init();
   route();
@@ -36,19 +31,19 @@ const navigatePage = (event) => {
 
 const route = () => {
   const path = window.location.pathname;
-  const view = document.querySelector('view');
+  const routerView = document.querySelector('router-view');
 
   switch (path) {
     case '/':
-      view.innerHTML = /* HTML */ ` <h1>메인 페이지</h1>`;
+      routerView.innerHTML = '';
       break;
     case '/info':
-      view.innerHTML = '';
-      view.append(new UserInfo().el);
+      routerView.innerHTML = '';
+      routerView.append(new UserInfo().el);
       break;
     case '/mypage':
-      view.innerHTML = '';
-      view.append(new Mypage().el);
+      routerView.innerHTML = '';
+      routerView.append(new Mypage().el);
       break;
   }
 };

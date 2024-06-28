@@ -28,7 +28,7 @@ export class Validator {
     }
   }
   phoneValidator(phone) {
-    let reg = new RegExp('^\\d{2,3}-\\d{3,4}-\\d{4}$');
+    let reg = new RegExp(/^\d{2,3}-\d{3,4}-\d{4}$/);
     if (!reg.test(phone)) return '올바른 휴대폰 번호를 다시 입력해주세요';
     else return 'success';
   }
