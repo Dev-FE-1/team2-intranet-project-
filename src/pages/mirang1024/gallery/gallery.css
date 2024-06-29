@@ -1,0 +1,70 @@
+/* gallery.css */
+
+body {
+  background-color: var(--color-pale-gray);
+}
+
+.gallery {
+  display: grid;
+  width: 900px;
+  background-color: var(--color-white);
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 페이지 전체가 아니라, 이 컨테이너 안에서만 스크롤 적용. */
+.gallery__container {
+  /* 이 컨테이너 안에만 스크롤 적용해야함. 스크롤은 카드가 3줄일 때부터 적용한다.*/
+  /* 나중에 헤더랑 푸터 사이에 갤러리 컴포넌트를 넣을 것이기 때문에 위 아래는 비워놔야함. */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 100%;
+  gap: 20px;
+}
+
+.gallery__container-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-regular-gray);
+  width: 200px;
+  border-radius: 5px;
+  box-shadow: var(--box-floating-shadow);
+  /* 컨테이너 안에는 무조건 항상 1줄에 카드 4개씩, 그리고 3줄씩 보여야한다.
+  단, 3번째 줄은 반만 보이게 해서 스크롤을 내려야 완전히 보이게 만든다. */
+}
+
+/* 카드 위에 마우스를 가져가면 약간 이미지가 커지는 효과 추가 */
+.gallery__container-card.hovered {
+  transform: scale(1.05);
+}
+
+/* 이미지 비율은 동일하게 하되 이미지 영역보다 크면 자르고, 작으면 키운다 */
+.gallery__container-image-area {
+  display: flex;
+  width: 100%;
+  min-height: 200px;
+}
+
+.gallery__container-image-area img {
+  max-width: 100%; /* 이미지가 부모 너비보다 크면 자르기 */
+  max-height: 100%; /* 이미지가 부모 높이보다 크면 자르기 */
+  object-fit: cover; /* 이미지 비율을 유지하면서 자르기 */
+}
+
+.gallery__container-title {
+  padding: 8px;
+  font-weight: 900;
+  font-size: var(--font-medium);
+  color: var(--color-black);
+  background-color: var(--color-white);
+}
+
+.gallery__container-date {
+  padding: 0 8px 8px;
+  font-size: var(--font-micro);
+  color: var(--color-dark-gray);
+  background-color: var(--color-white);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
