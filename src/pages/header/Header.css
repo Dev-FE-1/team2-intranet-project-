@@ -25,6 +25,7 @@
 }
 
 .header__intranet-logo {
+  display: inline-block;
   width: 36px;
   margin-right: 10px;
 }
@@ -33,8 +34,15 @@
   display: flex;
   align-items: center;
   font-size: var(--font-large);
+  margin-right: 30px;
 }
-
+.header__heading-title a {
+  display: flex;
+}
+.header__heading-title span {
+  font-family: 'Open Sans', sans-serif;
+  line-height: 36px;
+}
 .header__gnb {
   flex-grow: 2;
 }
@@ -53,7 +61,7 @@
   align-items: center;
   right: 0;
   color: var(--color-coral-light);
-  text-decoration: underline;
+
   border: 0;
   outline: 0;
   background-color: transparent;
