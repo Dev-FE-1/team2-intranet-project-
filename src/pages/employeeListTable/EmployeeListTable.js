@@ -26,27 +26,32 @@ export class EmployeeListTable {
             </form>
           </div>
         </div>
-        <div class="l-table">
-          <table>
-            <thead>
-              <tr>
-                <th>
-                  <div class="c-checkbox">
-                    <input type="checkbox" id="selectAll" class="c-checkbox__input" />
-                    <label for="selectAll">Select All</label>
-                  </div>
-                </th>
-                <th>프로필사진</th>
-                <th>이름</th>
-                <th>이메일</th>
-                <th>휴대폰 번호</th>
-                <th>직급</th>
-              </tr>
-            </thead>
-            <tbody class="employee-list__rows"></tbody>
-          </table>
-        </div>
-
+        <table>
+          <colgroup>
+            <col width="54px" />
+            <col width="90px" />
+            <col width="81px" />
+            <col width="333px" />
+            <col width="270px" />
+            <col width="72px" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="c-checkbox">
+                  <input type="checkbox" id="selectAll" class="c-checkbox__input" />
+                  <label for="selectAll">Select All</label>
+                </div>
+              </th>
+              <th>프로필사진</th>
+              <th>이름</th>
+              <th>이메일</th>
+              <th>휴대폰 번호</th>
+              <th>직급</th>
+            </tr>
+          </thead>
+          <tbody class="employee-list__rows"></tbody>
+        </table>
         <page-nation></page-nation>
       </section>
     `;

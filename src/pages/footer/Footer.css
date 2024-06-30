@@ -1,8 +1,7 @@
-/* BEM으로 수정 후 */
-
-/* FOOTER */
 .footer {
-  min-height: 60px;
+  position: relative;
+  height: 80px;
+  padding: 20px;
 }
 
 .footer::before {
@@ -52,4 +51,5 @@
 .footer__copyright {
   font-size: var(--font-small);
   color: var(--color-dark-gray);
+  line-height: 26px;
 }

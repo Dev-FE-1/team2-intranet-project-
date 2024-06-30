@@ -18,73 +18,23 @@
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  /* width: var(--size-employee-list-width); */
-  height: var(--size-employee-list-height);
+  height: calc(100vh - 160px);
   white-space: nowrap;
+  padding-top: 45px;
 }
 
-.employee-list table {
-  /* width: var(--size-employee-list-width); */
-  min-width: 50vw;
-  min-height: auto;
-}
-
-.employee-list .l-table {
-  min-height: 50vh;
-}
-
-.employee-list th,
-.employee-list td {
-  margin: 0;
-  padding: 0.5vh 0.2vw;
-  text-align: center;
-}
-.employee-list table label .employee-list th:first-child {
-  width: 0.5vw;
-  padding-right: 0rem;
-}
-
-.employee-list th {
-  color: var(--color-dark-gray);
-}
-
-.employee-list td img {
-  display: block;
-  width: var(--size-img-small);
-  height: var(--size-img-small);
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.employee-list table label,
-.employee-list .employee-list__header__search-form label {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  margin: -1px;
-  clip: rect(0, 0, 0, 0);
-}
-
-.employee-list input,
-.employee-list button {
-  margin: 0vh 0.2vw;
-}
-
+/* 직원등록,삭제 버튼 */
 .employee-list__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* width: var(--size-employee-list-width); */
-  height: 6vh;
-  padding: 2rem 0vw;
+  width: 900px;
+  padding-bottom: 25px;
 }
 
-.employee-list__header .employee-list__header__button,
-.employee-list__header .employee-list__header__search {
-  margin: 0vh var(--size-l-table-header-margin);
+.employee-list__header__button {
+  margin-left: 20px;
 }
-
 .employee-list__header__button .c-button {
   width: var(--size-button-small);
   height: var(--size-button-height);
@@ -92,10 +42,11 @@
   border-radius: 5px;
   font-size: var(--font-small);
   cursor: pointer;
+  box-shadow: 1px 1px 1px #424a530a;
 }
 
 .employee-list__header__button .c-button-enroll {
-  background-color: var(--color-black);
+  background-color: var(--color-ocean-blue);
   color: var(--color-white);
 }
 
@@ -104,10 +55,13 @@
 }
 
 .employee-list__header__button .c-button-delete {
-  background-color: var(--color-lightest-gray);
-  color: var(--color-dark-gray);
+  background-color: var(--color-white);
+  color: var(--color-vivid-red);
+  border: 1px solid var(--color-pale-gray);
+  margin-left: 8px;
 }
 
+/* 직원검색 */
 .employee-list__header__search {
   display: flex;
   justify-content: center;
@@ -119,6 +73,7 @@
   position: relative;
   width: var(--size-button-xlarge);
   height: var(--size-button-height);
+  font-size: var(--font-small);
   padding-left: 2rem;
   border: 1px solid var(--color-light-gray);
   border-radius: 5px;
@@ -128,8 +83,8 @@
 .employee-list form::after {
   display: block;
   position: absolute;
-  top: 0.2rem;
-  left: 0.5rem;
+  top: 4px;
+  left: 5px;
   width: 30px;
   height: 30px;
   filter: opacity(50%);
@@ -148,12 +103,91 @@
   font-size: var(--font-small);
 }
 
-.employee-list a[data-props]::after {
-  content: '';
-  display: inline-block;
+/* 직원목록 */
+.employee-list table {
+  width: 900px;
+  height: 507px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: var(--font-small);
+}
+.employee-list table thead {
+  border-bottom: 1px solid var(--color-pale-gray);
+}
+.employee-list table tbody tr {
+  cursor: pointer;
+}
+.employee-list table label,
+.employee-list .employee-list__header__search-form label {
   position: absolute;
-  opacity: 0.5;
-  width: var(--size-tr-width);
-  height: var(--size-tr-height);
-  background-color: black;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  margin: -1px;
+  clip: rect(0, 0, 0, 0);
+}
+.employee-list table label .employee-list th:first-child {
+  width: 0.5vw;
+  padding-right: 0rem;
+}
+.employee-list tr:nth-child(2n) {
+  background-color: rgba(152, 190, 255, 0.169); /* --color-jordy-blue / opacity: 0.169 */
+}
+.employee-list th,
+.employee-list td {
+  margin: 0;
+  padding: 5px 8px;
+  text-align: center;
+}
+
+.employee-list th {
+  color: var(--color-black);
+  font-weight: 400;
+  line-height: 36px;
+}
+.employee-list td {
+  color: var(--color-dark-gray);
+}
+.employee-list tr:hover td {
+  color: var(--color-ocean-blue);
+}
+.employee-list tr {
+  display: block;
+  width: 900px;
+  height: 46px;
+}
+.employee-list th:first-child,
+.employee-list td:first-child {
+  width: 54px;
+}
+.employee-list th:nth-child(2),
+.employee-list td:nth-child(2) {
+  width: 90px;
+}
+.employee-list th:nth-child(3),
+.employee-list td:nth-child(3) {
+  width: 81px;
+}
+.employee-list th:nth-child(4),
+.employee-list td:nth-child(4) {
+  width: 333px;
+}
+.employee-list th:nth-child(5),
+.employee-list td:nth-child(5) {
+  width: 270px;
+}
+.employee-list th:last-child,
+.employee-list td:last-child {
+  width: 72px;
+}
+.employee-list td img {
+  display: block;
+  width: 36px;
+  height: 36px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.c-checkbox__input {
+  cursor: pointer;
 }
