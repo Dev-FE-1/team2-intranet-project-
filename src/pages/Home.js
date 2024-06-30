@@ -1,4 +1,4 @@
-import Header from '../header/Header';
+import Header from './header/Header';
 
 export default class Home {
   constructor(container, props) {

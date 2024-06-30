@@ -1,7 +1,6 @@
-import '../../../assets/style/style.css';
 import './UserInfo.css';
 import { Validator } from './Validator';
-import Header from './../header/Header';
+import Header from '../header/Header';
 
 export default class UserInfo {
   constructor(props = {}) {
@@ -205,7 +204,7 @@ export default class UserInfo {
   }
   async fetchUser() {
     try {
-      const response = await fetch('./src/pages/sbs1253/userinfo/User.json');
+      const response = await fetch('./src/pages/userinfo/User.json');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

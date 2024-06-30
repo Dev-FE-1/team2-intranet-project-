@@ -1,6 +1,6 @@
-import Home from './sbs1253/view/Home';
-import UserInfo from './sbs1253/userinfo/UserInfo';
-import Mypage from './sbs1253/mypage/Mypage';
+import Home from './Home';
+import UserInfo from './userinfo/UserInfo';
+import Mypage from './mypage/Mypage';
 const app = document.querySelector('#app');
 
 const routes = {

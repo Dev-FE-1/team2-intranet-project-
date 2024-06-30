@@ -1,6 +1,6 @@
 // import { routeRender } from '../route/route';
 import './Mypage.css';
-import Header from './../header/Header';
+import Header from '../header/Header';
 
 // import UserInfo from '../userinfo/UserInfo';
 // import Modal from './modal';
