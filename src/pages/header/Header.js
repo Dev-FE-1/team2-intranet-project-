@@ -11,12 +11,14 @@ export class Header {
       <header class="header">
         <div class="header__container">
           <h1 class="header__heading-title">
-            <img
-              class="header__intranet-logo"
-              src="/src/assets/images/favicon/android-chrome-192x192.png"
-              alt="Logo"
-            />
-            <span>Admin Dashboard</span>
+            <a href="/">
+              <img
+                class="header__intranet-logo"
+                src="/src/assets/images/favicon/android-chrome-192x192.png"
+                alt="Logo"
+              />
+              <span>Admin Dashboard</span>
+            </a>
           </h1>
           <nav class="header__gnb">
             <ul class="header__nav-list">
