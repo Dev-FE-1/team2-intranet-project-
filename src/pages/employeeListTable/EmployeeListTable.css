@@ -88,7 +88,6 @@
 /* 직원목록 */
 .employee-list table {
   width: 900px;
-  height: 507px;
   border-collapse: collapse;
   table-layout: fixed;
   font-size: var(--font-small);
@@ -136,7 +135,6 @@
 .employee-list tr {
   display: block;
   width: 900px;
-  height: 46px;
 }
 .employee-list th:first-child,
 .employee-list td:first-child {
