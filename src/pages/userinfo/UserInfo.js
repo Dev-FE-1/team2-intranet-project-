@@ -3,17 +3,40 @@ import { Validator } from './Validator';
 
 export default class UserInfo {
   constructor(props = {}) {
-    console.log(props);
-    const { userId = '4567', info = '조회', permission = '' } = props;
+    const {
+      name,
+      email,
+      phone,
+      position,
+      profileImg,
+      userId,
+      userPassword,
+      info = '조회',
+      permission = '',
+    } = props;
     this.userid = userId;
-    this.info = this.reinfo(info);
     this.permission = permission;
-    this.state = {};
+    this.info = this.reinfo(info);
+
+    console.log(`프로필 이미지: ${profileImg}`);
+
+    this.state = {
+      user: {
+        [userId]: {
+          userId: userId,
+          userPassword: userPassword,
+          userName: name,
+          userEmail: email,
+          userPhone: phone,
+          userPosition: position,
+        },
+      },
+    };
     this.el = document.createElement('form');
     this.init();
   }
   async init() {
-    await this.fetchUser();
+    // await this.fetchUser();
     this.render();
   }
 

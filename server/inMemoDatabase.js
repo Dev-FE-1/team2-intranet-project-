@@ -51,9 +51,9 @@ export default class InMemoDatabase {
     });
   }
 
-  insertEmployee({ name, email, phone, position, profileImg }) {
-    const sql = `INSERT INTO Employees (name, email, phone, position,  profileImg) VALUES (?, ?, ?, ?, ?)`;
-    this.db.run(sql, [name, email, phone, position, profileImg], (err) => {
+  insertEmployee({ name, email, phone, position, profileImg, employeeId, password }) {
+    const sql = `INSERT INTO Employees (name, email, phone, position, profileImg, employeeId, password) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    this.db.run(sql, [name, email, phone, position, profileImg, employeeId, password], (err) => {
       if (err) {
         console.error('Error inserting Employee:', err);
       }

@@ -105,7 +105,6 @@ export class EmployeeListTable {
       if (e.target.matches('[pagination-next-anchor]')) {
         e.preventDefault();
         if (currentPage === numberOfPages) {
-          e.target.matches('[pagination-previous-anchor]').disabled = true;
           return;
         }
         currentPage++;
@@ -117,7 +116,6 @@ export class EmployeeListTable {
       if (e.target.matches('[pagination-previous-anchor]')) {
         e.preventDefault();
         if (currentPage === 1) {
-          e.target.matches('[pagination-previous-anchor]').disabled = true;
           return;
         }
         currentPage--;

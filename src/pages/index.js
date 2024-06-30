@@ -13,23 +13,23 @@ layout.render();
 const routeView = app.querySelector('route-view');
 
 const routes = {
-  '/': { title: 'Home', render: () => renderComponent(Home) },
+  '/': { title: 'Home', render: (props) => renderComponent(Home, props) },
   '/userinfo': {
     title: 'userinfo',
     render: (props) => renderComponentClass(UserInfo, props),
   },
   '/mypage': {
     title: 'mypage',
-    render: () => renderComponentClass(Mypage),
+    render: (props) => renderComponentClass(Mypage, props),
   },
   '/employee-list': {
     title: 'Employee List',
-    render: () => renderComponent(EmployeeListTable),
+    render: (props) => renderComponent(EmployeeListTable, props),
   },
 };
 
-const renderComponent = (ComponentClass) => {
-  const componentInstance = new ComponentClass(routeView, {});
+const renderComponent = (ComponentClass, props) => {
+  const componentInstance = new ComponentClass(routeView, props);
   componentInstance.render();
 };
 
@@ -38,62 +38,23 @@ const renderComponentClass = (ComponentClass, props = {}) => {
   routeView.append(componentInstance.el);
 };
 
-function router() {
+function router(props = {}) {
   let view = routes[location.pathname];
   if (view) {
     document.title = view.title;
     routeView.innerHTML = '';
-    view.render();
+    view.render(props);
   } else {
     history.replaceState('', '', '/');
     routeView.innerHTML = '';
-    router();
-  }
-}
-
-export class Route {
-  constructor({ routes, routeView } = {}) {
-    this.routes = routes || {};
-    this.routeView = routeView || document.querySelector('route-view');
-  }
-
-  router(props) {
-    let view = this.routes[location.pathname];
-    if (view) {
-      document.title = view.title;
-      routeView.innerHTML = '';
-      view.render(props);
-    } else {
-      history.replaceState('', '', '/');
-      routeView.innerHTML = '';
-      router();
-    }
-  }
-  renderComponent(ComponentClass) {
-    const componentInstance = new ComponentClass(routeView, {});
-    componentInstance.render();
   }
 }
 
 router();
 // Handle navigation
 window.addEventListener('click', (e) => {
-  // console.log('data-link-tr', e.target);
-  // console.log('data-link-tr boolean', e.target.matches('[data-props]'));
-
-  // if (e.target.matches('[data-props]')) {
-  //   e.preventDefault();
-  //   const anchorElem = e.target.closest('a');
-  //   const props = { props: anchorElem.dataset.props };
-  //   history.pushState('', '', e.target.href);
-  //   console.log('props:', props);
-  //   router(props);
-  // }
-
   if (e.target.matches('[data-link]')) {
     e.preventDefault();
-    // const anchorElem = e.target.closest('a');
-    // console.log('anchorElem:', anchorElem.dataset.link);
     history.pushState('', '', e.target.href);
     const props = { data: 'data' };
     router(props);
