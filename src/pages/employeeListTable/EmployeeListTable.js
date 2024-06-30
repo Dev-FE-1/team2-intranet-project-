@@ -25,6 +25,14 @@ export class EmployeeListTable {
           </div>
         </div>
         <table>
+          <colgroup>
+            <col width="54px" />
+            <col width="90px" />
+            <col width="81px" />
+            <col width="333px" />
+            <col width="270px" />
+            <col width="72px" />
+          </colgroup>
           <thead>
             <tr>
               <th>

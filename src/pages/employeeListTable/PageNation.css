@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   font-size: var(--font-small);
+  margin-top: 30px;
 }
 .pagination a {
   display: block;
