@@ -13,6 +13,7 @@
   --color-french-skyblue: #7da0fa;
   --color-slate-blue: #7978e9;
   --color-coral-light: #f3797e;
+  --color-vivid-red: #d8262e;
 
   /* Grayscale */
   --color-simple-gray: #6b6b6b;
@@ -36,6 +37,8 @@
   --size-button-large: 200px;
   --size-button-xlarge: 250px;
   --size-button-jumbo: 300px;
+
+  --size-button-height: 32px;
 
   /* box-shadow */
   --box-floating-shadow: 0px 6px 12px -3px #424a530a, 0px 6px 18px 0px #424a531f;
