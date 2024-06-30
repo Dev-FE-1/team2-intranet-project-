@@ -16,7 +16,7 @@ const routes = {
   '/': { title: 'Home', render: () => renderComponent(Home) },
   '/userinfo': {
     title: 'userinfo',
-    render: () => renderComponentClass(UserInfo),
+    render: () => renderComponent(UserInfo),
   },
   '/mypage': {
     title: 'mypage',
