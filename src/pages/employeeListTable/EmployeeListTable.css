@@ -1,9 +1,23 @@
 .employee-list {
+  /* list-table */
+  --size-img-small: 36px;
+  --size-tablePadding: 1.5rem;
+  --size-employee-list-width: 30vw;
+  --size-employee-list-height: 90vh;
+  --color-lightest-gray: #eeeeee;
+  --size-button-height: 32px;
+  --postion-seacrhIcon-left: 0.9rem;
+  --size-l-table-header-margin: 30px;
+
+  --size-tr-height: 50px;
+  --size-tr-width: 550px;
+}
+
+.employee-list {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  /* width: var(--size-employee-list-width); */
   height: calc(100vh - 160px);
   white-space: nowrap;
   padding-top: 45px;
@@ -33,6 +47,10 @@
 
 .employee-list__header__button .c-button-enroll {
   background-color: var(--color-ocean-blue);
+  color: var(--color-white);
+}
+
+.employee-list__header__button .c-button-enroll a {
   color: var(--color-white);
 }
 

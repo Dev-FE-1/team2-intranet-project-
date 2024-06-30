@@ -13,46 +13,40 @@ layout.render();
 const routeView = app.querySelector('route-view');
 
 const routes = {
-  '/': { title: 'Home', render: () => renderComponent(Home) },
+  '/': { title: 'Home', render: (props) => renderComponent(Home, props) },
   '/userinfo': {
     title: 'userinfo',
-    render: () => renderComponentClass(UserInfo),
+    render: (props) => renderComponentClass(UserInfo, props),
   },
   '/mypage': {
     title: 'mypage',
-    render: () => renderComponentClass(Mypage),
+    render: (props) => renderComponentClass(Mypage, props),
   },
   '/employee-list': {
     title: 'Employee List',
-    render: () => renderComponent(EmployeeListTable),
+    render: (props) => renderComponent(EmployeeListTable, props),
   },
 };
 
-const renderComponent = (ComponentClass) => {
-  const componentInstance = new ComponentClass(routeView, {});
+const renderComponent = (ComponentClass, props) => {
+  const componentInstance = new ComponentClass(routeView, props);
   componentInstance.render();
 };
 
-const renderComponentClass = (ComponentClass) => {
-  const componentInstance = new ComponentClass();
+const renderComponentClass = (ComponentClass, props = {}) => {
+  const componentInstance = new ComponentClass(props);
   routeView.append(componentInstance.el);
 };
 
-function router() {
+function router(props = {}) {
   let view = routes[location.pathname];
   if (view) {
     document.title = view.title;
-    if (view.title === 'userinfo' || view.title === 'mypage') {
-      routeView.innerHTML = '';
-      view.render();
-    } else {
-      routeView.innerHTML = '';
-      view.render();
-    }
+    routeView.innerHTML = '';
+    view.render(props);
   } else {
     history.replaceState('', '', '/');
     routeView.innerHTML = '';
-    router();
   }
 }
 
@@ -62,7 +56,8 @@ window.addEventListener('click', (e) => {
   if (e.target.matches('[data-link]')) {
     e.preventDefault();
     history.pushState('', '', e.target.href);
-    router();
+    const props = { data: 'data' };
+    router(props);
   }
 });
 

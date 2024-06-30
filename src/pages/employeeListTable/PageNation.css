@@ -45,10 +45,6 @@
 } */
 
 .pagination a[pagination-number-anchor]:hover,
-.pagination a[pagination-number-anchor]:focus {
-  background-color: var(--color-jordy-blue);
-}
-
 .pagination a[pagination-previous-anchor]:hover,
 .pagination a[pagination-next-anchor]:hover {
   background-color: var(--color-jordy-blue);
@@ -56,4 +52,9 @@
 
 .pagination--focus {
   background-color: var(--color-jordy-blue);
+}
+
+.pagination .nohover {
+  pointer-events: none;
+  cursor: none;
 }

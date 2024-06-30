@@ -14,8 +14,10 @@ export class EmployeeListTable {
       <section class="employee-list">
         <div class="employee-list__header">
           <div class="employee-list__header__button">
-            <button class="c-button c-button-enroll">임직원 등록</button>
-            <button class="c-button c-button-delete">임직원 삭제</button>
+            <a href="/userinfo" data-link>
+              <button class="c-button c-button-enroll">임직원 등록</button></a
+            >
+            <a><button class="c-button c-button-delete">임직원 삭제</button></a>
           </div>
           <div class="employee-list__header__search">
             <form action="#" class="employee-list__header__search-form">
@@ -71,8 +73,6 @@ export class EmployeeListTable {
     const numberOfPages = Math.ceil(totalRows / numberPerPage);
     let currentPage = 1;
 
-    loadTableRows({ currentPage, numberPerPage });
-
     const pageNation = document.querySelector('page-nation');
     pageNation.innerHTML = /* HTML */ `
       <div class="pagination">
@@ -96,6 +96,7 @@ export class EmployeeListTable {
         </a>
       </div>
     `;
+    loadTableRows({ currentPage, numberPerPage });
 
     this.container.addEventListener('click', (e) => {
       if (e.target.matches('[pagination-number-anchor]')) {
@@ -109,7 +110,6 @@ export class EmployeeListTable {
       if (e.target.matches('[pagination-next-anchor]')) {
         e.preventDefault();
         if (currentPage === numberOfPages) {
-          e.target.matches('[pagination-previous-anchor]').disabled = true;
           return;
         }
         currentPage++;
@@ -121,7 +121,6 @@ export class EmployeeListTable {
       if (e.target.matches('[pagination-previous-anchor]')) {
         e.preventDefault();
         if (currentPage === 1) {
-          e.target.matches('[pagination-previous-anchor]').disabled = true;
           return;
         }
         currentPage--;
@@ -132,9 +131,9 @@ export class EmployeeListTable {
     function setButtonStateFocus({ currentPage }) {
       const pageNationButtons = document.querySelectorAll('[pagination-number-anchor]');
       pageNationButtons.forEach((button) => {
-        button.classList.remove('.pagination--focus');
+        button.classList.remove('pagination--focus');
         if (parseInt(button.innerText) === currentPage) {
-          button.classList.add('.pagination--focus');
+          button.classList.add('pagination--focus');
         }
       });
     }
