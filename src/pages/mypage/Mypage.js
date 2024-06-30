@@ -1,6 +1,5 @@
 // import { routeRender } from '../route/route';
 import './Mypage.css';
-import Header from '../header/Header';
 
 // import UserInfo from '../userinfo/UserInfo';
 // import Modal from './modal';
@@ -18,9 +17,6 @@ export default class Mypage {
     this.render();
   }
   render() {
-    const header = new Header();
-    header.render();
-    this.el.before(header.container);
     this.el.classList.add('mypage');
     this.el.innerHTML =
       /* HTML */

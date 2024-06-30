@@ -1,12 +1,13 @@
 import './Header.css';
 
-export default class Header {
-  constructor() {
-    this.container = document.createElement('div');
+export class Header {
+  constructor(container, props) {
+    this.container = container || {};
+    this.props = props || {};
   }
 
   render() {
-    this.container.innerHTML = /* HTML */ `
+    return /* HTML */ `
       <header class="header">
         <div class="header__container">
           <h1 class="header__heading-title">
@@ -19,7 +20,7 @@ export default class Header {
           </h1>
           <nav class="header__gnb">
             <ul class="header__nav-list">
-              <li><a href="/" data-link>직원관리</a></li>
+              <li><a href="/employee-list" data-link>직원관리</a></li>
               <li><a href="/about" data-link>갤러리관리</a></li>
               <li><a href="/userinfo" data-link>직원 등록</a></li>
               <li><a href="/mypage" data-link>마이페이지</a></li>
@@ -29,6 +30,5 @@ export default class Header {
         </div>
       </header>
     `;
-    return this.container.innerHTML;
   }
 }
