@@ -1,6 +1,7 @@
 import '../../../assets/style/style.css';
 import './UserInfo.css';
 import { Validator } from './Validator';
+import Header from './../header/Header';
 
 export default class UserInfo {
   constructor(props = {}) {
@@ -10,10 +11,18 @@ export default class UserInfo {
     this.permission = permission;
     this.state = {};
     this.el = document.createElement('form');
+    this.init();
+  }
+  async init() {
+    await this.fetchUser();
     this.render();
   }
-  async render() {
-    await this.fetchUser();
+
+  render() {
+    // 헤더부분 변경된곳
+    const header = new Header();
+    header.render();
+    this.el.before(header.container);
     this.el.classList.add('user-info');
     this.el.innerHTML =
       /* HTML */
@@ -113,6 +122,7 @@ export default class UserInfo {
     this.userValue();
 
     this.inputValidator();
+    // console.log(this.el.innerHTML);
   }
 
   btnHandler() {
@@ -158,7 +168,7 @@ export default class UserInfo {
     ];
     if (this.state.user[this.userid]) {
       fields.forEach(({ id, key }) => {
-        document.getElementById(id).value = this.state.user[this.userid][key];
+        this.el.querySelector(`#${id}`).value = this.state.user[this.userid][key];
       });
     }
   }
@@ -185,8 +195,8 @@ export default class UserInfo {
   }
 
   testinput(id, fn, err) {
-    const idCheck = document.getElementById(id);
-    const errCheck = document.querySelector(`
+    const idCheck = this.el.querySelector(`#${id}`);
+    const errCheck = this.el.querySelector(`
       #${id} + ${err}`);
     idCheck.addEventListener('change', () => {
       this.el.querySelector('.user-info__btn--save').classList.add('user-info__btn--disable');
