@@ -4,12 +4,12 @@ import { EmployeeListTableRows } from './EmployeeListTableRows.js';
 import './PageNation.css';
 
 export class EmployeeListTable {
-  constructor({ cid = '#content', ...props }) {
-    this.container = document.querySelector(`${cid}`);
+  constructor(cotainer, props) {
+    this.container = cotainer;
     this.props = props;
   }
 
-  render = async () => {
+  render() {
     this.container.innerHTML = /* HTML */ `
       <section class="employee-list">
         <div class="employee-list__header">
@@ -45,10 +45,15 @@ export class EmployeeListTable {
         <page-nation></page-nation>
       </section>
     `;
+    this.updateEmployeeListRows();
+    return this.container.innerHTML;
+  }
+
+  async updateEmployeeListRows() {
     const employees = await this.fetchEmployees();
     this.attachEventListeners();
     this.renderTableRows({ cid: '.employee-list__rows', employees });
-  };
+  }
 
   renderTableRows({ cid, employees }) {
     const employeeListTableRows = new EmployeeListTableRows({

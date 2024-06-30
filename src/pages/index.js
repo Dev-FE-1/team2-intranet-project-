@@ -1,13 +1,9 @@
-export { EmployeeListTable } from './employeeListTable/EmployeeListTable.js';
-export { AttendanceList } from './attendanceList/AttendanceList.js';
-export { AttendanceApply } from './attendanceApply/AttendanceApply.js';
-export { navBar } from './tmp_test_components/navbar.js';
-export { layout } from './tmp_test_components/layout.js';
-export { pageNotFound } from './tmp_test_components/pageNotFound.js';
-
+import { EmployeeListTable } from './employeeListTable/EmployeeListTable.js';
+import { AttendanceList } from './attendanceList/AttendanceList.js';
 import Home from './Home';
 import UserInfo from './userinfo/UserInfo';
 import Mypage from './mypage/Mypage';
+
 const app = document.querySelector('#app');
 
 const routes = {
@@ -19,6 +15,14 @@ const routes = {
   '/mypage': {
     title: 'mypage',
     render: () => renderComponentClass(Mypage),
+  },
+  '/employee-list': {
+    title: 'Employee List',
+    render: () => renderComponent(EmployeeListTable),
+  },
+  '/attendance-list': {
+    title: 'Attendance List',
+    render: () => renderComponent(AttendanceList),
   },
   // '/contact': { title: 'Contact', render: renderComponent(Contact) },
 };
@@ -32,6 +36,7 @@ const renderComponentClass = (ComponentClass) => {
   const componentInstance = new ComponentClass();
   return componentInstance.el;
 };
+
 function router() {
   let view = routes[location.pathname];
   if (view) {

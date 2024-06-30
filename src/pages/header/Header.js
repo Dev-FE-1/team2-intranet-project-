@@ -19,7 +19,7 @@ export default class Header {
           </h1>
           <nav class="header__gnb">
             <ul class="header__nav-list">
-              <li><a href="/" data-link>직원관리</a></li>
+              <li><a href="/employee-list" data-link>직원관리</a></li>
               <li><a href="/about" data-link>갤러리관리</a></li>
               <li><a href="/userinfo" data-link>직원 등록</a></li>
               <li><a href="/mypage" data-link>마이페이지</a></li>

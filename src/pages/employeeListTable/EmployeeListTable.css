@@ -112,7 +112,7 @@
 }
 
 /* 검색 아이콘 */
-form::after {
+.employee-list form::after {
   display: block;
   position: absolute;
   top: 0.2rem;

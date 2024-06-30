@@ -55,6 +55,7 @@
   cursor: pointer;
 }
 
+/* 근태신청 바로가기 안의 화살표 아이콘 */
 .attendance-list button::after {
   display: inline-block;
   width: 1.5rem;

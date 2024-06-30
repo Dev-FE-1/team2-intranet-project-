@@ -2,8 +2,8 @@ import './AttendanceList.css';
 import { AttendanceListItems } from './AttendanceListItems.js';
 
 export class AttendanceList {
-  constructor({ cid = '#content', ...props }) {
-    this.container = document.querySelector(`${cid}`);
+  constructor(container, props) {
+    this.container = container;
     this.defaultProfileImg = 'https://i.imgur.com/JJEqrWE.png';
     this.props = props;
   }
@@ -18,7 +18,12 @@ export class AttendanceList {
         <ul class="attendance-items"></ul>
       </section>
     `;
-    const attendanceListItems = new AttendanceListItems({ cid: '.attendance-items' });
+    this.updateAttendanceList();
+    return this.container.innerHTML;
+  }
+
+  updateAttendanceList() {
+    const attendanceListItems = new AttendanceListItems();
     attendanceListItems.render();
   }
 }
