@@ -1,5 +1,7 @@
 // import { routeRender } from '../route/route';
 import './Mypage.css';
+import Header from './../header/Header';
+
 // import UserInfo from '../userinfo/UserInfo';
 // import Modal from './modal';
 export default class Mypage {
@@ -9,10 +11,16 @@ export default class Mypage {
     this.str = str;
     this.el = document.createElement('div');
     this.state = {};
+    this.init();
+  }
+  async init() {
+    await this.fetchUser();
     this.render();
   }
-  async render() {
-    await this.fetchUser();
+  render() {
+    const header = new Header();
+    header.render();
+    this.el.before(header.container);
     this.el.classList.add('mypage');
     this.el.innerHTML =
       /* HTML */
@@ -78,7 +86,7 @@ export default class Mypage {
     ];
     if (this.state.user[this.userid]) {
       field.forEach((el) => {
-        document.querySelector(`.${Object.keys(el)[0]}`).textContent =
+        this.el.querySelector(`.${Object.keys(el)[0]}`).textContent =
           this.state.user[this.userid][Object.values(el)[0]];
       });
     }

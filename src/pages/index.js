@@ -1,12 +1,17 @@
 import Home from './sbs1253/view/Home';
 import UserInfo from './sbs1253/userinfo/UserInfo';
+import Mypage from './sbs1253/mypage/Mypage';
 const app = document.querySelector('#app');
 
 const routes = {
   '/': { title: 'Home', render: () => renderComponent(Home) },
-  '/about': {
-    title: 'About',
+  '/userinfo': {
+    title: 'userinfo',
     render: () => renderComponentClass(UserInfo),
+  },
+  '/mypage': {
+    title: 'mypage',
+    render: () => renderComponentClass(Mypage),
   },
   // '/contact': { title: 'Contact', render: renderComponent(Contact) },
 };
@@ -24,7 +29,7 @@ function router() {
   let view = routes[location.pathname];
   if (view) {
     document.title = view.title;
-    if (view.title === 'About') {
+    if (view.title === 'userinfo' || view.title === 'mypage') {
       app.innerHTML = '';
       app.append(view.render());
     } else {

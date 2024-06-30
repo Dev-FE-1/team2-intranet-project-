@@ -21,6 +21,8 @@ export default class Header {
             <ul class="header__nav-list">
               <li><a href="/" data-link>직원관리</a></li>
               <li><a href="/about" data-link>갤러리관리</a></li>
+              <li><a href="/userinfo" data-link>직원 등록</a></li>
+              <li><a href="/mypage" data-link>마이페이지</a></li>
             </ul>
           </nav>
           <button class="header__btn-logout">로그아웃</button>
