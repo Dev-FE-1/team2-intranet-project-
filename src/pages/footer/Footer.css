@@ -2,15 +2,11 @@
 
 /* FOOTER */
 .footer {
-  display: flex;
-  align-items: flex-start;
-  position: relative;
-  height: 60px;
+  min-height: 60px;
 }
 
 .footer::before {
   content: '';
-  display: block;
   position: absolute;
   top: 0;
   left: 0;
@@ -21,30 +17,39 @@
 
 .footer__container {
   display: flex;
-  align-items: center;
-  position: relative;
+  justify-content: flex-start;
   width: 900px;
-  margin: auto;
+  margin: 0 auto;
 }
-
-.footer__logo {
-  position: absolute;
-  height: 36px;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto;
+.footer__container h1 {
+  font-family: 'Open Sans', sans-serif;
+  flex-grow: 2;
+}
+.github__link {
+  width: 30px;
+  height: 30px;
 }
 
 .footer__title {
+  display: flex;
   font-size: var(--font-large);
-  font-weight: 900;
-  margin-left: 50px;
+}
+.footer__title img {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+.footer__title span {
+  display: inline-block;
+  line-height: 24px;
   color: var(--color-black);
 }
-
+.footer__contents {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 2;
+}
 .footer__copyright {
-  text-align: center;
-  margin: 0 auto;
-  color: var(--color-regular-gray);
+  font-size: var(--font-small);
+  color: var(--color-dark-gray);
 }

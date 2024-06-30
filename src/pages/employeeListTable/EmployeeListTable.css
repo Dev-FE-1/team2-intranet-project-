@@ -135,7 +135,7 @@
   font-size: var(--font-small);
 }
 
-@media screen and (max-width: 1750px) {
+/* @media screen and (max-width: 1750px) {
   .employee-list {
     width: 80vw;
   }
@@ -145,4 +145,4 @@
   .employee-list__header {
     width: 80vw;
   }
-}
+} */

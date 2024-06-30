@@ -19,7 +19,7 @@ export class AttendanceList {
       </section>
     `;
     this.updateAttendanceList();
-    return this.container.innerHTML;
+    // return this.container.innerHTML;
   }
 
   updateAttendanceList() {

@@ -1,12 +1,13 @@
 import './Header.css';
 
-export default class Header {
-  constructor() {
-    this.container = document.createElement('div');
+export class Header {
+  constructor(container, props) {
+    this.container = container || {};
+    this.props = props || {};
   }
 
   render() {
-    this.container.innerHTML = `
+    return /* HTML */ `
       <header class="header">
         <div class="header__container">
           <h1 class="header__heading-title">
@@ -29,6 +30,5 @@ export default class Header {
         </div>
       </header>
     `;
-    return this.container.innerHTML;
   }
 }

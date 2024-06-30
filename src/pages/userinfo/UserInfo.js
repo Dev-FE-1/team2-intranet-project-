@@ -1,6 +1,5 @@
 import './UserInfo.css';
 import { Validator } from './Validator';
-import Header from '../header/Header';
 
 export default class UserInfo {
   constructor(props = {}) {
@@ -19,9 +18,6 @@ export default class UserInfo {
 
   render() {
     // 헤더부분 변경된곳
-    const header = new Header();
-    header.render();
-    this.el.before(header.container);
     this.el.classList.add('user-info');
     this.el.innerHTML =
       /* HTML */

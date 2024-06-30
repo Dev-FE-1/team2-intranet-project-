@@ -46,7 +46,6 @@ export class EmployeeListTable {
       </section>
     `;
     this.updateEmployeeListRows();
-    return this.container.innerHTML;
   }
 
   async updateEmployeeListRows() {
@@ -130,7 +129,6 @@ export class EmployeeListTable {
           button.classList.add('.pagination--focus');
         }
       });
-      console.log(pageNationButtons);
     }
 
     function loadTableRows({ currentPage, numberPerPage }) {
