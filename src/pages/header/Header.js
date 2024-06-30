@@ -13,7 +13,7 @@ export class Header {
           <h1 class="header__heading-title">
             <img
               class="header__intranet-logo"
-              src="/team2-intranet-project-/src/assets/images/favicon/android-chrome-192x192.png"
+              src="/src/assets/images/favicon/android-chrome-192x192.png"
               alt="Logo"
             />
             <span>Admin Dashboard</span>
