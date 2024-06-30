@@ -3,6 +3,7 @@ import { Validator } from './Validator';
 
 export default class UserInfo {
   constructor(props = {}) {
+    console.log(props);
     const { userId = '4567', info = '조회', permission = '' } = props;
     this.userid = userId;
     this.info = this.reinfo(info);

@@ -3,11 +3,34 @@
   --size-img-small: 36px;
   --size-tablePadding: 1.5rem;
   --size-employee-list-width: 30vw;
-  --size-employee-list-height: 100vh;
+  --size-employee-list-height: 90vh;
   --color-lightest-gray: #eeeeee;
   --size-button-height: 32px;
   --postion-seacrhIcon-left: 0.9rem;
   --size-l-table-header-margin: 30px;
+
+  --size-tr-height: 50px;
+  --size-tr-width: 550px;
+}
+
+.employee-list {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  /* width: var(--size-employee-list-width); */
+  height: var(--size-employee-list-height);
+  white-space: nowrap;
+}
+
+.employee-list table {
+  /* width: var(--size-employee-list-width); */
+  min-width: 50vw;
+  min-height: auto;
+}
+
+.employee-list .l-table {
+  min-height: 50vh;
 }
 
 .employee-list th,
@@ -33,10 +56,6 @@
   margin-right: auto;
 }
 
-.employee-list table {
-  width: var(--size-employee-list-width);
-}
-
 .employee-list table label,
 .employee-list .employee-list__header__search-form label {
   position: absolute;
@@ -52,21 +71,11 @@
   margin: 0vh 0.2vw;
 }
 
-.employee-list {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: column;
-  width: var(--size-employee-list-width);
-  height: var(--size-employee-list-height);
-  white-space: nowrap;
-}
-
 .employee-list__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: var(--size-employee-list-width);
+  /* width: var(--size-employee-list-width); */
   height: 6vh;
   padding: 2rem 0vw;
 }
@@ -87,6 +96,10 @@
 
 .employee-list__header__button .c-button-enroll {
   background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+.employee-list__header__button .c-button-enroll a {
   color: var(--color-white);
 }
 
@@ -135,14 +148,12 @@
   font-size: var(--font-small);
 }
 
-/* @media screen and (max-width: 1750px) {
-  .employee-list {
-    width: 80vw;
-  }
-  .employee-list table {
-    width: 80vw;
-  }
-  .employee-list__header {
-    width: 80vw;
-  }
-} */
+.employee-list a[data-props]::after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  opacity: 0.5;
+  width: var(--size-tr-width);
+  height: var(--size-tr-height);
+  background-color: black;
+}

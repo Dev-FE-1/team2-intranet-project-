@@ -14,8 +14,10 @@ export class EmployeeListTable {
       <section class="employee-list">
         <div class="employee-list__header">
           <div class="employee-list__header__button">
-            <button class="c-button c-button-enroll">임직원 등록</button>
-            <button class="c-button c-button-delete">임직원 삭제</button>
+            <a href="/userinfo" data-link>
+              <button class="c-button c-button-enroll">임직원 등록</button></a
+            >
+            <a><button class="c-button c-button-delete">임직원 삭제</button></a>
           </div>
           <div class="employee-list__header__search">
             <form action="#" class="employee-list__header__search-form">
@@ -24,24 +26,27 @@ export class EmployeeListTable {
             </form>
           </div>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>
-                <div class="c-checkbox">
-                  <input type="checkbox" id="selectAll" class="c-checkbox__input" />
-                  <label for="selectAll">Select All</label>
-                </div>
-              </th>
-              <th>프로필사진</th>
-              <th>이름</th>
-              <th>이메일</th>
-              <th>휴대폰 번호</th>
-              <th>직급</th>
-            </tr>
-          </thead>
-          <tbody class="employee-list__rows"></tbody>
-        </table>
+        <div class="l-table">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  <div class="c-checkbox">
+                    <input type="checkbox" id="selectAll" class="c-checkbox__input" />
+                    <label for="selectAll">Select All</label>
+                  </div>
+                </th>
+                <th>프로필사진</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>휴대폰 번호</th>
+                <th>직급</th>
+              </tr>
+            </thead>
+            <tbody class="employee-list__rows"></tbody>
+          </table>
+        </div>
+
         <page-nation></page-nation>
       </section>
     `;
@@ -62,8 +67,6 @@ export class EmployeeListTable {
     const totalRows = employees.length;
     const numberOfPages = Math.ceil(totalRows / numberPerPage);
     let currentPage = 1;
-
-    loadTableRows({ currentPage, numberPerPage });
 
     const pageNation = document.querySelector('page-nation');
     pageNation.innerHTML = /* HTML */ `
@@ -88,6 +91,7 @@ export class EmployeeListTable {
         </a>
       </div>
     `;
+    loadTableRows({ currentPage, numberPerPage });
 
     this.container.addEventListener('click', (e) => {
       if (e.target.matches('[pagination-number-anchor]')) {
@@ -124,9 +128,9 @@ export class EmployeeListTable {
     function setButtonStateFocus({ currentPage }) {
       const pageNationButtons = document.querySelectorAll('[pagination-number-anchor]');
       pageNationButtons.forEach((button) => {
-        button.classList.remove('.pagination--focus');
+        button.classList.remove('pagination--focus');
         if (parseInt(button.innerText) === currentPage) {
-          button.classList.add('.pagination--focus');
+          button.classList.add('pagination--focus');
         }
       });
     }

@@ -1,5 +1,9 @@
 import { compile } from 'handlebars';
 
+// Handlebars.registerHelper('jsonStringify', function (context) {
+//   return JSON.stringify(context).replace(/"/g, '&quot;');
+// });
+
 export class EmployeeListTableRows {
   constructor({ cid = '.employee-list__rows', ...props }) {
     this.container = document.querySelector(`${cid}`);
@@ -8,7 +12,6 @@ export class EmployeeListTableRows {
   }
 
   render = async (employees) => {
-    this.container.innerHTML = '';
     this.container.innerHTML = compile(
       /* HTML */ `{{#each employees}}
         <tr>
@@ -42,6 +45,12 @@ export class EmployeeListTableRows {
         checkboxes.forEach((checkbox) => {
           checkbox.checked = e.target.checked;
         });
+      }
+    });
+    this.container.addEventListener('click', (e) => {
+      console.log('parentnode', e.target.parentNode);
+      if (e.target.parentNode.tagName === 'tr') {
+        history.pushState({}, '', '/userinfo');
       }
     });
   };
