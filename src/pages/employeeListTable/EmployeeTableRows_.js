@@ -1,15 +1,20 @@
 import { compile } from 'handlebars';
 
-export class EmployeeListTableRows {
-  constructor({ cid = '.employee-list__rows', ...props }) {
-    this.container = document.querySelector(`${cid}`);
-    this.props = props;
+export class EmployeeTableRows extends HTMLElement {
+  constructor(props = {}) {
+    super();
     this.defaultProfileImg = 'https://i.imgur.com/KM82VtW.png';
+    const { employees } = props;
+    this.render(employees);
   }
 
-  render = async (employees) => {
-    this.container.innerHTML = '';
-    this.container.innerHTML = compile(
+  // 렌더링
+  render(employees) {
+    if (!employees) {
+      this.innerHTML = '데이터가 없습니다.';
+    }
+
+    this.innerHTML = compile(
       /* HTML */ `{{#each employees}}
         <tr>
           <td>
@@ -32,11 +37,15 @@ export class EmployeeListTableRows {
         </tr>
         {{/each}}`,
     )({ employees: employees });
-    this.attachEventListeners();
-  };
+  }
 
+  connectedCallback() {
+    this.attachEventListeners();
+  }
+
+  // 이벤트 리스너 추가, 체크박스 전체 선택
   attachEventListeners = () => {
-    document.addEventListener('change', (e) => {
+    this.addEventListener('change', (e) => {
       if (e.target.id === 'selectAll') {
         const checkboxes = document.querySelectorAll('.c-checkbox__input');
         checkboxes.forEach((checkbox) => {

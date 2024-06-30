@@ -1,9 +1,8 @@
 import axios from 'axios';
 import './EmployeeListTable.css';
 import { EmployeeListTableRows } from './EmployeeListTableRows.js';
-import { PageNation } from '../../components/pagination/PageNation.js';
+import './PageNation.css';
 
-customElements.define('page-nation', PageNation);
 export class EmployeeListTable {
   constructor({ cid = '#content', ...props }) {
     this.container = document.querySelector(`${cid}`);
@@ -46,18 +45,101 @@ export class EmployeeListTable {
         <page-nation></page-nation>
       </section>
     `;
+    const employees = await this.fetchEmployees();
     this.attachEventListeners();
-    const employees = await this.getEmployees();
-    this.renderEmployeeListTableRows({ cid: '.employee-list__rows', employees });
+    this.renderTableRows({ cid: '.employee-list__rows', employees });
   };
 
-  renderEmployeeListTableRows = async ({ cid, employees }) => {
+  renderTableRows({ cid, employees }) {
     const employeeListTableRows = new EmployeeListTableRows({
       cid,
-      employees,
     });
-    employeeListTableRows.render();
-  };
+    const numberPerPage = 10;
+    const totalRows = employees.length;
+    const numberOfPages = Math.ceil(totalRows / numberPerPage);
+    let currentPage = 1;
+
+    loadTableRows({ currentPage, numberPerPage });
+
+    const pageNation = document.querySelector('page-nation');
+    pageNation.innerHTML = /* HTML */ `
+      <div class="pagination">
+        <a
+          pagination-previous-anchor
+          href="#"
+          aria-label="Go to previous page"
+          class="pagination__btn-prev"
+        >
+          Previous
+        </a>
+        <ol class="pagination__page-numbers">
+          ${Array.from({ length: numberOfPages })
+            .map((_, index) => {
+              return /* HTML */ ` <li><a pagination-number-anchor href="#">${index + 1}</a></li> `;
+            })
+            .join('')}
+        </ol>
+        <a pagination-next-anchor href="" aria-label="Go to next page" class="pagination__btn-next">
+          Next
+        </a>
+      </div>
+    `;
+
+    this.container.addEventListener('click', (e) => {
+      if (e.target.matches('[pagination-number-anchor]')) {
+        e.preventDefault();
+        currentPage = parseInt(e.target.innerText);
+        loadTableRows({ currentPage, numberPerPage });
+      }
+    });
+
+    this.container.addEventListener('click', (e) => {
+      if (e.target.matches('[pagination-next-anchor]')) {
+        e.preventDefault();
+        if (currentPage === numberOfPages) {
+          e.target.matches('[pagination-previous-anchor]').disabled = true;
+          return;
+        }
+        currentPage++;
+        loadTableRows({ currentPage, numberPerPage });
+      }
+    });
+
+    this.container.addEventListener('click', (e) => {
+      if (e.target.matches('[pagination-previous-anchor]')) {
+        e.preventDefault();
+        if (currentPage === 1) {
+          e.target.matches('[pagination-previous-anchor]').disabled = true;
+          return;
+        }
+        currentPage--;
+        loadTableRows({ currentPage, numberPerPage });
+      }
+    });
+
+    function setButtonStateFocus({ currentPage }) {
+      const pageNationButtons = document.querySelectorAll('[pagination-number-anchor]');
+      pageNationButtons.forEach((button) => {
+        button.classList.remove('.pagination--focus');
+        if (parseInt(button.innerText) === currentPage) {
+          button.classList.add('.pagination--focus');
+        }
+      });
+      console.log(pageNationButtons);
+    }
+
+    function loadTableRows({ currentPage, numberPerPage }) {
+      const rowStart = (currentPage - 1) * numberPerPage;
+      const rowEnd = calcRowEnd({ totalRows });
+      employeeListTableRows.render(employees.slice(rowStart, rowEnd));
+      setButtonStateFocus({ currentPage });
+    }
+
+    function calcRowEnd({ totalRows }) {
+      if (currentPage * numberPerPage > totalRows) return totalRows;
+      return currentPage * numberPerPage;
+    }
+  }
 
   searchEmployees = async ({ userSearchInput, employees }) => {
     console.log(employees);
@@ -67,10 +149,10 @@ export class EmployeeListTable {
         employee.email.includes(userSearchInput) ||
         employee.position.includes(userSearchInput),
     );
-    this.renderEmployeeListTableRows({ employees: searchResult, cid: '.employee-list__rows' });
+    this.renderTableRows({ employees: searchResult, cid: '.employee-list__rows' });
   };
 
-  getEmployees = async () => {
+  fetchEmployees = async () => {
     try {
       const response = await axios.get('/api/employees');
       return [...response.data.data];
@@ -90,7 +172,7 @@ export class EmployeeListTable {
       if (e.target.classList.contains('employee-list__header__search-form')) {
         e.preventDefault();
         const userSearchInput = e.target.querySelector('input').value;
-        const employees = await this.getEmployees();
+        const employees = await this.fetchEmployees();
         this.searchEmployees({ userSearchInput, employees });
       }
     });

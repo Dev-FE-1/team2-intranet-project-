@@ -1,0 +1,58 @@
+/* pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--font-small);
+}
+.pagination a {
+  display: block;
+  text-decoration: none;
+  color: var(--color-ocean-blue);
+  transition: background-color 200ms ease-out;
+}
+.pagination__btn-prev,
+.pagination__btn-next {
+  display: inline-block;
+  height: 42px;
+  line-height: 40px;
+  padding: 0 10px;
+}
+.pagination__btn-prev {
+  border: 1px solid var(--color-pale-gray);
+  border-right: none;
+}
+.pagination__btn-next {
+  border: 1px solid var(--color-pale-gray);
+  border-left: none;
+}
+.pagination__page-numbers {
+  display: flex;
+  background-color: var(--color-white);
+  border-top: 1px solid var(--color-pale-gray);
+  border-bottom: 1px solid var(--color-pale-gray);
+}
+.pagination__page-numbers a {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+}
+/* .pagination a:hover,
+.pagination a:focus {
+  background-color: var(--color-jordy-blue);
+} */
+
+.pagination a[pagination-number-anchor]:hover,
+.pagination a[pagination-number-anchor]:focus {
+  background-color: var(--color-jordy-blue);
+}
+
+.pagination a[pagination-previous-anchor]:hover,
+.pagination a[pagination-next-anchor]:hover {
+  background-color: var(--color-jordy-blue);
+}
+
+.pagination--focus {
+  background-color: var(--color-jordy-blue);
+}
