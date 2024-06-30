@@ -1,0 +1,136 @@
+/* body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+} */
+
+.attendance-list {
+  --size-attendance-list-width: 800px;
+  --size-attendance-list-height: 450px;
+  --size-header-height: 200px;
+  --size-header-padding: 0px 40px;
+  --size-item-height: 90px;
+  --size-button-height: 35px;
+  --font-xlarge: 24px;
+  --size-img: 50px;
+  --color-lightest-gray: #e6e6e6;
+}
+
+.attendance-list {
+  display: flex;
+  flex-direction: column;
+  width: var(--size-attendance-list-width);
+  height: var(--size-attendance-list-height);
+  border: solid 0.1rem var(--color-regular-gray);
+  box-shadow: var(--box-floating-shadow);
+}
+
+.attendance-list header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: var(--size-attendance-list-width);
+  margin: 20px 0px;
+  /* height: 500px;*/
+  /* Q 높이 사이즈 안통함 */
+  padding: var(--size-header-padding);
+}
+
+.attendance-list header h1 {
+  font-size: var(--font-xlarge);
+}
+
+.attendance-list header button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-button-large);
+  height: var(--size-button-height);
+  border: none;
+  border-radius: 5px;
+  background-color: var(--color-black);
+  font-size: var(--font-medium);
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+/* 근태신청 바로가기 안의 화살표 아이콘 */
+.attendance-list button::after {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-left: 0.1rem;
+  background-image: url('/src/assets/images/arrow_forward_icon.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  font-size: 0;
+  content: '';
+}
+
+.attendance-list .attendance-items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* overflow: scroll; */
+}
+
+.attendance-list .attendance-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: var(--size-attendance-list-width);
+  height: var(--size-item-height);
+  padding: var(--size-header-padding);
+}
+
+.attendance-list .attendance-item:not(:last-child)::after {
+  position: absolute;
+  left: 5%;
+  bottom: 0;
+  width: calc(var(--size-attendance-list-width) - 10%);
+  height: 1px;
+  border-bottom: 0.1rem solid var(--color-pale-gray);
+  content: ' ';
+}
+
+.attendance-list .l-attendance-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  /* Q 사이즈가 800px이 안되고 자동적으로 padding 사이즈에 맞춰서 작아짐 */
+  width: 800px;
+  margin-left: 20px;
+}
+
+.attendance-item .l-attendance-item h2 {
+  font-size: var(--font-medium);
+}
+
+.attendance-item img {
+  width: var(--size-img);
+  height: var(--size-img);
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.attendance-item .attendance-item__name {
+  color: var(--color-dark-gray);
+}
+
+.attendance-item .-attendance-annual-leave {
+  color: var(--color-slate-blue);
+}
+
+.attendance-item .-attendance-half-day {
+  color: var(--color-teal-grean);
+}
+
+.attendance-item .-attendance-early-out {
+  color: var(--color-coral-light);
+}
+
+.attendance-item .-attendance-etc {
+  color: var(--color-simple-gray);
+}
