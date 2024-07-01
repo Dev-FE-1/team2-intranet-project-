@@ -3,21 +3,13 @@ import morgan from 'morgan';
 import fs from 'fs';
 import db from './database.js';
 import { indb, initializeDatabase } from './initalizeData.js';
-import cors from 'cors';
 
 const THRESHOLD = 2000;
 const port = process.env.PORT || 8080;
 const app = express();
 
-app.use(
-  cors({
-    origin: '*', // 모든 출처 허용 옵션. true 를 써도 된다.
-  }),
-);
-
 app.use((req, res, next) => {
   const delayTime = Math.floor(Math.random() * THRESHOLD);
-
   setTimeout(() => {
     next();
   }, delayTime);
