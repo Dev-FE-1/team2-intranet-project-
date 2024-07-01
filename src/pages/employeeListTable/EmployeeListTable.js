@@ -12,6 +12,7 @@ export class EmployeeListTable {
   render() {
     this.container.innerHTML = /* HTML */ `
       <section class="employee-list">
+        <h1 class="employee-list__heading">직원관리</h1>
         <div class="employee-list__header">
           <div class="employee-list__header__button">
             <a href="/userinfo" data-link>
@@ -26,32 +27,34 @@ export class EmployeeListTable {
             </form>
           </div>
         </div>
-        <table>
-          <colgroup>
-            <col width="54px" />
-            <col width="90px" />
-            <col width="81px" />
-            <col width="333px" />
-            <col width="270px" />
-            <col width="72px" />
-          </colgroup>
-          <thead>
-            <tr>
-              <th>
-                <div class="c-checkbox">
-                  <input type="checkbox" id="selectAll" class="c-checkbox__input" />
-                  <label for="selectAll">Select All</label>
-                </div>
-              </th>
-              <th>프로필사진</th>
-              <th>이름</th>
-              <th>이메일</th>
-              <th>휴대폰 번호</th>
-              <th>직급</th>
-            </tr>
-          </thead>
-          <tbody class="employee-list__rows"></tbody>
-        </table>
+        <div class="table-wrap">
+          <table>
+            <colgroup>
+              <col width="10%" />
+              <col width="12%" />
+              <col width="*" />
+              <col width="25%" />
+              <col width="20%" />
+              <col width="15%" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>
+                  <div class="c-checkbox">
+                    <input type="checkbox" id="selectAll" class="c-checkbox__input" />
+                    <label for="selectAll">Select All</label>
+                  </div>
+                </th>
+                <th>프로필사진</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>휴대폰 번호</th>
+                <th>직급</th>
+              </tr>
+            </thead>
+            <tbody class="employee-list__rows"></tbody>
+          </table>
+        </div>
         <page-nation></page-nation>
       </section>
     `;
