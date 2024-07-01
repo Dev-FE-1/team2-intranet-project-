@@ -1,0 +1,48 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run npm dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "preLaunchTask": "npm: dev",
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run npm server",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "server"],
+      "preLaunchTask": "npm: server",
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "debug config Frontend",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/src"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Server",
+      "program": "${workspaceFolder}/server/index.js",
+      "cwd": "${workspaceFolder}/server",
+      "console": "integratedTerminal"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug Full Stack",
+      "configurations": ["debug config Frontend", "Debug Server", "Run npm dev"]
+    },
+    {
+      "name": "Debug FrontEnd",
+      "configurations": ["debug config Frontend", "Run npm dev", "Run npm server"]
+    }
+  ]
+}
