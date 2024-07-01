@@ -1,6 +1,6 @@
-import Home from './view/Employee/Home';
-import Gallery from './view/Employee/Gallery';
-import GalleryManagement from './view/Admin/GalleryManagement';
+import Home from './view/Home';
+import Gallery from './view/Gallery';
+import GalleryManagement from './view/GalleryManagement';
 
 const app = document.querySelector('#app');
 
