@@ -1,4 +1,5 @@
 // import { routeRender } from '../route/route';
+import axios from 'axios';
 import './Mypage.css';
 
 // import UserInfo from '../userinfo/UserInfo';
@@ -90,13 +91,13 @@ export default class Mypage {
 
   async fetchUser() {
     try {
-      const response = await fetch('./src/pages/sbs1253/userinfo/User.json');
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      this.state = await response.json();
+      const response = await axios.get('/api/v2/users');
+      const {
+        data: { user },
+      } = response;
+      this.state.user = user;
     } catch (e) {
-      console.error('User.json 파일을 불러오는 데 실패했습니다.', e);
+      console.error('Failed fetch users! User.json 파일을 불러오는 데 실패했습니다.', e);
     }
   }
 }
