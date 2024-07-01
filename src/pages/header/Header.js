@@ -17,7 +17,7 @@ export class Header {
                 src="/src/assets/images/favicon/android-chrome-192x192.png"
                 alt="Logo"
               />
-              <span>>Admin Dashboard</span>
+              <span>Admin Dashboard</span>
             </a>
           </h1>
           <nav class="header__gnb">

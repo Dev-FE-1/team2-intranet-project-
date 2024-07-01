@@ -17,7 +17,7 @@ export class EmployeeListTableRows {
   tableRowTemplate(employee) {
     const { profileImg, name, email, phone, position, employeeId, password } = employee;
     return /* HTML */ `
-      <tr data-link="" data-id="${employeeId}" , data-password="${password}">
+      <tr data-id="${employeeId}" data-password="${password}">
         <td>
           <div class="c-checkbox">
             <input type="checkbox" class="c-checkbox__input" />
