@@ -53,12 +53,17 @@ function router(props = {}) {
 router();
 // Handle navigation
 window.addEventListener('click', (e) => {
-  if (e.target.matches('[data-link]')) {
+  if (e.target.closest('a').matches('[data-link]')) {
     e.preventDefault();
-    history.pushState('', '', e.target.href);
+    const anchorElem = e.target.closest('a');
+    history.pushState('', '', anchorElem.href);
     const props = { data: 'data' };
     router(props);
   }
+});
+
+window.addEventListener('load', () => {
+  console.log('page loaded');
 });
 
 // // Update router
