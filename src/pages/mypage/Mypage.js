@@ -19,40 +19,36 @@ export default class Mypage {
   }
   render() {
     this.el.classList.add('mypage');
-    this.el.innerHTML =
-      /* HTML */
-      `
-        <div class="mypage__bg-img"></div>
-        <div class="mypage__info">
-          <div class="mypage__profile">
-            <img
-              src="https://cdn.pixabay.com/photo/2020/05/17/20/21/cat-5183427_1280.jpg"
-              alt="profile"
-            />
-          </div>
-
+    this.el.innerHTML = /* HTML */ `
+      <div class="mypage__bg-img"></div>
+      <div class="mypage__info">
+        <div class="mypage__profile">
+          <img
+            src="https://cdn.pixabay.com/photo/2020/05/17/20/21/cat-5183427_1280.jpg"
+            alt="profile"
+          />
           <div class="mypage__name">
             <span class="user-name">김직원</span>
             <span>사원</span>
           </div>
-
+        </div>
+        <div class="mypage__list-wrap">
           <ul class="mypage__list">
             <li><span>이메일</span><span class="user-email"></span></li>
             <li><span>휴대폰 번호</span><span class="user-phone"></span></li>
             <li><span>직급</span><span class="user-position"></span></li>
-          </ul>
-
-          <ul class="mypage__list">
             <li><span>출근시간</span><span class="work-start">-</span></li>
             <li><span>퇴근시간</span><span class="work-end">-</span></li>
-            <li><span>근무상태</span><span class="mypage__state">-</span></li>
+            <li><span>근무상태</span><span class="mypage__state">근무 중</span></li>
           </ul>
 
           <div class="mypage__btns">
             <button class="mypage__btns--info">개인정보 변경</button>
+            <button class="header__btn-logout">로그아웃</button>
           </div>
         </div>
-      `;
+      </div>
+    `;
     this.goUserInfo();
     this.userValue();
   }
