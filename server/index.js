@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import fs from 'fs';
 import db from './database.js';
 import { indb, initializeDatabase } from './initalizeData.js';
+import history from 'connect-history-api-fallback';
 
 const THRESHOLD = 2000;
 const port = process.env.PORT || 8080;
@@ -15,6 +16,7 @@ app.use((req, res, next) => {
   }, delayTime);
 });
 
+app.use(history());
 app.use(morgan('dev'));
 app.use(express.static('dist'));
 app.use(express.json());
