@@ -25,9 +25,6 @@ export class EmployeeGallery {
       console.error('Gallery.json 파일을 불러오는 데 실패했습니다.', e);
     }
   }
-  getImageUrl(url) {
-    return new URL(`${url}`, import.meta.url).href;
-  }
 
   getImageUrl(url) {
     return new URL(`${url}`, import.meta.url).href;
