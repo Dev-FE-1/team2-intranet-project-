@@ -26,6 +26,11 @@ export class AdminGallery {
     }
   }
 
+  getImageUrl(url) {
+    return new URL(`${url}`, import.meta.url).href;
+  }
+
+  //  /pages/gallery/image/c4.jpg
   render() {
     const gallery__container = document.createElement('div');
     gallery__container.classList.add('gallery__container');
@@ -37,7 +42,7 @@ export class AdminGallery {
 
         card.innerHTML = `
           <div class="gallery__container-image-area">
-            <img src="${item.image}" alt="${item.title}" />
+            <img src="${this.getImageUrl(item.image)}" alt="${item.title}" />
           </div>
           <div class="gallery__container-title">${item.title}</div>
           <div class="gallery__container-date">${item.date}</div>
