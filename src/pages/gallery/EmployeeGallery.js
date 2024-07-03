@@ -25,6 +25,9 @@ export class EmployeeGallery {
       console.error('Gallery.json 파일을 불러오는 데 실패했습니다.', e);
     }
   }
+  getImageUrl(url) {
+    return new URL(`${url}`, import.meta.url).href;
+  }
 
   getImageUrl(url) {
     return new URL(`${url}`, import.meta.url).href;
@@ -34,6 +37,7 @@ export class EmployeeGallery {
     const gallery__container = document.createElement('div');
     gallery__container.classList.add('gallery__container');
 
+    // this.container.innerHTML = /* HTML */ `<h2 class="gallery__title">Gallery</h2> `;
     if (this.state) {
       this.state.forEach((item) => {
         const card = document.createElement('div');

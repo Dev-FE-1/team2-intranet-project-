@@ -30,6 +30,7 @@ export class AdminGallery {
     return new URL(`${url}`, import.meta.url).href;
   }
 
+  //  /pages/gallery/image/c4.jpg
   render() {
     const gallery__container = document.createElement('div');
     gallery__container.classList.add('gallery__container');
