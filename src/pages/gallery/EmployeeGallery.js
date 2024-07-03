@@ -3,9 +3,10 @@ import './gallery.css';
 
 export class EmployeeGallery {
   constructor(props = {}) {
-    this.container = document.createElement('div');
-    this.container.classList.add(props.containerClass || 'gallery__container'); // 외부에서 클래스 받아오기
+    this.el = document.createElement('div');
+    this.el.classList.add(props.containerClass || 'gallery');
     this.galleryDataPath = props.galleryDataPath || './src/pages/gallery/gallery.json';
+    this.state = {};
     this.init();
   }
 
@@ -17,13 +18,22 @@ export class EmployeeGallery {
   async fetchGallery() {
     try {
       const response = await axios.get(this.galleryDataPath);
+      console.log(response.data);
+      console.log(this.state);
       this.state = response.data;
     } catch (e) {
       console.error('Gallery.json 파일을 불러오는 데 실패했습니다.', e);
     }
   }
 
+  getImageUrl(url) {
+    return new URL(`${url}`, import.meta.url).href;
+  }
+
   render() {
+    const gallery__container = document.createElement('div');
+    gallery__container.classList.add('gallery__container');
+
     if (this.state) {
       this.state.forEach((item) => {
         const card = document.createElement('div');
@@ -31,16 +41,16 @@ export class EmployeeGallery {
 
         card.innerHTML = `
           <div class="gallery__container-image-area">
-            <img src="${item.image}" alt="${item.title}" />
+            <img src="${this.getImageUrl(item.image)}" alt="${item.title}" />
           </div>
           <div class="gallery__container-title">${item.title}</div>
           <div class="gallery__container-date">${item.date}</div>
         `;
 
-        this.container.appendChild(card);
+        gallery__container.appendChild(card);
       });
     }
 
-    document.body.appendChild(this.container);
+    this.el.appendChild(gallery__container);
   }
 }

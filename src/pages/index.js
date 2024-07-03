@@ -27,8 +27,8 @@ const routes = {
     title: 'Employee List',
     render: (props) => renderComponent(EmployeeListTable, props),
   },
-  '/gallery': {
-    title: 'Gallery',
+  '/galleryManagement': {
+    title: 'GalleryManagement',
     render: (props) => renderComponentClass(AdminGallery, props),
   },
 };
