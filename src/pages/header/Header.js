@@ -22,10 +22,7 @@ export class Header {
           </h1>
           <nav class="header__gnb">
             <ul class="header__nav-list">
-              <li>
-                <a href="/employee-list" data-link
-                  ><span class="material-symbols-rounded"> group </span><span>직원관리<span></a
-                >
+              <li><a href="/employee-list" data-link><span class="material-symbols-rounded"> group </span><span>직원관리<span></a>
               </li>
               <li><a href="/about" data-link><span class="material-symbols-rounded">
               gallery_thumbnail
@@ -36,6 +33,9 @@ export class Header {
               <li><a href="/mypage" data-link><span class="material-symbols-rounded">
               account_circle
               </span><span>마이페이지</span></a></li>
+              <li><a href="/profile-image" data-link><span class="material-symbols-rounded">
+              account_circle
+              </span><span>프로필사진</span></a></li>
             </ul>
           </nav>
           <button class="header__btn-logout">로그아웃</button>
