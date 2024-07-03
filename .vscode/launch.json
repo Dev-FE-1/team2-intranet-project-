@@ -1,0 +1,51 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "npm run dev",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "type": "node",
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "listening on port ([0-9]+)",
+        "uriFormat": "http://localhost:%s"
+      }
+    },
+    {
+      "name": "npm run server",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "server"],
+      "type": "node"
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "debug config Frontend",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/src"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Server",
+      "program": "${workspaceFolder}/server/index.js",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug Full Stack",
+      "configurations": ["debug config Frontend", "npm run dev", "Debug Server"],
+      "stopAll": true
+    },
+    {
+      "name": "Debug FrontEnd",
+      "configurations": ["debug config Frontend", "npm run dev", "npm run server"],
+      "stopAll": true
+    }
+  ]
+}
