@@ -4,7 +4,6 @@ import Home from './Home';
 import UserInfo from './userinfo/UserInfo';
 import Mypage from './mypage/Mypage';
 import { Layout } from './layout/Layout.js';
-import AdminGallery from './gallery/AdminGallery.js';
 
 const app = document.querySelector('#app');
 
@@ -14,10 +13,7 @@ layout.render();
 const routeView = app.querySelector('route-view');
 
 const routes = {
-  '/': {
-    title: 'Home',
-    render: (props) => renderComponent(Home, props),
-  },
+  '/': { title: 'Home', render: (props) => renderComponent(Home, props) },
   '/userinfo': {
     title: 'userinfo',
     render: (props) => renderComponentClass(UserInfo, props),
@@ -29,10 +25,6 @@ const routes = {
   '/employee-list': {
     title: 'Employee List',
     render: (props) => renderComponent(EmployeeListTable, props),
-  },
-  '/admin-gallery': {
-    title: 'Admin Gallery',
-    render: (props) => renderComponent(AdminGallery, props),
   },
 };
 
