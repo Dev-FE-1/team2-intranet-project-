@@ -1,11 +1,9 @@
 import './Header.css';
-import { EmployeeGnb, AdminGnb } from './gnb';
 
 export class Header {
   constructor(container, props) {
     this.container = container || {};
     this.props = props || {};
-    this.userType = sessionStorage.getItem('userType');
   }
 
   render() {
@@ -22,25 +20,27 @@ export class Header {
               <span>Admin Dashboard</span>
             </a>
           </h1>
-          ${this.userType === 'admin' ? AdminGnb() : EmployeeGnb()}
+          <nav class="header__gnb">
+            <ul class="header__nav-list">
+              <li>
+                <a href="/employee-list" data-link
+                  ><span class="material-symbols-rounded"> group </span><span>직원관리<span></a
+                >
+              </li>
+              <li><a href="/about" data-link><span class="material-symbols-rounded">
+              gallery_thumbnail
+              </span><span>갤러리관리</span></a></li>
+              <li><a href="/userinfo" data-link><span class="material-symbols-rounded">
+              person_add
+              </span><span>직원 등록</span></a></li>
+              <li><a href="/mypage" data-link><span class="material-symbols-rounded">
+              account_circle
+              </span><span>마이페이지</span></a></li>
+            </ul>
+          </nav>
           <button class="header__btn-logout">로그아웃</button>
         </div>
       </header>
     `;
   }
-
-  // 로그아웃 버튼에 이벤트 리스너를 추가하는 메서드, 나중에 로그인 쪽 완료되면 활성화하기
-  // setupLogoutButton() {
-  //   const logoutButton = document.querySelector(`#${this.cid} .header__btn-logout`);
-  //   logoutButton.addEventListener('click', () => {
-  //     // 로그아웃 시 세션에서 사용자 정보 제거
-  //     sessionStorage.removeItem('userType');
-  //     // 유저 유형별로 각각의 로그인 페이지로 다이렉트하도록 만들기
-  //     if (userType === 'admin') {
-  //       window.location.href = '/adminLogin';
-  //     } else if (userType === 'employee') {
-  //       window.location.href = '/employeeLogin';
-  //     }
-  //   });
-  // }
 }
