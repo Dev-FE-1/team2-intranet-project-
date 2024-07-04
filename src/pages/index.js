@@ -16,8 +16,6 @@ if (!sessionStorage.length) {
   const layout = new Layout(app, {});
   layout.render();
   const routeView = app.querySelector('route-view');
-  window.addEventListener('popstate', router);
-  window.addEventListener('DOMContentLoaded', router);
 
   const routes = {
     '/': { title: 'Home', render: (props) => renderComponent(HomeUpper, props) },

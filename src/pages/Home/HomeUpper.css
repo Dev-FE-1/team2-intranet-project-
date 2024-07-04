@@ -1,0 +1,135 @@
+.working-timer-page {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5rem;
+  gap: 5%;
+  width: 60vw;
+  height: 20vh;
+  max-width: 40vw;
+  max-height: 20vh;
+  min-width: 550px;
+  min-height: 380px;
+}
+
+.work,
+.profil-mini {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  flex: 1 1 auto;
+  width: 50%;
+  max-width: 50%;
+  max-height: 95%;
+  border: 4px groove var(--color-pale-gray);
+  box-shadow: var(--box-floating-shadow);
+  font-weight: 900;
+}
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.worker-name {
+  color: var(--color-black);
+}
+
+.worker-rank {
+  color: var(--color-dark-gray);
+  font-weight: 300;
+}
+
+.punching-displayer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+  text-align: center;
+  padding-left: 2em;
+  padding-right: 2em;
+  gap: 20px;
+  flex-wrap: nowrap;
+}
+
+.timer::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 0.5px;
+  background-color: var(--color-light-gray);
+  transform: translateX(-50%);
+  margin-top: 10px;
+}
+
+.timer,
+.working-status {
+  flex: 1;
+  text-align: center;
+}
+
+.current-displayer {
+  margin-top: 1em;
+  color: var(--color-dark-gray);
+  font-weight: 300;
+}
+
+.puncher {
+  width: 6.5em;
+  height: 2em;
+  margin: 20px;
+  border: none;
+  border-radius: 5px;
+  min-width: 2.3em;
+  min-height: 2.3em;
+  color: var(--color-white);
+  background-color: red;
+  font-weight: 300;
+}
+
+.profil-mini {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-around;
+  width: 100%;
+  padding-left: 2em;
+  flex-wrap: nowrap;
+}
+
+.profile-title {
+  position: relative;
+}
+
+.profile-title::after {
+  content: '';
+  position: absolute;
+  width: 90%;
+  height: 2px;
+  left: 0;
+  bottom: -0.5em;
+  background-color: var(--color-pale-gray);
+  flex: 1;
+}
+
+.email-section {
+  margin-bottom: 1.5em;
+}
+
+.ph-number,
+.rank-name,
+.email-address {
+  color: var(--color-light-gray);
+  font-weight: 400;
+  font: bold;
+}
