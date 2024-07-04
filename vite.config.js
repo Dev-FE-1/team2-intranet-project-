@@ -15,5 +15,8 @@ export default defineConfig({
         secure: false,
       },
     },
+    mimeTypes: {
+      'text/css': ['css'],
+    },
   },
 });

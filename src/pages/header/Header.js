@@ -22,10 +22,7 @@ export class Header {
           </h1>
           <nav class="header__gnb">
             <ul class="header__nav-list">
-              <li>
-                <a href="/employee-list" data-link
-                  ><span class="material-symbols-rounded"> group </span><span>직원관리<span></a
-                >
+              <li><a href="/employee-list" data-link><span class="material-symbols-rounded"> group </span><span>직원관리<span></a>
               </li>
               <li><a href="/about" data-link><span class="material-symbols-rounded">
               gallery_thumbnail
