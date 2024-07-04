@@ -3,26 +3,20 @@ import morgan from 'morgan';
 import fs from 'fs';
 import db from './database.js';
 import { indb, initializeDatabase } from './initalizeData.js';
-import cors from 'cors';
+import history from 'connect-history-api-fallback';
 
 const THRESHOLD = 2000;
 const port = process.env.PORT || 8080;
 const app = express();
 
-app.use(
-  cors({
-    origin: '*', // 모든 출처 허용 옵션. true 를 써도 된다.
-  }),
-);
-
 app.use((req, res, next) => {
   const delayTime = Math.floor(Math.random() * THRESHOLD);
-
   setTimeout(() => {
     next();
   }, delayTime);
 });
 
+app.use(history());
 app.use(morgan('dev'));
 app.use(express.static('dist'));
 app.use(express.json());
@@ -129,11 +123,25 @@ app.put('/api/employees', (req, res) => {
   });
 });
 
-app.get('/api/attendances', (req, res) => {
-  indb.getAllAttendances((attendance) => {
-    res.json({
-      status: 'OK',
-      data: attendance,
-    });
+app.get('/api/v2/users', (req, res) => {
+  res.json({
+    user: {
+      1234: {
+        userId: '1234',
+        userPassword: 'password',
+        userName: '홍길동',
+        userEmail: 'hong@gmail.com',
+        userPhone: '123-456-7890',
+        userPosition: '차장',
+      },
+      4567: {
+        userId: '4567',
+        userPassword: 'password',
+        userName: '세종대왕',
+        userEmail: 'se@gmail.com',
+        userPhone: '098-765-4321',
+        userPosition: '부장',
+      },
+    },
   });
 });

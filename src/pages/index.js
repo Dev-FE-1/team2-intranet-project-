@@ -20,31 +20,28 @@ if (!sessionStorage.length) {
   window.addEventListener('DOMContentLoaded', router);
 
   const routes = {
-    '/': {
-      title: 'Home',
-      render: () => renderComponent(HomeUpper),
-    },
+    '/': { title: 'Home', render: (props) => renderComponent(HomeUpper, props) },
     '/userinfo': {
       title: 'userinfo',
-      render: () => renderComponentClass(UserInfo),
+      render: (props) => renderComponentClass(UserInfo, props),
     },
     '/mypage': {
       title: 'mypage',
-      render: () => renderComponentClass(Mypage),
+      render: (props) => renderComponentClass(Mypage, props),
     },
     '/employee-list': {
       title: 'Employee List',
-      render: () => renderComponent(EmployeeListTable),
+      render: (props) => renderComponent(EmployeeListTable, props),
     },
   };
 
-  const renderComponent = (ComponentClass) => {
-    const componentInstance = new ComponentClass(routeView, {});
+  const renderComponent = (ComponentClass, props) => {
+    const componentInstance = new ComponentClass(routeView, props);
     componentInstance.render();
   };
 
-  const renderComponentClass = (ComponentClass) => {
-    const componentInstance = new ComponentClass();
+  const renderComponentClass = (ComponentClass, props = {}) => {
+    const componentInstance = new ComponentClass(props);
     routeView.append(componentInstance.el);
   };
 
@@ -57,17 +54,26 @@ if (!sessionStorage.length) {
     } else {
       history.replaceState('', '', '/');
       routeView.innerHTML = '';
-      router();
     }
   }
 
+  router();
   // Handle navigation
   window.addEventListener('click', (e) => {
-    const link = e.target.closest('[data-link]');
-    if (link) {
+    if (e.target.closest('a').matches('[data-link]')) {
       e.preventDefault();
-      history.pushState('', '', link.href);
-      router();
+      const anchorElem = e.target.closest('a');
+      history.pushState('', '', anchorElem.href);
+      const props = { data: 'data' };
+      router(props);
     }
   });
+
+  window.addEventListener('load', () => {
+    console.log('page loaded');
+  });
+
+  // // Update router
+  window.addEventListener('popstate', router);
+  window.addEventListener('DOMContentLoaded', router);
 }

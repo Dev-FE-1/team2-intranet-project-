@@ -12,10 +12,13 @@ export class EmployeeListTable {
   render() {
     this.container.innerHTML = /* HTML */ `
       <section class="employee-list">
+        <h1 class="employee-list__heading">직원관리</h1>
         <div class="employee-list__header">
           <div class="employee-list__header__button">
-            <button class="c-button c-button-enroll">임직원 등록</button>
-            <button class="c-button c-button-delete">임직원 삭제</button>
+            <a href="/userinfo" data-link>
+              <button class="c-button c-button-enroll">임직원 등록</button></a
+            >
+            <a><button class="c-button c-button-delete">임직원 삭제</button></a>
           </div>
           <div class="employee-list__header__search">
             <form action="#" class="employee-list__header__search-form">
@@ -24,32 +27,34 @@ export class EmployeeListTable {
             </form>
           </div>
         </div>
-        <table>
-          <colgroup>
-            <col width="54px" />
-            <col width="90px" />
-            <col width="81px" />
-            <col width="333px" />
-            <col width="270px" />
-            <col width="72px" />
-          </colgroup>
-          <thead>
-            <tr>
-              <th>
-                <div class="c-checkbox">
-                  <input type="checkbox" id="selectAll" class="c-checkbox__input" />
-                  <label for="selectAll">Select All</label>
-                </div>
-              </th>
-              <th>프로필사진</th>
-              <th>이름</th>
-              <th>이메일</th>
-              <th>휴대폰 번호</th>
-              <th>직급</th>
-            </tr>
-          </thead>
-          <tbody class="employee-list__rows"></tbody>
-        </table>
+        <div class="table-wrap">
+          <table>
+            <colgroup>
+              <col width="10%" />
+              <col width="12%" />
+              <col width="*" />
+              <col width="25%" />
+              <col width="20%" />
+              <col width="15%" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>
+                  <div class="c-checkbox">
+                    <input type="checkbox" id="selectAll" class="c-checkbox__input" />
+                    <label for="selectAll">Select All</label>
+                  </div>
+                </th>
+                <th>프로필사진</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>휴대폰 번호</th>
+                <th>직급</th>
+              </tr>
+            </thead>
+            <tbody class="employee-list__rows"></tbody>
+          </table>
+        </div>
         <page-nation></page-nation>
       </section>
     `;
@@ -70,8 +75,6 @@ export class EmployeeListTable {
     const totalRows = employees.length;
     const numberOfPages = Math.ceil(totalRows / numberPerPage);
     let currentPage = 1;
-
-    loadTableRows({ currentPage, numberPerPage });
 
     const pageNation = document.querySelector('page-nation');
     pageNation.innerHTML = /* HTML */ `
@@ -96,6 +99,7 @@ export class EmployeeListTable {
         </a>
       </div>
     `;
+    loadTableRows({ currentPage, numberPerPage });
 
     this.container.addEventListener('click', (e) => {
       if (e.target.matches('[pagination-number-anchor]')) {
@@ -109,7 +113,6 @@ export class EmployeeListTable {
       if (e.target.matches('[pagination-next-anchor]')) {
         e.preventDefault();
         if (currentPage === numberOfPages) {
-          e.target.matches('[pagination-previous-anchor]').disabled = true;
           return;
         }
         currentPage++;
@@ -121,7 +124,6 @@ export class EmployeeListTable {
       if (e.target.matches('[pagination-previous-anchor]')) {
         e.preventDefault();
         if (currentPage === 1) {
-          e.target.matches('[pagination-previous-anchor]').disabled = true;
           return;
         }
         currentPage--;
@@ -132,9 +134,9 @@ export class EmployeeListTable {
     function setButtonStateFocus({ currentPage }) {
       const pageNationButtons = document.querySelectorAll('[pagination-number-anchor]');
       pageNationButtons.forEach((button) => {
-        button.classList.remove('.pagination--focus');
+        button.classList.remove('pagination--focus');
         if (parseInt(button.innerText) === currentPage) {
-          button.classList.add('.pagination--focus');
+          button.classList.add('pagination--focus');
         }
       });
     }

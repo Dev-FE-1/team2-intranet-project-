@@ -1,9 +1,26 @@
 .employee-list {
+  /* list-table */
+  --size-img-small: 36px;
+  --size-tablePadding: 1.5rem;
+  --size-employee-list-width: 30vw;
+  --size-employee-list-height: 90vh;
+  --color-lightest-gray: #eeeeee;
+  --size-button-height: 32px;
+  --postion-seacrhIcon-left: 0.9rem;
+  --size-l-table-header-margin: 30px;
+
+  --size-tr-height: 50px;
+  --size-tr-width: 550px;
+}
+
+.employee-list__heading {
+  font-size: var(--font-large);
+}
+.employee-list {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  /* width: var(--size-employee-list-width); */
   height: calc(100vh - 160px);
   white-space: nowrap;
   padding-top: 45px;
@@ -14,12 +31,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 900px;
+  width: calc(100vw - 15rem);
   padding-bottom: 25px;
 }
 
 .employee-list__header__button {
   margin-left: 20px;
+}
+.employee-list__header__button a {
+  display: inline-block;
 }
 .employee-list__header__button .c-button {
   width: var(--size-button-small);
@@ -33,6 +53,10 @@
 
 .employee-list__header__button .c-button-enroll {
   background-color: var(--color-ocean-blue);
+  color: var(--color-white);
+}
+
+.employee-list__header__button .c-button-enroll a {
   color: var(--color-white);
 }
 
@@ -86,18 +110,21 @@
 }
 
 /* 직원목록 */
-.employee-list table {
-  width: 900px;
+.table-wrap {
+  position: relative;
   height: 507px;
+}
+.employee-list table {
+  width: calc(100vw - 15rem);
   border-collapse: collapse;
-  table-layout: fixed;
-  font-size: var(--font-small);
 }
 .employee-list table thead {
   border-bottom: 1px solid var(--color-pale-gray);
 }
 .employee-list table tbody tr {
   cursor: pointer;
+  /* display: flex;
+  align-items: center; */
 }
 .employee-list table label,
 .employee-list .employee-list__header__search-form label {
@@ -133,35 +160,6 @@
 .employee-list tr:hover td {
   color: var(--color-ocean-blue);
 }
-.employee-list tr {
-  display: block;
-  width: 900px;
-  height: 46px;
-}
-.employee-list th:first-child,
-.employee-list td:first-child {
-  width: 54px;
-}
-.employee-list th:nth-child(2),
-.employee-list td:nth-child(2) {
-  width: 90px;
-}
-.employee-list th:nth-child(3),
-.employee-list td:nth-child(3) {
-  width: 81px;
-}
-.employee-list th:nth-child(4),
-.employee-list td:nth-child(4) {
-  width: 333px;
-}
-.employee-list th:nth-child(5),
-.employee-list td:nth-child(5) {
-  width: 270px;
-}
-.employee-list th:last-child,
-.employee-list td:last-child {
-  width: 72px;
-}
 .employee-list td img {
   display: block;
   width: 36px;
@@ -172,4 +170,158 @@
 
 .c-checkbox__input {
   cursor: pointer;
+}
+
+/* 노트북 & 테블릿 가로 (해상도 1024px ~ 1279px)*/
+@media all and (min-width: 1024px) and (max-width: 1279px) {
+}
+
+/* 테블릿 가로 (해상도 768px ~ 1023px)*/
+@media all and (min-width: 768px) and (max-width: 1023px) {
+  .employee-list {
+    padding-top: 80px;
+    height: calc(100vh - 120px);
+  }
+  .employee-list table {
+    width: calc(100vw - 5rem);
+  }
+  .employee-list__header {
+    width: calc(100vw - 5rem);
+  }
+  .employee-list__heading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    background-color: rgba(255, 255, 255, 1);
+    border-bottom: 1px solid var(--color-pale-gray);
+  }
+
+  .employee-list tr {
+    width: calc(100vw - 5rem);
+    height: 46px;
+  }
+  .employee-list th,
+  .employee-list td {
+    font-size: var(--font-small);
+  }
+}
+
+/* 모바일 가로 & 테블릿 세로 (해상도 480px ~ 767px)*/
+@media all and (min-width: 480px) and (max-width: 767px) {
+  .employee-list {
+    padding-top: 80px;
+    height: calc(100vh - 120px);
+  }
+  .employee-list__header {
+    width: calc(100vw - 3rem);
+    flex-direction: column-reverse;
+  }
+  .employee-list__heading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    background-color: rgba(255, 255, 255, 1);
+    border-bottom: 1px solid var(--color-pale-gray);
+    z-index: 10;
+  }
+  .table-wrap {
+    width: calc(100vw - 3rem);
+  }
+
+  .employee-list table {
+    width: calc(100vw - 3rem);
+  }
+  .employee-list table colgroup col:last-child {
+    display: none;
+  }
+  .employee-list table thead tr th:nth-child(2),
+  .employee-list table tbody tr td:nth-child(2) {
+    display: none;
+  }
+  .employee-list__heading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    background-color: rgba(255, 255, 255, 1);
+    border-bottom: 1px solid var(--color-pale-gray);
+    z-index: 10;
+  }
+  .employee-list tr {
+    width: calc(100vw - 5rem);
+    height: 46px;
+  }
+  .employee-list th,
+  .employee-list td {
+    font-size: var(--font-micro);
+  }
+  .employee-list__header__search {
+    margin-bottom: 20px;
+  }
+  .employee-list__header__button {
+    margin: 0;
+  }
+}
+
+/* 모바일 세로 (해상도 ~ 479px)*/
+@media all and (max-width: 479px) {
+  .employee-list__header {
+    width: 90vw;
+    flex-direction: column-reverse;
+  }
+  .employee-list {
+    padding-top: 80px;
+    height: calc(100vh - 120px);
+  }
+  .employee-list__heading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    background-color: rgba(255, 255, 255, 1);
+    border-bottom: 1px solid var(--color-pale-gray);
+    z-index: 10;
+  }
+  .employee-list table {
+    width: 90vw;
+  }
+  .employee-list table colgroup col:nth-child(5),
+  .employee-list table colgroup col:nth-child(6) {
+    display: none;
+  }
+  .employee-list table thead tr th:nth-child(2),
+  .employee-list table tbody tr td:nth-child(2) {
+    display: none;
+  }
+  .employee-list table thead tr th:nth-child(4),
+  .employee-list table tbody tr td:nth-child(4) {
+    display: none;
+  }
+  .employee-list tr {
+    height: 46px;
+  }
+  .employee-list th,
+  .employee-list td {
+    font-size: var(--font-micro);
+  }
+  .employee-list__header__search {
+    margin-bottom: 20px;
+  }
+  .employee-list__header__button {
+    margin: 0;
+  }
 }
