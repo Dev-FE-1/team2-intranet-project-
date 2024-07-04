@@ -16,11 +16,11 @@ const routes = {
   '/': { title: 'Home', render: (props) => renderComponent(Home, props) },
   '/userinfo': {
     title: 'userinfo',
-    render: (props) => renderComponentClass(UserInfo, props),
+    render: (props) => renderComponent(UserInfo, props),
   },
   '/mypage': {
     title: 'mypage',
-    render: (props) => renderComponentClass(Mypage, props),
+    render: (props) => renderComponent(Mypage, props),
   },
   '/employee-list': {
     title: 'Employee List',
@@ -32,11 +32,6 @@ const renderComponent = (ComponentClass, props) => {
   const componentInstance = new ComponentClass(routeView, props);
   console.log(componentInstance);
   componentInstance.render();
-};
-
-const renderComponentClass = (ComponentClass, props = {}) => {
-  const componentInstance = new ComponentClass(props);
-  routeView.append(componentInstance.el);
 };
 
 function router(props = {}) {
