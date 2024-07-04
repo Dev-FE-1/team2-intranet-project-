@@ -15,6 +15,7 @@ if (!sessionStorage.length) {
 } else {
   const layout = new Layout(app, {});
   layout.render();
+
   const routeView = app.querySelector('route-view');
 
   const routes = {
@@ -58,9 +59,9 @@ if (!sessionStorage.length) {
   router();
   // Handle navigation
   window.addEventListener('click', (e) => {
-    if (e.target.closest('a').matches('[data-link]')) {
-      e.preventDefault();
-      const anchorElem = e.target.closest('a');
+    const anchorElem = e.target.closest('a');
+    if (anchorElem && anchorElem.matches('[data-link]')) {
+      e && e.preventDefault();
       history.pushState('', '', anchorElem.href);
       const props = { data: 'data' };
       router(props);
