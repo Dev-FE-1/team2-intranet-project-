@@ -4,6 +4,7 @@ import Home from './Home';
 import UserInfo from './userinfo/UserInfo';
 import Mypage from './mypage/Mypage';
 import { Layout } from './layout/Layout.js';
+import ProfileImage from '../components/profileImage/ProfileImage.js';
 
 const app = document.querySelector('#app');
 
@@ -26,10 +27,15 @@ const routes = {
     title: 'Employee List',
     render: (props) => renderComponent(EmployeeListTable, props),
   },
+  '/profile-image': {
+    title: 'profile-image',
+    render: (props) => renderComponent(ProfileImage, props),
+  },
 };
 
 const renderComponent = (ComponentClass, props) => {
   const componentInstance = new ComponentClass(routeView, props);
+  console.log(componentInstance);
   componentInstance.render();
 };
 
@@ -53,9 +59,9 @@ function router(props = {}) {
 router();
 // Handle navigation
 window.addEventListener('click', (e) => {
-  if (e.target.closest('a').matches('[data-link]')) {
-    e.preventDefault();
-    const anchorElem = e.target.closest('a');
+  const anchorElem = e.target.closest('a');
+  if (anchorElem && anchorElem.matches('[data-link]')) {
+    e && e.preventDefault();
     history.pushState('', '', anchorElem.href);
     const props = { data: 'data' };
     router(props);
