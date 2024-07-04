@@ -4,7 +4,6 @@ import Home from './Home';
 import UserInfo from './userinfo/UserInfo';
 import Mypage from './mypage/Mypage';
 import { Layout } from './layout/Layout.js';
-import ProfileImage from '../components/profileImage/ProfileImage.js';
 
 const app = document.querySelector('#app');
 
@@ -26,10 +25,6 @@ const routes = {
   '/employee-list': {
     title: 'Employee List',
     render: (props) => renderComponent(EmployeeListTable, props),
-  },
-  '/profile-image': {
-    title: 'profile-image',
-    render: (props) => renderComponent(ProfileImage, props),
   },
 };
 
