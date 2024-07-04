@@ -1,4 +1,4 @@
-import './modal.css';
+import './Modal.css';
 export default class Modal {
   constructor(state = '삭제') {
     this.state = state;

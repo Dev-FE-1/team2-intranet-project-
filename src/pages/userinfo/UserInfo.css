@@ -130,7 +130,7 @@
   cursor: not-allowed;
 }
 /* 사용자 이미지 */
-.user-info__profile {
+/* .user-info__profile {
   position: relative;
   top: -15%;
   left: 50px;
@@ -146,4 +146,4 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
+} */
