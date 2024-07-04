@@ -33,9 +33,6 @@ export class Header {
               <li><a href="/mypage" data-link><span class="material-symbols-rounded">
               account_circle
               </span><span>마이페이지</span></a></li>
-              <li><a href="/profile-image" data-link><span class="material-symbols-rounded">
-              account_circle
-              </span><span>프로필사진</span></a></li>
             </ul>
           </nav>
           <button class="header__btn-logout">로그아웃</button>
