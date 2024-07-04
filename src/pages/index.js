@@ -15,10 +15,8 @@ if (!sessionStorage.length) {
 } else {
   const layout = new Layout(app, {});
   layout.render();
-  
-  
-  const routeView = app.querySelector('route-view');
 
+  const routeView = app.querySelector('route-view');
 
   const routes = {
     '/': { title: 'Home', render: (props) => renderComponent(HomeUpper, props) },
@@ -41,12 +39,10 @@ if (!sessionStorage.length) {
     componentInstance.render();
   };
 
-
   const renderComponentClass = (ComponentClass, props = {}) => {
     const componentInstance = new ComponentClass(props);
     routeView.append(componentInstance.el);
   };
-
 
   function router(props = {}) {
     let view = routes[location.pathname];
@@ -60,18 +56,17 @@ if (!sessionStorage.length) {
     }
   }
 
-router();
-// Handle navigation
-window.addEventListener('click', (e) => {
-  const anchorElem = e.target.closest('a');
-  if (anchorElem && anchorElem.matches('[data-link]')) {
-    e && e.preventDefault();
-    history.pushState('', '', anchorElem.href);
-    const props = { data: 'data' };
-    router(props);
-  }
-});
-
+  router();
+  // Handle navigation
+  window.addEventListener('click', (e) => {
+    const anchorElem = e.target.closest('a');
+    if (anchorElem && anchorElem.matches('[data-link]')) {
+      e && e.preventDefault();
+      history.pushState('', '', anchorElem.href);
+      const props = { data: 'data' };
+      router(props);
+    }
+  });
 
   window.addEventListener('load', () => {
     console.log('page loaded');
