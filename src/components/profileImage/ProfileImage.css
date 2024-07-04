@@ -6,9 +6,7 @@
   justify-content: stretch;
   align-items: center;
   position: relative;
-  width: 50vw;
   min-height: 250px;
-  /* background: var(--color-caramel); */
   padding: 50px;
   margin: 0 auto;
 }
