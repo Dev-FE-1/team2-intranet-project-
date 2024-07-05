@@ -145,3 +145,12 @@ app.get('/api/v2/users', (req, res) => {
     },
   });
 });
+
+// app.get('/api/attendances',(res,req)=>{
+//   indb.getAllAttendances((attendance)=>{
+//     res.json({
+//       status: 'OK',
+//       data: attendance,
+//     });
+//   })
+// })

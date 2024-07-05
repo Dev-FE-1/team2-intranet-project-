@@ -1,3 +1,10 @@
+.user-dashboard__wrap {
+  display: flex;
+  flex-direction: column;
+  width: calc(100vw - 15rem);
+  height: calc(100vh - 160px);
+  padding: 2rem;
+}
 .working-timer-page {
   display: flex;
   justify-content: space-between;
