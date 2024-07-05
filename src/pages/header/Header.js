@@ -1,5 +1,5 @@
 import './Header.css';
-
+import faviconImg from '/src/assets/images/favicon/android-chrome-192x192.png';
 export class Header {
   constructor(container, props) {
     this.container = container || {};
@@ -14,7 +14,7 @@ export class Header {
             <a href="/" data-link>
               <img
                 class="header__intranet-logo"
-                src="/src/assets/images/favicon/android-chrome-192x192.png"
+                src="${faviconImg}"
                 alt="Logo"
               />
               <span>Admin Dashboard</span>
