@@ -1,5 +1,4 @@
 import { EmployeeListTable } from './employeeListTable/EmployeeListTable.js';
-// import { AttendanceList } from './attendanceList/AttendanceList.js';
 import Home from './Home';
 import UserInfo from './userinfo/UserInfo';
 import Mypage from './mypage/Mypage';
@@ -7,7 +6,9 @@ import { Layout } from './layout/Layout.js';
 
 const app = document.querySelector('#app');
 
-const layout = new Layout(app, {});
+const userType = sessionStorage.getItem('userType');
+
+const layout = new Layout(app, { userType });
 layout.render();
 
 const routeView = app.querySelector('route-view');

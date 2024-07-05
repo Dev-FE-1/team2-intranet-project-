@@ -23,6 +23,7 @@ export class Footer {
                   class="github__link"
                   src="/src/assets/images/github-mark.png"
                   alt="Repository Logo"
+                  target="_blank"
                 />
               </a>
             </p>

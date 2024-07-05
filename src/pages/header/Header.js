@@ -1,9 +1,11 @@
 import './Header.css';
+import { EmployeeGnb, AdminGnb } from './gnb';
 
 export class Header {
   constructor(container, props) {
     this.container = container || {};
     this.props = props || {};
+    this.userType = this.props.userType || sessionStorage.getItem('userType');
   }
 
   render() {
@@ -20,24 +22,20 @@ export class Header {
               <span>Admin Dashboard</span>
             </a>
           </h1>
-          <nav class="header__gnb">
-            <ul class="header__nav-list">
-              <li><a href="/employee-list" data-link><span class="material-symbols-rounded"> group </span><span>직원관리<span></a>
-              </li>
-              <li><a href="/about" data-link><span class="material-symbols-rounded">
-              gallery_thumbnail
-              </span><span>갤러리관리</span></a></li>
-              <li><a href="/userinfo" data-link><span class="material-symbols-rounded">
-              person_add
-              </span><span>직원 등록</span></a></li>
-              <li><a href="/mypage" data-link><span class="material-symbols-rounded">
-              account_circle
-              </span><span>마이페이지</span></a></li>
-            </ul>
-          </nav>
+          ${this.userType === 'admin' ? AdminGnb() : EmployeeGnb()}
           <button class="header__btn-logout">로그아웃</button>
         </div>
       </header>
     `;
+  }
+
+  setupLogoutButton() {
+    const logoutButton = document.querySelector(`#${this.cid} .header__btn-logout`);
+    logoutButton.addEventListener('click', () => {
+      // 로그아웃 시 세션 초기화
+      sessionStorage.clear();
+      // 로그아웃 버튼 클릭 시 href로 홈으로 이동하도록 만들기
+      window.location.href = '/';
+    });
   }
 }
