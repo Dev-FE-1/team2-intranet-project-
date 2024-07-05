@@ -30,6 +30,7 @@ export class HomeUpper {
   render() {
     this.container.innerHTML = /* HTML */ `
       <section class="user-dashboard__wrap">
+      <h1 class="user-dashboard__title">홈 대시보드</h1>
         <div>
           <div class="working-timer-page">
             <div class="work">
