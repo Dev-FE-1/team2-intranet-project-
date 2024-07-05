@@ -11,7 +11,7 @@ export class Header {
       <header class="header">
         <div class="header__container">
           <h1 class="header__heading-title">
-            <a href="/" data-link="">
+            <a href="/" data-link>
               <img
                 class="header__intranet-logo"
                 src="/src/assets/images/favicon/android-chrome-192x192.png"
