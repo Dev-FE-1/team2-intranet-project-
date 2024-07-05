@@ -12,8 +12,8 @@ export class AttendanceList {
     this.container.innerHTML = /* HTML */ `
       <section class="attendance-list">
         <header class="attendance-list__header">
-          <h1>Attendance State</h1>
-          <button>근태현황 바로가기</button>
+          <h1>근태현황</h1>
+          <button><span>근태현황</span></span>바로가기</span></button>
         </header>
         <ul class="attendance-items"></ul>
       </section>
