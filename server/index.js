@@ -1,42 +1,41 @@
 import express from 'express';
 import morgan from 'morgan';
-import db from './database.js';
 import { indb, initializeDatabase } from './initalizeData.js';
 import history from 'connect-history-api-fallback';
+import cors from 'cors';
 
 const port = process.env.PORT || 8080;
 const app = express();
 
-app.use(history());
 app.use(morgan('dev'));
+
+app.use(
+  history({
+    verbose: true,
+    rewrites: [
+      {
+        from: /^\/api\/.*$/,
+        to: function (context) {
+          return context.parsedUrl.pathname;
+        },
+      },
+      {
+        from: /^\/dist\/.*$/,
+        to: function (context) {
+          return context.parsedUrl.pathname;
+        },
+      },
+    ],
+  }),
+);
+
 app.use(express.static('dist'));
 app.use(express.json());
-
-app.listen(port, () => {
-  console.log(`ready to ${port}`);
-});
 
 //employees, attendances 테이블 데이터베이스 초기화
 initializeDatabase();
 
-app.get('/api/users', (req, res) => {
-  const sql = 'SELECT * FROM Users';
-
-  db.all(sql, [], (err, rows) => {
-    if (err) {
-      return res.status(500).json({
-        status: 'Error',
-        error: err.message,
-      });
-    }
-    res.json({
-      status: 'OK',
-      data: rows,
-    });
-  });
-});
-
-app.get('/api/employees', (req, res) => {
+app.get('/api/employees', cors(), (req, res) => {
   indb.getAllEmployees((employees) => {
     res.json({
       status: 'OK',
@@ -103,4 +102,8 @@ app.get('/api/v2/users', (req, res) => {
       },
     },
   });
+});
+
+app.listen(port, () => {
+  console.log(`ready to ${port}`);
 });
