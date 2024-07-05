@@ -19,9 +19,8 @@ export class Route {
     history.pushState('', '', href);
     const { ComponentClass, title } = currentView;
     document.title = title;
-    const componentInstance = new ComponentClass(props);
+    const componentInstance = new ComponentClass(this.routeView, props);
     this.routeView.innerHTML = '';
-    this.routeView.append(componentInstance.el);
     componentInstance.render();
   }
 }
