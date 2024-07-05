@@ -20,36 +20,40 @@ if (!sessionStorage.length) {
   const routeView = app.querySelector('route-view');
 
   const routes = {
-    '/': { title: 'Home', render: (props) => renderComponent(HomeUpper, props) },
+    '/': {
+      title: 'Home',
+      Component: HomeUpper,
+    },
     '/userinfo': {
       title: 'userinfo',
-      render: (props) => renderComponent(UserInfo, props),
+      Component: UserInfo,
     },
     '/mypage': {
       title: 'mypage',
-      render: (props) => renderComponent(Mypage, props),
+      Component: Mypage,
     },
     '/employee-list': {
       title: 'Employee List',
-      render: (props) => renderComponent(EmployeeListTable, props),
+      Component: EmployeeListTable,
     },
     '/galleryManagement': {
       title: 'GalleryManagement',
-      render: (props) => renderComponent(AdminGallery, props),
+      Component: AdminGallery,
     },
   };
 
-  const renderComponent = (ComponentClass, props) => {
+  const renderComponent = ({ ComponentClass, props }) => {
     const componentInstance = new ComponentClass(routeView, props);
     componentInstance.render();
   };
 
   function router(props = {}) {
-    let view = routes[location.pathname];
+    const view = routes[location.pathname];
     if (view) {
-      document.title = view.title;
+      const { Component: ComponentClass, title: title } = view;
+      document.title = title;
       routeView.innerHTML = '';
-      view.render(props);
+      renderComponent({ ComponentClass, props });
     } else {
       history.replaceState('', '', '/');
       routeView.innerHTML = '';
@@ -57,6 +61,7 @@ if (!sessionStorage.length) {
   }
 
   router();
+
   // Handle navigation
   window.addEventListener('click', (e) => {
     const anchorElem = e.target.closest('a');
