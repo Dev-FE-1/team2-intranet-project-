@@ -20,8 +20,8 @@
 .attendance-list {
   display: flex;
   flex-direction: column;
-  width: var(--size-attendance-list-width);
-  height: var(--size-attendance-list-height);
+  width: calc(100vw - 18rem);
+  /* height: var(--size-attendance-list-height); */
   border: solid 0.1rem var(--color-regular-gray);
   box-shadow: var(--box-floating-shadow);
 }
@@ -30,11 +30,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: var(--size-attendance-list-width);
-  margin: 20px 0px;
+  /* width: var(--size-attendance-list-width); */
+  /* margin: 20px 0px; */
   /* height: 500px;*/
   /* Q 높이 사이즈 안통함 */
-  padding: var(--size-header-padding);
+  /* padding: var(--size-header-padding); */
 }
 
 .attendance-list header h1 {
