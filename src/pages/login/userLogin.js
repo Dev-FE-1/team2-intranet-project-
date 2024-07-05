@@ -1,5 +1,5 @@
 import './login.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
+// import '@fortawesome/fontawesome-free/css/all.min.css';
 export default class Login {
   constructor(container) {
     this.container = container;
