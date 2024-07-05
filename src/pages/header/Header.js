@@ -1,5 +1,6 @@
 import './Header.css';
 import { EmployeeGnb, AdminGnb } from './gnb';
+import Login from '../login/userLogin';
 
 export class Header {
   constructor(container, props) {
@@ -34,8 +35,11 @@ export class Header {
     logoutButton.addEventListener('click', () => {
       // 로그아웃 시 세션 초기화
       sessionStorage.clear();
-      // 로그아웃 버튼 클릭 시 href로 홈으로 이동하도록 만들기
-      window.location.href = '/';
+      // 라우터뷰가 아니라 앱 자체에 로그인 인스턴스를 만들어 렌더링하고 뒤로가기를 막음으로서 해결할 수 있다(병훈님 조언)
+      const app = document.querySelector('#app');
+      history.replaceState('', '', '/');
+      const login = new Login(app);
+      login.render();
     });
   }
 }
