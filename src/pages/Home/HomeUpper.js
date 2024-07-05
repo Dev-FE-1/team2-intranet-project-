@@ -1,6 +1,6 @@
 import { phoneIcon, jobIcon, emailIcon } from '../../utils/icons';
 import './HomeUpper.css';
-export default class HomeUpper {
+export class HomeUpper {
   constructor(container, props = {}) {
     const {
       userName = '이동혁',

@@ -1,6 +1,6 @@
 import { EmployeeListTable } from './employeeListTable/EmployeeListTable.js';
 // import { AttendanceList } from './attendanceList/AttendanceList.js';
-import HomeUpper from './Home/HomeUpper.js';
+import { HomeUpper } from './Home/HomeUpper.js';
 import UserInfo from './userinfo/UserInfo';
 import Mypage from './mypage/Mypage';
 import { Layout } from './layout/Layout.js';
@@ -19,26 +19,25 @@ if (!sessionStorage.length) {
 
   const routeView = app.querySelector('route-view');
 
-const routes = {
-  '/': { title: 'Home', render: (props) => renderComponent(Home, props) },
-  '/userinfo': {
-    title: 'userinfo',
-    render: (props) => renderComponent(UserInfo, props),
-  },
-  '/mypage': {
-    title: 'mypage',
-    render: (props) => renderComponent(Mypage, props),
-  },
-  '/employee-list': {
-    title: 'Employee List',
-    render: (props) => renderComponent(EmployeeListTable, props),
-  },
-  '/galleryManagement': {
-    title: 'GalleryManagement',
-    render: (props) => renderComponent(AdminGallery, props),
-  },
-};
-
+  const routes = {
+    '/': { title: 'Home', render: (props) => renderComponent(HomeUpper, props) },
+    '/userinfo': {
+      title: 'userinfo',
+      render: (props) => renderComponent(UserInfo, props),
+    },
+    '/mypage': {
+      title: 'mypage',
+      render: (props) => renderComponent(Mypage, props),
+    },
+    '/employee-list': {
+      title: 'Employee List',
+      render: (props) => renderComponent(EmployeeListTable, props),
+    },
+    '/galleryManagement': {
+      title: 'GalleryManagement',
+      render: (props) => renderComponent(AdminGallery, props),
+    },
+  };
 
   const renderComponent = (ComponentClass, props) => {
     const componentInstance = new ComponentClass(routeView, props);
