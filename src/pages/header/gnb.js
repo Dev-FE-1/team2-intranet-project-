@@ -5,9 +5,9 @@ function AdminGnb() {
     <nav class="header__gnb">
     <ul class="header__nav-list">
       <li>
-        <a href="/" data-link>
+        <a href="/employee-list" data-link>
           <<span class="material-symbols-rounded"> group </span>
-          <span>Home<span>
+          <span>직원관리<span>
         </a>
       </li>
       <li>
@@ -48,7 +48,7 @@ function EmployeeGnb() {
           <span class=“material-symbols-rounded”>sentiment_satisfied</span>          
           <span>근태신청<span></a></li>
       <li> 
-        <a href="/myPage" data-link>
+        <a href="/mypage" data-link>
           <span class="material-symbols-rounded">account_circle</span>
           <span>마이페이지<span>
         </a>
