@@ -123,6 +123,15 @@ app.put('/api/employees', (req, res) => {
   });
 });
 
+app.get('/api/attendances', (req, res) => {
+  indb.getAllAttendances((attendance) => {
+    res.json({
+      status: 'OK',
+      data: attendance,
+    });
+  });
+});
+
 app.get('/api/v2/users', (req, res) => {
   res.json({
     user: {
@@ -145,12 +154,3 @@ app.get('/api/v2/users', (req, res) => {
     },
   });
 });
-
-// app.get('/api/attendances',(res,req)=>{
-//   indb.getAllAttendances((attendance)=>{
-//     res.json({
-//       status: 'OK',
-//       data: attendance,
-//     });
-//   })
-// })

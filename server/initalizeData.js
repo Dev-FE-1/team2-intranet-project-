@@ -9,6 +9,7 @@ const attendances = [
     profileImg: 'https://i.imgur.com/4RPlpYo.png',
   },
   {
+    name: '김백엔드',
     type: '연차',
     content: '연차를 쓰고 싶어요.',
     profileImg: 'https://i.imgur.com/4RPlpYo.png',
