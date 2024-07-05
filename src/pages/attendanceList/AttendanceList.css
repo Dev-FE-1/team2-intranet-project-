@@ -109,7 +109,7 @@
 }
 .attendance-item__status > p {
   margin-left: 20px;
-  width: 45vw;
+  width: 40vw;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -155,34 +155,44 @@
   .attendance-list .attendance-items {
     height: auto;
   }
+  .attendance-item__status {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .attendance-item__status > p {
+    margin-left: 0;
+  }
 }
-
 @media all and (max-width: 680px) {
   .attendance-item__status > p {
     width: 40vw;
+    margin-left: 0;
   }
 }
 @media all and (max-width: 570px) {
   .attendance-list {
     padding: 1rem;
   }
+
   .attendance-item__status > p {
     width: 40vw;
+    margin-left: 0;
   }
 
   .attendance-list .l-attendance-item {
     width: auto;
-    margin-left: 0.5rem;
   }
 
   .attendance-list header button {
     width: var(--size-button-small);
+    top: 0.5rem;
+    right: 1rem;
   }
   .attendance-list header button span:last-child {
     display: none;
   }
   .attendance-item__status > p {
-    margin-left: 1rem;
+    margin-left: 0rem;
   }
 }
 @media all and (max-width: 520px) {
