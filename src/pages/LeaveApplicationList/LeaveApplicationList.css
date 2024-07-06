@@ -1,6 +1,7 @@
 .leave-application-wrap {
   /* background-color: gold; */
-  width: 900px;
+  width: calc(100vw - 15rem);
+  min-height: calc(100vh - 160px);
   margin: 0 auto;
 }
 .leave-application {
@@ -15,6 +16,9 @@
   font-size: var(--font-large);
   color: var(--color-ocean-blue);
   flex-grow: 3;
+}
+.heading-events {
+  display: flex;
 }
 .leave-application::before {
   content: '';
@@ -51,7 +55,7 @@
 }
 .leave-type select {
   width: 130px;
-  background: url(/src/assets/images/arrow_down.svg) no-repeat 94% 50%/15px auto;
+  background: url(/src/assets/images/arrow_down.svg) no-repeat 94% 50%/26px auto;
   outline: none;
   border: none;
   border: 1px solid var(--color-light-gray);
@@ -68,7 +72,7 @@
 
 .modal-background {
   display: none;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
@@ -78,14 +82,34 @@
 }
 
 .modal {
-  position: absolute;
+  position: relative;
   top: 50%;
   left: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  width: 550px;
   background-color: var(--color-white);
   transform: translate(-50%, -50%);
+}
+.btn-close {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  border: none;
+  outline: none;
+  font-size: var(--font-large);
+  background-color: transparent;
+  cursor: pointer;
+  z-index: 10;
+}
+.btn-close::after {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 32px;
+  background: url(/src/assets/images/close_icon.svg) no-repeat -5px -4px;
 }
