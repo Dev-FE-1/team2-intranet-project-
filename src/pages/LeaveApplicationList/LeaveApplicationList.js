@@ -22,12 +22,18 @@ export default class LeaveApplicationList {
     btnApply.addEventListener('click', () => {
       modal.innerHTML = leaveApplicationForm.render();
       modalBackground.style.display = 'block';
-      console.log('모달창으로 입력폼이 팝업된다');
 
       // 신청하기 버튼 이벤트 리스너 설정
-      leaveApplicationForm.setAddEventListener((formData) => {
-        this.handleFormSubmit(formData);
-      });
+      leaveApplicationForm.setAddEventListener(
+        (formData) => {
+          this.handleFormSubmit(formData);
+          modalBackground.style.display = 'none';
+        },
+        () => {
+          modalBackground.style.display = 'none';
+        },
+      );
+      console.log('모달창으로 입력폼이 팝업된다');
     });
 
     const btnClose = document.querySelector('.btn-close');
@@ -59,22 +65,24 @@ export default class LeaveApplicationList {
     this.container.innerHTML = /* HTML */ `
       <section class="leave-application-wrap">
         <header class="leave-application">
-          <h1 class="leave-application__heading">근태신청 목록</h1>
-
-          <div class="heading-events">
-            <button class="btn-apply">휴가신청하기</button>
-            <div class="leave-type">
-              <select>
-                <option value="" selected disabled hidden>휴가신청타입</option>
-                <option value="annual-leave">연차</option>
-                <option value="half-dayoff">반차</option>
-                <option value="sick-leave">조퇴</option>
-                <option value="others">기타</option>
-              </select>
-            </div>
-          </div>
+          <h1 class="leave-application__heading">근태신청</h1>
         </header>
-        <div><ul class="attendance-items"></ul></div>
+        <div class="heading-events">
+          <div>
+            <button class="btn-apply">휴가 신청하기</button>
+            <button class="btn-show-onlyMe">내 신청서만 보기</button>
+          </div>
+          <div class="leave-type">
+            <select>
+              <option value="" selected disabled hidden>휴가 신청타입</option>
+              <option value="annual-leave">연차</option>
+              <option value="half-dayoff">반차</option>
+              <option value="sick-leave">조퇴</option>
+              <option value="others">기타</option>
+            </select>
+          </div>
+        </div>
+        <div class="leave-application-list"><ul class="leave-application-items"></ul></div>
       </section>
       <div class="modal-background">
         <button class="btn-close"></button>
