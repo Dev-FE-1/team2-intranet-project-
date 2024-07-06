@@ -4,7 +4,7 @@ import './gallery.css';
 export class EmployeeGallery {
   constructor(container, props = {}) {
     this.container = container;
-    this.container.classList.add(props.containerClass || 'gallery');
+    // this.container.classList.add(props.containerClass || 'gallery');
     this.galleryDataPath = props.galleryDataPath || '/api/gallery/contents';
   }
 
@@ -29,8 +29,9 @@ export class EmployeeGallery {
 
   render() {
     this.container.innerHTML = /* HTML */ `
-      <h2 class="gallery__title">사진 갤러리</h2>
-      <div class="gallery__container"></div>
+      <div class="gallery">
+        <div class="gallery__container"></div>
+      </div>
     `;
     this.updateGalleryContainer();
   }
