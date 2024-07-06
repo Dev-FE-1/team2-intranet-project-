@@ -30,7 +30,7 @@ body {
   display: flex;
   flex-direction: column;
   background-color: var(--color-regular-gray);
-  width: calc((100% / 4) - 20px);
+  /* width: calc((100% / 4) - 20px); */
   border-radius: 5px;
   box-shadow: var(--box-floating-shadow);
   /* 컨테이너 안에는 무조건 항상 1줄에 카드 4개씩, 그리고 3줄씩 보여야한다.

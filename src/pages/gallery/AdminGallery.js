@@ -1,28 +1,19 @@
 import axios from 'axios';
 import './gallery.css';
-
 export class AdminGallery {
-  constructor(props = {}) {
-    this.el = document.createElement('div');
-    this.el.classList.add(props.containerClass || 'gallery');
-    this.galleryDataPath = props.galleryDataPath || './src/pages/gallery/gallery.json';
-    this.state = {};
-    this.init();
+  constructor(container, props = {}) {
+    this.container = container;
+    this.container.classList.add(props.containerClass || 'gallery');
+    this.galleryDataPath = props.galleryDataPath || '/api/gallery/contents';
   }
 
-  async init() {
-    await this.fetchGallery();
-    this.render();
-  }
-
-  async fetchGallery() {
+  async getGalleryData() {
     try {
       const response = await axios.get(this.galleryDataPath);
-      console.log(response.data);
-      console.log(this.state);
-      this.state = response.data;
+      return response.data.data;
     } catch (e) {
-      console.error('Gallery.json 파일을 불러오는 데 실패했습니다.', e);
+      console.error('gallery contents를 fetch해서 불러오는 데 실패했습니다.', e);
+      return [];
     }
   }
 
@@ -30,28 +21,35 @@ export class AdminGallery {
     return new URL(`${url}`, import.meta.url).href;
   }
 
-  //  /pages/gallery/image/c4.jpg
+  async updateGalleryContainer() {
+    const galleryCardData = await this.getGalleryData();
+    this.renderGalleryContainer(galleryCardData);
+  }
+
   render() {
-    const gallery__container = document.createElement('div');
-    gallery__container.classList.add('gallery__container');
+    this.container.innerHTML = /* HTML */ `
+      <h2 class="gallery__title">사진 갤러리</h2>
+      <div class="gallery__container"></div>
+    `;
+    this.updateGalleryContainer();
+  }
 
-    if (this.state) {
-      this.state.forEach((item) => {
-        const card = document.createElement('div');
-        card.classList.add('gallery__container-card');
+  renderGalleryContainer(galleryCardData) {
+    const galleryContainer = this.container.querySelector('.gallery__container');
+    galleryContainer.innerHTML = /* HTML */ `
+      ${galleryCardData.map((item) => this.cardTemplate(item)).join('')}
+    `;
+  }
 
-        card.innerHTML = `
-          <div class="gallery__container-image-area">
-            <img src="${this.getImageUrl(item.image)}" alt="${item.title}" />
-          </div>
-          <div class="gallery__container-title">${item.title}</div>
-          <div class="gallery__container-date">${item.date}</div>
-        `;
-
-        gallery__container.appendChild(card);
-      });
-    }
-
-    this.el.appendChild(gallery__container);
+  cardTemplate({ image, title, date }) {
+    return /* HTML */ `
+      <div class="gallery__container-card">
+        <div class="gallery__container-image-area">
+          <img src="${this.getImageUrl(image) || 'no images'}" alt="${title}" />
+        </div>
+        <div class="gallery__container-title">${title || '제목 없음'}</div>
+        <div class="gallery__container-date">${date}</div>
+      </div>
+    `;
   }
 }
