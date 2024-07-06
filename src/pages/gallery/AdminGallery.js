@@ -4,7 +4,7 @@ export class AdminGallery {
   constructor(container, props = {}) {
     this.container = container;
     this.container.classList.add(props.containerClass || 'gallery');
-    this.galleryDataPath = props.galleryDataPath || './src/pages/gallery/gallery.json';
+    this.galleryDataPath = props.galleryDataPath || '/api/gallery/contents';
   }
 
   async getGalleryData() {
@@ -12,7 +12,7 @@ export class AdminGallery {
       const response = await axios.get(this.galleryDataPath);
       return response.data;
     } catch (e) {
-      console.error('gallery.json 파일을 불러오는 데 실패했습니다.', e);
+      console.error('gallery contents를 fetch해서 불러오는 데 실패했습니다.', e);
       return [];
     }
   }

@@ -1,6 +1,6 @@
 import express from 'express';
 import morgan from 'morgan';
-import { indb, initializeDatabase } from './initalizeData.js';
+import { indb, initializeDatabase, galleryData } from './initalizeData.js';
 import history from 'connect-history-api-fallback';
 import cors from 'cors';
 
@@ -101,6 +101,13 @@ app.get('/api/v2/users', (req, res) => {
         userPosition: '부장',
       },
     },
+  });
+});
+
+app.get('/api/gallery/contents', (req, res) => {
+  res.json({
+    status: 'OK',
+    data: galleryData,
   });
 });
 
