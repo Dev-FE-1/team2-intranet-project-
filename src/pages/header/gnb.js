@@ -29,31 +29,33 @@ function AdminGnb() {
 
 function EmployeeGnb() {
   return /* HTML */ `
-  <nav class="header__gnb">
-    <ul class="header__nav-list">
-      <li>
-        <a href="/" data-link>
-        <span class=“material-symbols-rounded”>grid_view</span>
-        <span>Home<span>
-        </a>
-      </li>
-      <li>
-        <a href="/gallery" data-link>
-          <span class="material-symbols-rounded"> group </span>
-          <span>갤러리<span>
-        </a>
-      </li>
-      <li>
-        <a href="/attendance" data-link>
-          <span class=“material-symbols-rounded”>sentiment_satisfied</span>          
-          <span>근태신청<span></a></li>
-      <li> 
-        <a href="/mypage" data-link>
-          <span class="material-symbols-rounded">account_circle</span>
-          <span>마이페이지<span>
-        </a>
-      </li>
-    </ul>
-  </nav>
+    <nav class="header__gnb">
+      <ul class="header__nav-list">
+        <li>
+          <a href="/" data-link>
+            <span class="material-symbols-rounded">grid_view</span>
+            <span>Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="/gallery" data-link>
+            <span class="material-symbols-rounded">group</span>
+            <span>갤러리</span>
+          </a>
+        </li>
+        <li>
+          <a href="/attendance" data-link>
+            <span class="material-symbols-rounded">event_available</span>
+            <span>근태신청</span>
+          </a>
+        </li>
+        <li>
+          <a href="/mypage" data-link>
+            <span class="material-symbols-rounded">person</span>
+            <span>마이페이지</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
   `;
 }
