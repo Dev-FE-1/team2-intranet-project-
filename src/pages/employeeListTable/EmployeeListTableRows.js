@@ -5,14 +5,13 @@ export class EmployeeListTableRows {
     this.container = document.querySelector(`${cid}`);
     this.props = props;
     this.defaultProfileImg = 'https://i.imgur.com/KM82VtW.png';
+    this.attachEventListeners();
   }
 
   render = async (employees) => {
     this.container.innerHTML = employees
       .map((employee) => this.tableRowTemplate(employee))
       .join('');
-
-    this.attachEventListeners();
   };
 
   tableRowTemplate(employee) {
@@ -59,8 +58,8 @@ export class EmployeeListTableRows {
         });
       }
     };
-    const employeeListTable = document.querySelector('.employee-list');
-    employeeListTable.addEventListener('change', checkAllCheckboxes);
+
+    this.container.addEventListener('change', checkAllCheckboxes);
   }
 
   onClickTableRow() {
@@ -69,12 +68,11 @@ export class EmployeeListTableRows {
     };
     const routeView = document.querySelector('route-view');
     const href = '/userinfo';
-
     const routeToUserInfo = (e) => {
+      console.log(e.target);
       const row = e.target.closest('TR');
       if (row) {
         e.preventDefault();
-        console.log('row', row);
         const props = this.getRowData(e.target.parentNode);
         const route = new Route({ pathMappings, routeView });
         route.router(props, href);

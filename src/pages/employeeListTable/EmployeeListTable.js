@@ -7,6 +7,7 @@ export class EmployeeListTable {
   constructor(cotainer, props) {
     this.container = cotainer;
     this.props = props;
+    this.attachEventListeners();
   }
 
   render() {
@@ -63,8 +64,8 @@ export class EmployeeListTable {
 
   async updateEmployeeListRows() {
     const employees = await this.fetchEmployees();
-    this.attachEventListeners();
     this.renderTableRows({ cid: '.employee-list__rows', employees });
+    // this.attachEventListeners();
   }
 
   renderTableRows({ cid, employees }) {
@@ -182,7 +183,8 @@ export class EmployeeListTable {
       }
     });
     this.container.addEventListener('submit', async (e) => {
-      if (e.target.classList.contains('employee-list__header__search-form')) {
+      const searchForm = e.target.classList.contains('employee-list__header__search-form');
+      if (searchForm) {
         e.preventDefault();
         const userSearchInput = e.target.querySelector('input').value;
         const employees = await this.fetchEmployees();
