@@ -6,6 +6,8 @@ import Mypage from './mypage/Mypage';
 import { Layout } from './layout/Layout.js';
 import { AdminGallery } from './gallery/AdminGallery.js';
 import Login from './login/userLogin.js';
+import LeaveApplicationList from './LeaveApplicationList/LeaveApplicationList.js';
+import LeaveApplicationForm from './LeaveApplicationList/LeaveApplicationForm.js';
 
 const app = document.querySelector('#app');
 
@@ -39,6 +41,14 @@ if (!sessionStorage.length) {
     '/galleryManagement': {
       title: 'GalleryManagement',
       Component: AdminGallery,
+    },
+    '/leave-application-list': {
+      title: 'Leave Application List',
+      Component: LeaveApplicationList,
+    },
+    '/leave-application-form': {
+      title: 'Leave Application List',
+      Component: LeaveApplicationForm,
     },
   };
 
