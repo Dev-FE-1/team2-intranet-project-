@@ -6,29 +6,78 @@ export default class LeaveApplicationForm {
     this.container = container;
     this.props = props;
   }
-  setAddEventListener(onSubmit) {
+  setAddEventListener(onSubmit, onClose) {
     const btnApply = document.querySelector('.btn-applyform');
+    const btnGoBack = document.querySelector('.btn-goback');
+
     btnApply.addEventListener('click', () => {
       const formData = this.getFormData();
-      onSubmit(formData);
+      if (this.validateFormData(formData)) {
+        onSubmit(formData);
+      }
+    });
+
+    btnGoBack.addEventListener('click', () => {
+      onClose();
     });
   }
-
+  // 폼 데이터를 가져오고 반환
   getFormData() {
-    const typeForLeave = document.querySelector('input[name="typeForLeave"]:checked').value;
-    const applicationTitle = document.querySelector('#applicationTitle').value;
-    const applicationDesc = document.querySelector('#applicationDesc').value;
+    const selectedRadio = document.querySelector('input[name="typeForLeave"]:checked');
+    const typeForLeave = selectedRadio ? selectedRadio.value : null;
+    const applicationTitle = document.querySelector('#applicationTitle').value.trim();
+    const applicationDesc = document.querySelector('#applicationDesc').value.trim();
     return {
       typeForLeave,
       applicationTitle,
       applicationDesc,
     };
   }
+
+  // 폼 데이터의 유효성을 검사
+  validateFormData(formData) {
+    let isValid = true;
+
+    // Reset previous error messages
+    this.clearErrorMessages();
+    if (!formData.typeForLeave) {
+      isValid = false;
+      this.showErrorMessage('typeForLeave', '휴가 종류를 선택해주세요.');
+    }
+
+    if (!formData.applicationTitle) {
+      isValid = false;
+      this.showErrorMessage('applicationTitle', '제목을 입력해주세요.');
+    }
+
+    return isValid;
+  }
+  //기존의 오류 메시지를 제거
+  clearErrorMessages() {
+    const errorMessages = document.querySelectorAll('.error-message');
+    errorMessages.forEach((errorMessage) => errorMessage.remove());
+  }
+  // 특정 필드에 오류 메시지를 표시
+  showErrorMessage(field, message) {
+    let inputElement;
+    if (field === 'typeForLeave') {
+      inputElement = document.querySelector('.error-radio');
+    } else {
+      const inputTitle = document.querySelector('#applicationTitle');
+      inputTitle.style.borderBottom = '1px solid red';
+      inputTitle.focus();
+      inputElement = document.querySelector('.error-title');
+    }
+    const errorMessage = document.createElement('span');
+    errorMessage.className = 'error-message';
+    errorMessage.textContent = message;
+    inputElement.appendChild(errorMessage);
+  }
   render() {
     return /* HTML */ `
       <section class="applicaion-form-wrap">
         <div class="applicaion-form">
-          <h1>근태/휴가 신청서</h1>
+          <h1 class="applicaion-form__heading">근태/휴가 신청서</h1>
           <img
             src="/src/assets/images/avatar-default.jpg"
             alt="profile image"
@@ -91,6 +140,7 @@ export default class LeaveApplicationForm {
                 </div>
               </div>
             </div>
+
             <div class="apply-title">
               <label for="applicationTitle">제목</label>
               <input
@@ -100,6 +150,7 @@ export default class LeaveApplicationForm {
                 placeholder="제목을 입력하세요."
               />
             </div>
+
             <div class="apply-description">
               <label for="applicationDesc">내용</label>
               <textarea
@@ -110,7 +161,9 @@ export default class LeaveApplicationForm {
                 placeholder="상세 신청사유를 작성하세요."
               ></textarea>
             </div>
-            <div>
+            <div class="error-radio"></div>
+            <div class="error-title"></div>
+            <div class="btn-group">
               <button type="button" class="btn-goback">뒤로가기</button>
               <button type="button" class="btn-applyform">신청하기</button>
             </div>
