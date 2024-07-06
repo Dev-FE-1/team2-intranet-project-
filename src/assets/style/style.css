@@ -51,3 +51,13 @@ body {
   font-size: 16px;
   font-optical-sizing: auto;
 }
+
+/* 스크린리더에 읽히지만 보이지 않게 함 */
+.readable-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  margin: -1px;
+  clip: rect(0, 0, 0, 0);
+}

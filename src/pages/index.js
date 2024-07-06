@@ -12,6 +12,7 @@ import { EmployeeGallery } from './gallery/EmployeeGallery.js';
 import Mypage from './mypage/Mypage';
 
 import Login from './login/userLogin.js';
+import LeaveApplicationList from './LeaveApplicationList/LeaveApplicationList.js';
 
 const app = document.querySelector('#app');
 
@@ -51,6 +52,10 @@ if (!sessionStorage.length) {
     '/gallery': {
       title: 'Gallery',
       Component: EmployeeGallery,
+    },
+    '/leave-application-list': {
+      title: 'leaveApplicationList',
+      Component: LeaveApplicationList,
     },
     '/mypage': {
       title: 'mypage',

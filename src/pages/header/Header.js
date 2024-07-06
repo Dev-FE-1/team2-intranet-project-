@@ -16,11 +16,7 @@ export class Header {
         <div class="header__container">
           <h1 class="header__heading-title">
             <a href="/" data-link>
-              <img
-                class="header__intranet-logo"
-                src="${faviconImg}"
-                alt="Logo"
-              />
+              <img class="header__intranet-logo" src="${faviconImg}" alt="Logo" />
               <span>Admin Dashboard</span>
             </a>
           </h1>

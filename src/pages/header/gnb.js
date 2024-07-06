@@ -44,7 +44,7 @@ function EmployeeGnb() {
           </a>
         </li>
         <li>
-          <a href="/attendance" data-link>
+          <a href="/leave-application-list" data-link>
             <span class="material-symbols-rounded">event_available</span>
             <span>근태신청</span>
           </a>
