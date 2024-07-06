@@ -5,7 +5,7 @@ export class EmployeeGallery {
   constructor(container, props = {}) {
     this.container = container;
     this.container.classList.add(props.containerClass || 'gallery');
-    this.galleryDataPath = props.galleryDataPath || './src/pages/gallery/gallery.json';
+    this.galleryDataPath = props.galleryDataPath || '/api/gallery/contents';
   }
 
   async getGalleryData() {

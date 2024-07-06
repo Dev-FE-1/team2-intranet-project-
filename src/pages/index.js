@@ -8,7 +8,6 @@ import { AdminGallery } from './gallery/AdminGallery.js';
 // import Home from './Home';
 import { HomeUpper } from './Home/HomeUpper.js';
 import { EmployeeGallery } from './gallery/EmployeeGallery.js';
-import { AttendanceList } from './attendanceList/AttendanceList.js';
 
 import Mypage from './mypage/Mypage';
 
@@ -55,7 +54,6 @@ if (!sessionStorage.length) {
     },
     '/attendance': {
       title: 'Attendance Request',
-      Component: AttendanceList,
     },
     '/mypage': {
       title: 'mypage',

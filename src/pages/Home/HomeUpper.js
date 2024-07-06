@@ -1,5 +1,5 @@
 import './HomeUpper.css';
-import { AttendanceList } from '../attendanceList/AttendanceList';
+import { AttendanceList } from '../attendancePreview/AttendanceList';
 import { phoneIcon, jobIcon, emailIcon } from '../../utils/icons';
 import avatarDefaultImg from '/src/assets/images/avatar-default.jpg';
 export class HomeUpper {
