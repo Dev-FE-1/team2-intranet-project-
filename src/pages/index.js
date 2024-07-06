@@ -52,9 +52,6 @@ if (!sessionStorage.length) {
       title: 'Gallery',
       Component: EmployeeGallery,
     },
-    '/attendance': {
-      title: 'Attendance Request',
-    },
     '/mypage': {
       title: 'mypage',
       Component: Mypage,
@@ -78,8 +75,6 @@ if (!sessionStorage.length) {
       routeView.innerHTML = '';
     }
   }
-
-  router();
 
   // Handle navigation
   window.addEventListener('click', (e) => {
