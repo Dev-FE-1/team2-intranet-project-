@@ -5,13 +5,13 @@ export class EmployeeListTableRows {
     this.container = document.querySelector(`${cid}`);
     this.props = props;
     this.defaultProfileImg = 'https://i.imgur.com/KM82VtW.png';
+    this.attachEventListeners();
   }
 
   render = async (employees) => {
     this.container.innerHTML = employees
       .map((employee) => this.tableRowTemplate(employee))
       .join('');
-    this.attachEventListeners();
   };
 
   tableRowTemplate(employee) {
@@ -48,32 +48,42 @@ export class EmployeeListTableRows {
     };
   }
 
-  attachEventListeners = () => {
-    document.addEventListener('change', (e) => {
+  onCheckAllCheckboxes() {
+    const checkAllCheckboxes = (e) => {
       if (e.target.id === 'selectAll') {
+        console.log(e.target);
         const checkboxes = document.querySelectorAll('.c-checkbox__input');
         checkboxes.forEach((checkbox) => {
           checkbox.checked = e.target.checked;
         });
       }
-    });
+    };
 
+    this.container.addEventListener('change', checkAllCheckboxes);
+  }
+
+  onClickTableRow() {
+    const pathMappings = {
+      '/userinfo': { title: 'userinfo', ComponentClass: UserInfo },
+    };
+    const routeView = document.querySelector('route-view');
+    const href = '/userinfo';
     const routeToUserInfo = (e) => {
-      //   pathMappings = {'/':{ title: 'Home', ComponentClass: Home}};
-      if (e.target.parentNode.tagName === 'TR') {
+      console.log(e.target);
+      const row = e.target.closest('TR');
+      if (row) {
         e.preventDefault();
-        const pathMappings = {
-          '/userinfo': { title: 'userinfo', ComponentClass: UserInfo },
-        };
-        const routeView = document.querySelector('route-view');
-        const route = new Route({ pathMappings, routeView });
-        const href = '/userinfo';
-
         const props = this.getRowData(e.target.parentNode);
+        const route = new Route({ pathMappings, routeView });
+        props['info'] = ' 조회';
         route.router(props, href);
       }
     };
+    this.container.addEventListener('click', routeToUserInfo);
+  }
 
-    this.container.addEventListener('click', (e) => routeToUserInfo(e));
+  attachEventListeners = () => {
+    this.onCheckAllCheckboxes();
+    this.onClickTableRow();
   };
 }

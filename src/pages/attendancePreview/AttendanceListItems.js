@@ -17,7 +17,6 @@ export class AttendanceListItems {
   // 화면 렌더링, 데이터 가져오기
   render = async () => {
     const attendances = await this.fetchAttendances();
-    console.log(attendances);
     const container = document.querySelector('.attendance-items');
     container.innerHTML = (attendances || [])
       .map((attendance) => this.renderAttendanceListItem(attendance))
