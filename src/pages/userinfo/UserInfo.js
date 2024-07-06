@@ -11,7 +11,7 @@ export default class UserInfo {
       profileImg,
       userId,
       userPassword,
-      info = '조회',
+      info = '등록',
       permission = '',
     } = props;
     this.userid = userId;
@@ -41,7 +41,7 @@ export default class UserInfo {
       `
         <form class="user-info">
           <div class="user-info__lists">
-            <h1>임직원 정보${this.info}</h1>
+            <h1>임직원 ${this.info}</h1>
             <ul>
               <li class="user-info__list">
                 <label for="user-id">

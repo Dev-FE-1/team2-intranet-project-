@@ -1,9 +1,4 @@
 /* gallery.css */
-
-body {
-  background-color: var(--color-pale-gray);
-}
-
 .gallery {
   display: grid;
   width: 900px;

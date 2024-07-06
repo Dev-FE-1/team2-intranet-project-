@@ -56,7 +56,6 @@ app.get('/api/employees/:id', (req, res) => {
 
 app.post('/api/employees', (req, res) => {
   const employee = req.body;
-  console.log(employee);
   indb.insertEmployee(employee);
   res.json({
     status: 'OK',
@@ -65,7 +64,6 @@ app.post('/api/employees', (req, res) => {
 
 app.put('/api/employees', (req, res) => {
   const employee = req.body;
-  console.log(employee);
   indb.updateEmployee(employee);
   res.json({
     status: 'OK',
