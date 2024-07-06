@@ -155,8 +155,10 @@ export class EmployeeListTable {
     }
   }
 
+  // 직원 검색 함수: 직원리스트를 매개변수 값으로 받고,
+  // 리스트를 하나씩 순차적으로 확인하면서 name, email, position중에 한글자라도 동일한 것이 있으면
+  // 일치하는 리스트 요소 값들을 넣고 테이블 로우 부분만 다시 랜더링함.
   searchEmployees = async ({ userSearchInput, employees }) => {
-    console.log(employees);
     const searchResult = employees.filter(
       (employee) =>
         employee.name.includes(userSearchInput) ||
@@ -176,12 +178,17 @@ export class EmployeeListTable {
     }
   };
 
-  attachEventListeners = () => {
+  // 검색바의 검색아이콘 토글 함수: 직원 검색바 입력시, 검색 아이콘 색깔이 진한 검정색으로 바뀌게함.
+  onInputToggleSearchIcon() {
     this.container.addEventListener('input', (e) => {
       if (e.target.id === 'search') {
         this.container.classList.toggle('active', e.target.value.length > 0);
       }
     });
+  }
+
+  // 직원 리스트 검색 요소에 붙여진 submit핸들러함수: 직원 검색바에 입력하고 enter를 눌렀을 때를 감지
+  onSubmitSearchEmployees() {
     this.container.addEventListener('submit', async (e) => {
       const searchForm = e.target.classList.contains('employee-list__header__search-form');
       if (searchForm) {
@@ -191,5 +198,10 @@ export class EmployeeListTable {
         this.searchEmployees({ userSearchInput, employees });
       }
     });
+  }
+
+  attachEventListeners = () => {
+    this.onInputToggleSearchIcon();
+    this.onSubmitSearchEmployees();
   };
 }

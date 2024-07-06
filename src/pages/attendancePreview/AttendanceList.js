@@ -6,10 +6,12 @@ export class AttendanceList {
     this.container = container;
     this.defaultProfileImg = 'https://i.imgur.com/JJEqrWE.png';
     this.props = props;
+    this.attendanceListItems = new AttendanceListItems();
   }
 
   render() {
-    this.container.innerHTML = /* HTML */ `
+    const container = this.container || document.querySelector('.attendanceList');
+    container.innerHTML = /* HTML */ `
       <section class="attendance-list">
         <header class="attendance-list__header">
           <h1>근태현황</h1>
@@ -18,12 +20,10 @@ export class AttendanceList {
         <ul class="attendance-items"></ul>
       </section>
     `;
-    this.updateAttendanceList();
-    // return this.container.innerHTML;
+    this.attendanceListItems.render();
   }
 
-  updateAttendanceList() {
-    const attendanceListItems = new AttendanceListItems();
-    attendanceListItems.render();
+  setListItemsNumbers(number) {
+    this.attendanceListItems.setListItemsNumbers(number);
   }
 }

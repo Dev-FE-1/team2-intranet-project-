@@ -24,13 +24,13 @@ export class EmployeeListTableRows {
             <label></label>
           </div>
         </td>
-        <td>
+        <td class="employee-list__info">
           <img src="${profileImg || this.defaultProfileImg}" alt="프로필 사진" />
         </td>
-        <td>${name}</td>
-        <td>${email}</td>
-        <td>${phone}</td>
-        <td>${position}</td>
+        <td class="employee-list__info">${name}</td>
+        <td class="employee-list__info">${email}</td>
+        <td class="employee-list__info">${phone}</td>
+        <td class="employee-list__info">${position}</td>
       </tr>
     `;
   }
@@ -51,15 +51,14 @@ export class EmployeeListTableRows {
   onCheckAllCheckboxes() {
     const checkAllCheckboxes = (e) => {
       if (e.target.id === 'selectAll') {
-        console.log(e.target);
         const checkboxes = document.querySelectorAll('.c-checkbox__input');
         checkboxes.forEach((checkbox) => {
           checkbox.checked = e.target.checked;
         });
       }
     };
-
-    this.container.addEventListener('change', checkAllCheckboxes);
+    const checkboxTableHeadElem = document.querySelector('#selectAll');
+    checkboxTableHeadElem.addEventListener('change', checkAllCheckboxes);
   }
 
   onClickTableRow() {
@@ -69,9 +68,8 @@ export class EmployeeListTableRows {
     const routeView = document.querySelector('route-view');
     const href = '/userinfo';
     const routeToUserInfo = (e) => {
-      console.log(e.target);
       const row = e.target.closest('TR');
-      if (row) {
+      if (e.target.closest('td').classList.contains('employee-list__info') && row) {
         e.preventDefault();
         const props = this.getRowData(e.target.parentNode);
         const route = new Route({ pathMappings, routeView });

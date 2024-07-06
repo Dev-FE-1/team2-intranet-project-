@@ -114,6 +114,98 @@ const attendances = [
     type: '조퇴',
     content: ' 급성 장염으로 질병 조퇴 요청합니다.',
   },
+  {
+    name: '프론트',
+    type: '조퇴',
+    content: '조퇴 할래요.',
+    profileImg: 'https://i.imgur.com/4RPlpYo.png',
+  },
+  {
+    name: '김백엔드',
+    type: '연차',
+    content: '연차를 쓰고 싶어요.',
+    profileImg: 'https://i.imgur.com/4RPlpYo.png',
+  },
+  {
+    name: '고낙연',
+    type: '기타',
+    content: '기타 사유',
+    profileImg: 'https://i.imgur.com/KM82VtW.png',
+  },
+  {
+    name: '젠슨황',
+    type: '반차',
+    content: '나 반차 쓴다.',
+    profileImg: 'https://i.imgur.com/4RPlpYo.png',
+  },
+  {
+    name: '김나성',
+    type: '조퇴',
+    content: ' 급성 장염으로 질병 조퇴 요청합니다.',
+  },
+  {
+    name: '고낙연',
+    type: '기타',
+    content: '기타 사유',
+    profileImg: 'https://i.imgur.com/KM82VtW.png',
+  },
+  {
+    name: '젠슨황',
+    type: '반차',
+    content: '나 반차 쓴다.',
+    profileImg: 'https://i.imgur.com/4RPlpYo.png',
+  },
+  {
+    name: '김나성',
+    type: '조퇴',
+    content: ' 급성 장염으로 질병 조퇴 요청합니다.',
+  },
+  {
+    name: '프론트',
+    type: '조퇴',
+    content: '조퇴 할래요.',
+    profileImg: 'https://i.imgur.com/4RPlpYo.png',
+  },
+  {
+    name: '김백엔드',
+    type: '연차',
+    content: '연차를 쓰고 싶어요.',
+    profileImg: 'https://i.imgur.com/4RPlpYo.png',
+  },
+  {
+    name: '고낙연',
+    type: '기타',
+    content: '기타 사유',
+    profileImg: 'https://i.imgur.com/KM82VtW.png',
+  },
+  {
+    name: '젠슨황',
+    type: '반차',
+    content: '나 반차 쓴다.',
+    profileImg: 'https://i.imgur.com/4RPlpYo.png',
+  },
+  {
+    name: '김나성',
+    type: '조퇴',
+    content: ' 급성 장염으로 질병 조퇴 요청합니다.',
+  },
+  {
+    name: '고낙연',
+    type: '기타',
+    content: '기타 사유',
+    profileImg: 'https://i.imgur.com/KM82VtW.png',
+  },
+  {
+    name: '젠슨황',
+    type: '반차',
+    content: '나 반차 쓴다.',
+    profileImg: 'https://i.imgur.com/4RPlpYo.png',
+  },
+  {
+    name: '김나성',
+    type: '조퇴',
+    content: ' 급성 장염으로 질병 조퇴 요청합니다.',
+  },
 ];
 
 const employees = [

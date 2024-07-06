@@ -78,6 +78,7 @@ export class HomeUpper {
       </section>
     `;
     const attendenList = new AttendanceList(document.querySelector('.attendanceList'), {});
+    attendenList.setListItemsNumbers(7);
     attendenList.render();
     this.addEventListeners();
     this.startClock();
