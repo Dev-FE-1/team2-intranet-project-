@@ -13,7 +13,6 @@ import Mypage from './mypage/Mypage';
 
 import Login from './login/userLogin.js';
 import LeaveApplicationList from './LeaveApplicationList/LeaveApplicationList.js';
-import LeaveApplicationForm from './LeaveApplicationList/LeaveApplicationForm.js';
 
 const app = document.querySelector('#app');
 
@@ -54,17 +53,13 @@ if (!sessionStorage.length) {
       title: 'Gallery',
       Component: EmployeeGallery,
     },
-    '/mypage': {
-      title: 'mypage',
-      Component: Mypage,
-    },
-    '/leaveApplicationList': {
+    '/leave-application-list': {
       title: 'leaveApplicationList',
       Component: LeaveApplicationList,
     },
-    '/leaveApplicationForm': {
-      title: 'leaveApplicationForm',
-      Component: LeaveApplicationForm,
+    '/mypage': {
+      title: 'mypage',
+      Component: Mypage,
     },
   };
 
