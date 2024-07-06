@@ -20,6 +20,7 @@ export default class Mypage {
   render() {
     this.el.innerHTML = /* HTML */ `
       <div class="mypage">
+        <h1 class="mypage__heading">마이페이지</h1>
         <div class="mypage__bg-img"></div>
         <div class="mypage__info">
           <div class="mypage__profile">
