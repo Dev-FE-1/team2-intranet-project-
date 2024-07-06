@@ -5,7 +5,10 @@
   align-items: center;
   height: calc(100vh - 160px);
 }
-
+.mypage__heading {
+  font-size: var(--font-large);
+  display: none;
+}
 .mypage__info {
   position: relative;
   display: flex;
@@ -38,7 +41,7 @@
 
 .mypage__list-wrap {
   position: relative;
-  transform: translateY(-2rem);
+  transform: translateY(-6rem);
 }
 .mypage__list {
   display: flex;
@@ -51,7 +54,7 @@
   flex-direction: column;
   align-items: center;
   width: 30%;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
 }
 
 .mypage__list li span:last-child {
@@ -73,10 +76,12 @@
 }
 /* 사용자 이미지 */
 .mypage__profile {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
   transform: translateY(-100px);
 }
 .mypage__profile-image {
@@ -147,8 +152,24 @@
 }
 /* 테블릿 가로 (해상도 768px ~ 1023px)*/
 @media all and (max-width: 1023px) {
+  .mypage {
+    height: calc(100vh - 80px);
+  }
   .mypage__info .header__btn-logout {
     display: block;
+  }
+  .mypage__heading {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    background-color: rgba(255, 255, 255, 1);
+    border-bottom: 1px solid var(--color-pale-gray);
+    z-index: 10;
   }
 }
 /* 모바일 가로 & 테블릿 세로 (해상도 480px ~ 767px)*/
@@ -195,9 +216,6 @@
   }
 }
 @media screen and (max-width: 425px) {
-  .mypage {
-    height: calc(100vh - 80px);
-  }
   .mypage__list-wrap {
     padding-bottom: 150px;
   }
