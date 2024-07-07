@@ -21,10 +21,9 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 100vw;
+  width: calc(100vw - 15rem);
   height: 80px;
   margin: 0 auto;
-  padding: 0 15rem;
 }
 
 .header__intranet-logo {
@@ -63,7 +62,7 @@
   text-decoration: none;
 }
 
-.header__nav-list li a span:first-child {
+.header__nav-list li a svg {
   display: none;
 }
 .header__btn-logout {
