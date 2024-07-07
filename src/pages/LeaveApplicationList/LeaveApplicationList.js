@@ -55,8 +55,8 @@ export default class LeaveApplicationList {
     this.items.push(leaveApplicationItem);
 
     // 목록에 추가
-    const attendanceItems = document.querySelector('.attendance-items');
-    attendanceItems.innerHTML = this.items.map((item) => item.render()).join('');
+    const leaveApplicationItems = document.querySelector('.leave-application-items');
+    leaveApplicationItems.innerHTML = this.items.map((item) => item.render()).join('');
 
     // 모달 닫기
     document.querySelector('.modal-background').style.display = 'none';
