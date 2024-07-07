@@ -1,4 +1,7 @@
 import './ProfileImage.css';
+import { editIcon } from '/src/utils/icons';
+import avatarDefaultImg from '/src/assets/images/avatar-default.jpg';
+
 export default class ProfileImage {
   constructor(container, props = {}) {
     this.container = container;
@@ -44,15 +47,8 @@ export default class ProfileImage {
   render() {
     this.container.innerHTML = /* HTML */ `
       <div class="profile">
-        <img
-          src="/src/assets/images/avatar-default.jpg"
-          alt="avatar"
-          class="profile__image"
-          id="img1"
-        />
-        <button class="profile__btn-edit">
-          <span class="material-symbols-rounded"> edit </span> 사진변경
-        </button>
+        <img src="${avatarDefaultImg}" alt="avatar" class="profile__image" id="img1" />
+        <button class="profile__btn-edit">${editIcon()} 사진변경</button>
 
         <ul class="profile__submenu">
           <li>
