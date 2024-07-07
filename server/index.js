@@ -4,6 +4,12 @@ import { indb, initializeDatabase, galleryData } from './initalizeData.js';
 import history from 'connect-history-api-fallback';
 import cors from 'cors';
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const port = process.env.PORT || 8080;
 const app = express();
 
@@ -31,6 +37,18 @@ app.use(
 
 app.use(express.static('dist'));
 app.use(express.json());
+
+app.use(
+  express.static(path.join(__dirname, '../dist'), {
+    setHeaders: (res, filePath) => {
+      if (path.extname(filePath) === '.css') {
+        res.setHeader('Content-Type', 'text/css');
+      } else if (path.extname(filePath) === '.js') {
+        res.setHeader('Content-Type', 'application/javascript');
+      }
+    },
+  }),
+);
 
 //employees, attendances 테이블 데이터베이스 초기화
 initializeDatabase();
