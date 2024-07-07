@@ -73,10 +73,11 @@ export class EmployeeListTableRows {
         e.preventDefault();
         const props = this.getRowData(e.target.parentNode);
         const route = new Route({ pathMappings, routeView });
-        props['info'] = ' 조회';
+        props['info'] = '조회';
         route.router(props, href);
       }
     };
+    this.container.removeEventListener('click', routeToUserInfo);
     this.container.addEventListener('click', routeToUserInfo);
   }
 
