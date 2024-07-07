@@ -1,26 +1,24 @@
 /* gallery.css */
 
-body {
-  background-color: var(--color-pale-gray);
-}
-
 .gallery {
-  display: grid;
-  width: 900px;
-  background-color: var(--color-white);
-  margin: 0 auto;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: calc(100vw - 15rem);
   height: calc(100vh - 160px);
-  overflow-y: auto;
+  padding: 1rem;
+  gap: 1rem;
+  margin: 0 auto;
+  background-color: var(--color-white);
 }
 
-/* 페이지 전체가 아니라, 갤러리 안에서만 스크롤 적용. */
+.gallery__title {
+  display: none;
+}
+
 .gallery__container {
-  /* 스크롤은 카드가 3줄일 때부터 적용한다.*/
-  /* 헤더랑 푸터 사이에 갤러리 컴포넌트를 넣을 것이기 때문에 위 아래는 비워놔야함. */
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(3, 1fr);
   width: 100%;
   gap: 20px;
   overflow-x: hidden;
@@ -33,24 +31,13 @@ body {
   width: calc((100% / 4) - 20px);
   border-radius: 5px;
   box-shadow: var(--box-floating-shadow);
-  /* 컨테이너 안에는 무조건 항상 1줄에 카드 4개씩, 그리고 3줄씩 보여야한다.
-  단, 3번째 줄은 반만 보이게 해서 스크롤을 내려야 완전히 보이게 만든다. */
-}
-
-/* 마지막 줄의 카드들이 반만 보이도록 조정 */
-.gallery__container > :nth-last-child(-n + 4) {
-  grid-row: 3 / span 1; /* 마지막 4개의 카드를 3번째 줄에 반만 보이도록 설정 */
-}
-
-/* 카드 위에 마우스를 가져가면 약간 이미지가 커지는 효과 추가 */
-.gallery__container-card.hover {
-  transform: scale(1.05);
 }
 
 .gallery__container-image-area {
   display: flex;
   width: 100%;
-  min-height: 200px;
+  height: 100%;
+  overflow: hidden; /* 이미지가 영역을 벗어나지 않도록 설정 */
 }
 
 .gallery__container-image-area img {
@@ -65,6 +52,9 @@ body {
   font-size: var(--font-medium);
   color: var(--color-black);
   background-color: var(--color-white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .gallery__container-date {
@@ -74,4 +64,123 @@ body {
   background-color: var(--color-white);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+}
+
+/* 노트북 & 테블릿 가로 (해상도 1024px ~ 1279px)*/
+@media all and (min-width: 1024px) and (max-width: 1279px) {
+  .gallery {
+    display: grid;
+    width: 900px;
+    background-color: var(--color-white);
+    margin: 0 auto;
+    padding: 20px;
+    height: calc(100vh - 160px);
+    overflow-y: auto;
+  }
+  .gallery__container-image-area {
+    display: flex;
+    width: 100%;
+    min-height: 160px;
+    overflow: hidden;
+  }
+}
+
+/* 테블릿 가로 (해상도 768px ~ 1023px)*/
+@media all and (min-width: 768px) and (max-width: 1023px) {
+  .gallery {
+    width: calc(100vw - 5rem);
+    height: auto;
+    margin-top: 80px;
+    margin-bottom: 150px;
+  }
+  .gallery__title {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 60px;
+    font-size: var(--font-large);
+    text-align: center;
+    line-height: 60px;
+    background-color: rgba(255, 255, 255, 1);
+    border-bottom: 1px solid var(--color-pale-gray);
+  }
+
+  .gallery__container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    gap: 10px;
+    overflow-x: hidden;
+  }
+  .gallery__container-title {
+    padding: 6px;
+    font-weight: 900;
+    font-size: var(--font-medium);
+    color: var(--color-black);
+    background-color: var(--color-white);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .gallery__container-date {
+    padding: 0 6px 6px;
+    font-size: var(--font-micro);
+    color: var(--color-dark-gray);
+    background-color: var(--color-white);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+}
+
+/* 모바일 가로 & 테블릿 세로 (해상도 ~ 767px)*/
+@media all and (max-width: 767px) {
+  .gallery {
+    width: calc(100vw - 5rem);
+    height: auto;
+    margin-top: 80px;
+    margin-bottom: 150px;
+  }
+  .gallery__title {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 60px;
+    font-size: var(--font-large);
+    text-align: center;
+    line-height: 60px;
+    background-color: rgba(255, 255, 255, 1);
+    border-bottom: 1px solid var(--color-pale-gray);
+  }
+
+  .gallery__container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    gap: 10px;
+    overflow-x: hidden;
+  }
+  .gallery__container-title {
+    padding: 6px;
+    font-weight: 900;
+    font-size: var(--font-small);
+    color: var(--color-black);
+    background-color: var(--color-white);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .gallery__container-date {
+    padding: 0 6px 6px;
+    font-size: var(--font-micro);
+    color: var(--color-dark-gray);
+    background-color: var(--color-white);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
 }
