@@ -2,7 +2,7 @@ import axios from 'axios';
 import './EmployeeListTable.css';
 import { EmployeeListTableRows } from './EmployeeListTableRows.js';
 import './PageNation.css';
-import Modal from '../../components/modal/modal.js';
+import Modal from '../../components/modal/ModalInofo.js';
 import { Route } from '../router/route.js';
 import UserInfo from '../userinfo/UserInfo.js';
 export class EmployeeListTable {
