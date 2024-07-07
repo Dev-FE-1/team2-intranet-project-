@@ -21,9 +21,10 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: calc(100vw - 15rem);
+  width: 100vw;
   height: 80px;
   margin: 0 auto;
+  padding: 0 15rem;
 }
 
 .header__intranet-logo {

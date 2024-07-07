@@ -1,4 +1,4 @@
-import './Modal.css';
+import './modal-info.css';
 export default class Modal {
   constructor(state = '삭제') {
     this.state = state;
@@ -6,7 +6,7 @@ export default class Modal {
     this.render();
   }
   render() {
-    this.el.classList.add('modal', 'show');
+    this.el.classList.add('modal-info', 'show');
     this.el.innerHTML = /*html*/ `
       <div class="modal__wrap">
         <div class="modal__text">
@@ -24,7 +24,9 @@ export default class Modal {
     this.textChange();
   }
   btnHandler() {
-    const btnClose = this.el.querySelectorAll('.modal__btn--cancel, .modal--close');
+    const btnClose = this.el.querySelectorAll(
+      '.modal__btn--cancel, .modal--close, .modal__btn--click',
+    );
     const modalContent = this.el.querySelector('.modal__wrap');
 
     // 이벤트 버블링의 기본값은 false 이다. (하위요소 -> 상위요소로 이벤트 전파)
@@ -41,7 +43,8 @@ export default class Modal {
       e.stopPropagation();
     });
     btnClose.forEach((btn) => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
         this.hideModal();
       });
     });
@@ -79,13 +82,8 @@ export default class Modal {
     const modalbtn = this.el.querySelector('.modal__btn--click');
     console.log(modalbtn);
 
-    modalbtn.addEventListener('click', () => fn(true));
-  }
-
-  onClickCancelButton(fn) {
-    const modalbtn = this.el.querySelector('.modal__btn modal__btn--cancel"');
-    console.log(modalbtn);
-
-    modalbtn.addEventListener('click', () => fn(true));
+    modalbtn.addEventListener('click', () => {
+      fn(true);
+    });
   }
 }

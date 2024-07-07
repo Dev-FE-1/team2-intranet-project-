@@ -1,4 +1,4 @@
-.modal__btn {
+.modal-info .modal__btn {
   width: var(--size-button-medium);
   padding: 8px 0px;
   border-radius: 5px;
@@ -10,14 +10,11 @@
   cursor: pointer;
   transition: 0.3s;
 }
-body {
-  position: relative;
-  height: 100%;
-}
-.modal {
+
+.modal-info {
   display: none;
 }
-.modal.show {
+.modal-info.show {
   display: block;
   position: fixed;
   top: 0;
@@ -27,7 +24,7 @@ body {
   background-color: rgba(0, 0, 0, 0.2);
   opacity: 1;
 }
-.modal .modal__wrap {
+.modal-info .modal__wrap {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -43,29 +40,29 @@ body {
   background-color: var(--color-white);
 }
 
-.modal .modal__text h1 {
+.modal-info .modal__text h1 {
   margin-bottom: 5px;
   font-size: var(--font-large);
 }
-.modal .modal__text p {
+.modal-info .modal__text p {
   font-size: var(--font-normal);
   opacity: 0.8;
 }
 
-.modal .modal__btn--cancel {
+.modal-info .modal__btn--cancel {
   margin-right: 20px;
   border: 1px solid var(--color-black);
   background-color: transparent;
   color: var(--color-black);
 }
-.modal .modal__btn--click {
+.modal-info .modal__btn--click {
   border: 1px solid var(--color-coral-light);
   background-color: #f43535;
 }
-.modal .modal__btn--start {
+.modal-info .modal__btn--start {
   background-color: var(--color-ocean-blue);
 }
-.modal .modal--close {
+.modal-info .modal--close {
   display: flex;
   justify-content: center;
   align-items: center;

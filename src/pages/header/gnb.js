@@ -6,7 +6,7 @@ function AdminGnb() {
     <ul class="header__nav-list">
       <li>
         <a href="/employee-list" data-link>
-          <<span class="material-symbols-rounded"> group </span>
+          <span class="material-symbols-rounded"> group </span>
           <span>직원관리<span>
         </a>
       </li>

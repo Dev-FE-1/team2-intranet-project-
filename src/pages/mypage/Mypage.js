@@ -3,6 +3,7 @@ import './Mypage.css';
 import { Route } from '../router/route';
 import UserInfo from '../userinfo/UserInfo';
 import ProfileImage from '../../components/profileImage/ProfileImage';
+import Login from '../login/userLogin';
 
 export default class Mypage {
   constructor(cotainer, props = {}) {
@@ -52,6 +53,15 @@ export default class Mypage {
     this.userValue();
     const profileImage = document.querySelector('.mypage__profile-image');
     new ProfileImage(profileImage).render();
+
+    const logout = this.el.querySelector('.header__btn-logout');
+    logout.addEventListener('click', () => {
+      sessionStorage.clear();
+      const app = document.querySelector('#app');
+      history.replaceState('', '', '/');
+      const login = new Login(app);
+      login.render();
+    });
   }
 
   goUserInfo() {

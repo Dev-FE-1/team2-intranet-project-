@@ -2,7 +2,7 @@ import axios from 'axios';
 import './EmployeeListTable.css';
 import { EmployeeListTableRows } from './EmployeeListTableRows.js';
 import './PageNation.css';
-import Modal from '../../components/modal/Modal.js';
+import Modal from '../../components/modal/modal.js';
 export class EmployeeListTable {
   constructor(cotainer, props) {
     this.container = cotainer;
@@ -229,23 +229,15 @@ export class EmployeeListTable {
     const deleteEmployee = (e) => {
       if (e.target.id === 'employee-delete') {
         const modal = new Modal('삭제');
-        this.container.appendChild(modal.el); // 모달창이 뜸
+        // this.container.appendChild(modal.el); // 모달창이 뜸
 
-        // const modalContainer = this.container.querySelector('.ex-modal-container');
-        // modalContainer.innerHTML = '';
-        // modalContainer.appendChild(modal.el);
+        const modalContainer = this.container.querySelector('.ex-modal-container');
+        modalContainer.innerHTML = '';
+        modalContainer.appendChild(modal.el);
 
         modal.onClickDeleteButton((value) => {
           if (value) {
-            const modal = document.querySelector('.modal');
-            this.container.removeChild(modal);
-          }
-        });
-
-        modal.onClickCancelButton((value) => {
-          if (value) {
-            const modal = document.querySelector('.modal');
-            this.container.removeChild(modal);
+            console.log(value);
           }
         });
       }
