@@ -2,7 +2,7 @@ import axios from 'axios';
 import './EmployeeListTable.css';
 import { EmployeeListTableRows } from './EmployeeListTableRows.js';
 import './PageNation.css';
-
+import Modal from '../../components/modal/Modal.js';
 export class EmployeeListTable {
   constructor(cotainer, props) {
     this.container = cotainer;
@@ -19,7 +19,9 @@ export class EmployeeListTable {
             <a href="/userinfo" data-link>
               <button class="c-button c-button-enroll">임직원 등록</button></a
             >
-            <a><button class="c-button c-button-delete">임직원 삭제</button></a>
+            <a
+              ><button id="employee-delete" class="c-button c-button-delete">임직원 삭제</button></a
+            >
           </div>
           <div class="employee-list__header__search">
             <form action="#" class="employee-list__header__search-form">
@@ -57,6 +59,7 @@ export class EmployeeListTable {
           </table>
         </div>
         <page-nation></page-nation>
+        <div class="ex-modal-container"></div>
       </section>
     `;
     this.updateEmployeeListRows();
@@ -200,8 +203,60 @@ export class EmployeeListTable {
     });
   }
 
+  deleteEmployee(e) {
+    if (e.target.id === 'employee-delete') {
+      const modal = new Modal('삭제');
+      this.container.appendChild(modal.el);
+
+      modal.onClickDeleteButton((value) => {
+        if (value) {
+          const modal = document.querySelector('.modal');
+          this.container.removeChild(modal);
+        }
+      });
+
+      modal.onClickCancelButton((value) => {
+        if (value) {
+          const modal = document.querySelector('.modal');
+          this.container.removeChild(modal);
+        }
+      });
+    }
+  }
+
+  // 직원 삭제 버튼 클릭시 모달창 생성 함수: 삭제버튼을 클릭하면 모달창이 생성되고, 삭제버튼을 누르면 모달창이 사라짐.
+  onClickDeleteEmployee() {
+    const deleteEmployee = (e) => {
+      if (e.target.id === 'employee-delete') {
+        const modal = new Modal('삭제');
+        this.container.appendChild(modal.el); // 모달창이 뜸
+
+        // const modalContainer = this.container.querySelector('.ex-modal-container');
+        // modalContainer.innerHTML = '';
+        // modalContainer.appendChild(modal.el);
+
+        modal.onClickDeleteButton((value) => {
+          if (value) {
+            const modal = document.querySelector('.modal');
+            this.container.removeChild(modal);
+          }
+        });
+
+        modal.onClickCancelButton((value) => {
+          if (value) {
+            const modal = document.querySelector('.modal');
+            this.container.removeChild(modal);
+          }
+        });
+      }
+    };
+
+    this.container.addEventListener('click', deleteEmployee);
+  }
+
   attachEventListeners = () => {
     this.onInputToggleSearchIcon();
     this.onSubmitSearchEmployees();
+    this.onClickDeleteEmployee();
   };
 }
