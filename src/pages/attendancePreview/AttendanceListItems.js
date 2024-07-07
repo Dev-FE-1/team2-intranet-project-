@@ -12,18 +12,24 @@ const attendanceType = {
 };
 
 export class AttendanceListItems {
-  constructor() {}
+  constructor(container) {
+    this.container = container;
+    this.listItemsNumbersLimit = 100;
+  }
 
   // 화면 렌더링, 데이터 가져오기
   render = async () => {
+    const container = this.container || document.querySelector('.attendance-items');
     const attendances = await this.fetchAttendances();
-    console.log(attendances);
-    const container = document.querySelector('.attendance-items');
     container.innerHTML = (attendances || [])
       .map((attendance) => this.renderAttendanceListItem(attendance))
-      .slice(-4)
+      .slice(-this.listItemsNumbersLimit)
       .join(' ');
   };
+
+  setListItemsNumbers(number) {
+    this.listItemsNumbersLimit = parseInt(number);
+  }
 
   // 서버로부터 근태 리스트 데이터 가져오기
   async fetchAttendances() {

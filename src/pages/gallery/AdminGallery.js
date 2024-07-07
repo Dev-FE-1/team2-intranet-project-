@@ -1,6 +1,5 @@
 import axios from 'axios';
 import './gallery.css';
-
 export class AdminGallery {
   constructor(container, props = {}) {
     this.container = container;
@@ -12,7 +11,7 @@ export class AdminGallery {
       const response = await axios.get(this.galleryDataPath);
       return response.data.data;
     } catch (e) {
-      console.error('gallery.json 파일을 불러오는 데 실패했습니다.', e);
+      console.error('gallery contents를 fetch해서 불러오는 데 실패했습니다.', e);
       return [];
     }
   }

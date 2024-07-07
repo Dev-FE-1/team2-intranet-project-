@@ -11,7 +11,7 @@ export default class UserInfo {
       profileImg,
       userId,
       userPassword,
-      info = '조회',
+      info = '등록',
       permission = '',
     } = props;
     this.userid = userId;
@@ -41,7 +41,7 @@ export default class UserInfo {
       `
         <form class="user-info">
           <div class="user-info__lists">
-            <h1>임직원 정보${this.info}</h1>
+            <h1>임직원 ${this.info}</h1>
             <ul>
               <li class="user-info__list">
                 <label for="user-id">
@@ -157,7 +157,7 @@ export default class UserInfo {
         if (e.target.classList.contains('user-info__btn--edit')) {
           this.formChange('수정');
         } else if (e.target.classList.contains('user-info__btn--cancel')) {
-          this.formChange('조회');
+          this.info === '등록' ? history.back() : this.formChange('조회');
         } else if (e.target.classList.contains('user-info__btn--save')) {
           const formData = new FormData(props); // 폼 데이터 가져오기
           // 폼 데이터 출력

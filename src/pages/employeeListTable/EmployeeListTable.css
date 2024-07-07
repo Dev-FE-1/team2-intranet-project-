@@ -15,6 +15,7 @@
 
 .employee-list__heading {
   font-size: var(--font-large);
+  display: none;
 }
 .employee-list {
   display: flex;
@@ -23,7 +24,6 @@
   flex-direction: column;
   height: calc(100vh - 160px);
   white-space: nowrap;
-  padding-top: 45px;
 }
 
 /* 직원등록,삭제 버튼 */
@@ -32,7 +32,7 @@
   justify-content: space-between;
   align-items: center;
   width: calc(100vw - 15rem);
-  padding-bottom: 25px;
+  padding: 25px 0;
 }
 
 .employee-list__header__button {
@@ -177,10 +177,12 @@
 }
 
 /* 테블릿 가로 (해상도 768px ~ 1023px)*/
-@media all and (min-width: 768px) and (max-width: 1023px) {
+@media all and (max-width: 1023px) {
   .employee-list {
     padding-top: 80px;
-    height: calc(100vh - 120px);
+    /* height: calc(100vh - 120px); */
+    height: auto;
+    margin-bottom: 150px;
   }
   .employee-list table {
     width: calc(100vw - 5rem);
@@ -189,6 +191,7 @@
     width: calc(100vw - 5rem);
   }
   .employee-list__heading {
+    display: block;
     position: fixed;
     top: 0;
     left: 0;
@@ -198,6 +201,7 @@
     line-height: 60px;
     background-color: rgba(255, 255, 255, 1);
     border-bottom: 1px solid var(--color-pale-gray);
+    z-index: 10;
   }
 
   .employee-list tr {
@@ -211,27 +215,15 @@
 }
 
 /* 모바일 가로 & 테블릿 세로 (해상도 480px ~ 767px)*/
-@media all and (min-width: 480px) and (max-width: 767px) {
+@media all and (max-width: 767px) {
   .employee-list {
     padding-top: 80px;
-    height: calc(100vh - 120px);
   }
   .employee-list__header {
     width: calc(100vw - 3rem);
     flex-direction: column-reverse;
   }
-  .employee-list__heading {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 60px;
-    text-align: center;
-    line-height: 60px;
-    background-color: rgba(255, 255, 255, 1);
-    border-bottom: 1px solid var(--color-pale-gray);
-    z-index: 10;
-  }
+
   .table-wrap {
     width: calc(100vw - 3rem);
   }
@@ -246,18 +238,7 @@
   .employee-list table tbody tr td:nth-child(2) {
     display: none;
   }
-  .employee-list__heading {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 60px;
-    text-align: center;
-    line-height: 60px;
-    background-color: rgba(255, 255, 255, 1);
-    border-bottom: 1px solid var(--color-pale-gray);
-    z-index: 10;
-  }
+
   .employee-list tr {
     width: calc(100vw - 5rem);
     height: 46px;
@@ -282,20 +263,8 @@
   }
   .employee-list {
     padding-top: 80px;
-    height: calc(100vh - 120px);
   }
-  .employee-list__heading {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 60px;
-    text-align: center;
-    line-height: 60px;
-    background-color: rgba(255, 255, 255, 1);
-    border-bottom: 1px solid var(--color-pale-gray);
-    z-index: 10;
-  }
+
   .employee-list table {
     width: 90vw;
   }
