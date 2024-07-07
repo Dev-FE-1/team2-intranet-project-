@@ -39,6 +39,7 @@ export class EmployeeGallery {
   renderGalleryContainer(galleryCardData) {
     const galleryContainer = this.container.querySelector('.gallery__container');
     galleryContainer.innerHTML = /* HTML */ `
+      <h1 class="gallery__heading">갤러리</h1>
       ${galleryCardData.map((item) => this.cardTemplate(item)).join('')}
     `;
   }
