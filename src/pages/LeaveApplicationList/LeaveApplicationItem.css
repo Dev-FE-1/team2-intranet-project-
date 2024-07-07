@@ -1,0 +1,89 @@
+.leave-application-item {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid var(--color-light-gray);
+  box-shadow: var(--box-flat-shadow);
+  margin-bottom: 1rem;
+}
+.photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+.formdata {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+}
+.formdata span {
+  text-align: center;
+  width: 40px;
+  font-size: var(--font-small);
+  padding: 0.2rem 0.3rem;
+  background-color: var(--color-french-skyblue);
+  box-shadow: var(--box-flat-shadow);
+  color: var(--color-white);
+  border-radius: 2px;
+}
+.title {
+  background-color: var(--color-white);
+  /* border: 1px solid var(--color-pale-gray); */
+  /* height: 10rem; */
+  border-radius: 4px;
+  padding: 12px;
+  width: calc(100vw - 30rem);
+
+  /* 텍스트 줄임 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.desc {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-pale-gray);
+  height: 3rem;
+  border-radius: 4px;
+  padding: 12px;
+  width: calc(100vw - 30rem);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.btn-for-update {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+.btn-for-update button {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  width: 40px;
+  height: var(--size-button-height);
+  font-size: var(--font-small);
+}
+.btn-for-update button:hover {
+  text-decoration: underline;
+}
+.btn-edit {
+  position: relative;
+}
+.btn-edit::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  right: -2px;
+  width: 1px;
+  height: 15px;
+  background-color: var(--color-light-gray);
+}
+
+.author {
+  font-size: var(--font-small);
+}
