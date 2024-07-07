@@ -1,4 +1,5 @@
 import './LeaveApplicationItem.css';
+import avatarDefaultImg from '/src/assets/images/avatar-default.jpg';
 export default class LeaveApplicationItem {
   constructor(props, currentUser) {
     this.props = props;
@@ -11,7 +12,7 @@ export default class LeaveApplicationItem {
     const canEdit = this.currentUser && this.currentUser.id === userId;
     return /* HTML */ `
       <li class="leave-application-item" data-id="${id}">
-        <img src="/src/assets/images/avatar-default.jpg" alt="profile-image" class="photo" />
+        <img src="${avatarDefaultImg}" alt="profile-image" class="photo" />
         <div class="formdata">
           <span>${typeForLeave}</span>
           <div>

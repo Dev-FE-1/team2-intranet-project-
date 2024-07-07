@@ -1,5 +1,6 @@
 import './LeaveApplicationForm.css';
 import './LeaveApplicationList.css';
+import avatarDefaultImg from '/src/assets/images/avatar-default.jpg';
 
 export default class LeaveApplicationForm {
   constructor(container, props) {
@@ -100,11 +101,7 @@ export default class LeaveApplicationForm {
         <div class="applicaion-form">
           <h1 class="applicaion-form__heading">근태/휴가 신청서</h1>
           <div class="applicaion-form__profile">
-            <img
-              src="/src/assets/images/avatar-default.jpg"
-              alt="profile image"
-              class="profile-image"
-            />
+            <img src="${avatarDefaultImg}" alt="profile image" class="profile-image" />
             <span class="applicaion-form__username">${'세션에서 가지고온 이름'}</span>
           </div>
           <form class="form">
