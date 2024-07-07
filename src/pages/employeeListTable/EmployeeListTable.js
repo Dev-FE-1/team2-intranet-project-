@@ -3,11 +3,12 @@ import './EmployeeListTable.css';
 import { EmployeeListTableRows } from './EmployeeListTableRows.js';
 import './PageNation.css';
 import Modal from '../../components/modal/modal.js';
+import { Route } from '../router/route.js';
+import UserInfo from '../userinfo/UserInfo.js';
 export class EmployeeListTable {
   constructor(cotainer, props) {
     this.container = cotainer;
     this.props = props;
-    this.attachEventListeners();
   }
 
   render() {
@@ -63,6 +64,7 @@ export class EmployeeListTable {
       </section>
     `;
     this.updateEmployeeListRows();
+    this.attachEventListeners();
   }
 
   async updateEmployeeListRows() {
@@ -230,7 +232,7 @@ export class EmployeeListTable {
       if (e.target.id === 'employee-delete') {
         const modal = new Modal('삭제');
         // this.container.appendChild(modal.el); // 모달창이 뜸
-
+        console.log('modal', modal.el);
         const modalContainer = this.container.querySelector('.ex-modal-container');
         modalContainer.innerHTML = '';
         modalContainer.appendChild(modal.el);
@@ -245,10 +247,59 @@ export class EmployeeListTable {
 
     this.container.addEventListener('click', deleteEmployee);
   }
+  getRowData(tr) {
+    const td = tr.querySelectorAll('td');
+    return {
+      userId: tr.dataset.id,
+      userPassword: tr.dataset.password,
+      profileImg: td[1].querySelector('img').src,
+      name: td[2].textContent.trim(),
+      email: td[3].textContent.trim(),
+      phone: td[4].textContent.trim(),
+      position: td[5].textContent.trim(),
+    };
+  }
+
+  onClickTableRow() {
+    const pathMappings = {
+      '/userinfo': { title: 'userinfo', ComponentClass: UserInfo },
+    };
+    const routeView = document.querySelector('route-view');
+    const href = '/userinfo';
+
+    const routeToUserInfo = (e) => {
+      console.log(`log ${e.target}`);
+      const row = e.target.closest('TR');
+      if (e.target.closest('td').classList.contains('employee-list__info') && row) {
+        e.preventDefault();
+        const props = this.getRowData(e.target.parentNode);
+        const route = new Route({ pathMappings, routeView });
+        props['info'] = '조회';
+        route.router(props, href);
+      }
+    };
+
+    const tableRow = this.container.querySelector('.employee-list__rows');
+    tableRow.addEventListener('click', routeToUserInfo);
+  }
+
+  onCheckAllCheckboxes() {
+    const checkAllCheckboxes = (e) => {
+      if (e.target.id === 'selectAll') {
+        const checkboxes = document.querySelectorAll('.c-checkbox__input');
+        checkboxes.forEach((checkbox) => {
+          checkbox.checked = e.target.checked;
+        });
+      }
+    };
+    this.container.addEventListener('change', checkAllCheckboxes);
+  }
 
   attachEventListeners = () => {
     this.onInputToggleSearchIcon();
     this.onSubmitSearchEmployees();
     this.onClickDeleteEmployee();
+    this.onClickTableRow();
+    this.onCheckAllCheckboxes();
   };
 }
