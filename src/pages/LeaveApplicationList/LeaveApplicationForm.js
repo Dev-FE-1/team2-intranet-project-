@@ -13,6 +13,7 @@ export default class LeaveApplicationForm {
   // 클릭한 LeaveApplicationItem의 기존 데이터를 보여줌
   // 폼 데이터를 로드하여 입력 필드에 채우기
   loadFormData(formData) {
+    console.log('props', this.props);
     if (formData.typeForLeave) {
       const radioButton = document.querySelector(
         `input[name="typeForLeave"][value="${formData.typeForLeave}"]`,
@@ -42,6 +43,7 @@ export default class LeaveApplicationForm {
   // 폼 데이터를 가져오고 반환
   getFormData() {
     console.log('this.props', this.props);
+    const username = document.querySelector('.applicaion-form__username').textContent;
     const selectedRadio = document.querySelector('input[name="typeForLeave"]:checked');
     const typeForLeave = selectedRadio ? selectedRadio.value : null;
     const applicationTitle = document.querySelector('#applicationTitle').value.trim();
@@ -50,6 +52,7 @@ export default class LeaveApplicationForm {
     const userId = this.props ? this.props.id : null;
 
     return {
+      username,
       typeForLeave,
       applicationTitle,
       applicationDesc,
@@ -104,7 +107,7 @@ export default class LeaveApplicationForm {
           <h1 class="applicaion-form__heading">근태/휴가 신청서</h1>
           <div class="applicaion-form__profile">
             <img src="${avatarDefaultImg}" alt="profile image" class="profile-image" />
-            <span class="applicaion-form__username">${'세션에서 가지고온 이름'}</span>
+            <span class="applicaion-form__username">${this.props.name}</span>
           </div>
           <form class="form">
             <div class="container">

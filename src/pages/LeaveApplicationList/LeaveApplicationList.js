@@ -107,7 +107,7 @@ export default class LeaveApplicationList {
       // onSubmit에 필요한 파라미터(formData) 같이 내려보냄
       leaveApplicationForm.setAddEventListener(
         (formData) => {
-          console.log(formData);
+          console.log('formData', formData);
           this.handleFormSubmit(formData);
           modalBackground.style.display = 'none';
         },
