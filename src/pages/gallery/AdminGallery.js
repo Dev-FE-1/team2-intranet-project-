@@ -3,7 +3,6 @@ import './gallery.css';
 export class AdminGallery {
   constructor(container, props = {}) {
     this.container = container;
-    // this.container.classList.add(props.containerClass || 'gallery');
     this.galleryDataPath = props.galleryDataPath || '/api/gallery/contents';
   }
 
@@ -29,6 +28,7 @@ export class AdminGallery {
   render() {
     this.container.innerHTML = /* HTML */ `
       <div class="gallery">
+        <h1 class="gallery__title">사진 갤러리</h1>
         <div class="gallery__container"></div>
       </div>
     `;
