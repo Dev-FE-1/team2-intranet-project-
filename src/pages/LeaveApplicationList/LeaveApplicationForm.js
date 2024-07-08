@@ -1,19 +1,19 @@
 import './LeaveApplicationForm.css';
 import './LeaveApplicationList.css';
+import { UserDataDTO as FormDataDTO } from './UserDataDTO';
 import avatarDefaultImg from '/src/assets/images/avatar-default.jpg';
 
 export default class LeaveApplicationForm {
-  constructor(container, props) {
-    console.log(container, props);
+  constructor(container, currentUser) {
     this.container = container;
-    this.props = props || {}; // props가 없을 경우 빈 객체로 초기화
+    this.currentUser = currentUser || {}; // props가 없을 경우 빈 객체로 초기화
   }
 
   // LeaveApplicationList의 1개의 LeaveApplicationItem 클릭 하면,
   // 클릭한 LeaveApplicationItem의 기존 데이터를 보여줌
   // 폼 데이터를 로드하여 입력 필드에 채우기
   loadFormData(formData) {
-    console.log('props', this.props);
+    console.log('props', this.currentUser);
     if (formData.typeForLeave) {
       const radioButton = document.querySelector(
         `input[name="typeForLeave"][value="${formData.typeForLeave}"]`,
@@ -25,7 +25,7 @@ export default class LeaveApplicationForm {
     document.querySelector('#applicationTitle').value = formData.applicationTitle;
     document.querySelector('#applicationDesc').value = formData.applicationDesc;
   }
-  setAddEventListener(onSubmit, onClose) {
+  attachEventListeners(onSubmit, onClose) {
     const btnApply = document.querySelector('.btn-applyform');
     const btnGoBack = document.querySelector('.btn-goback');
 
@@ -42,22 +42,21 @@ export default class LeaveApplicationForm {
   }
   // 폼 데이터를 가져오고 반환
   getFormData() {
-    console.log('this.props', this.props);
-    const username = document.querySelector('.applicaion-form__username').textContent;
+    const name = document.querySelector('.applicaion-form__username').textContent;
     const selectedRadio = document.querySelector('input[name="typeForLeave"]:checked');
-    const typeForLeave = selectedRadio ? selectedRadio.value : null;
-    const applicationTitle = document.querySelector('#applicationTitle').value.trim();
-    const applicationDesc = document.querySelector('#applicationDesc').value.trim();
+    const attendanceType = selectedRadio ? selectedRadio.value : null;
+    const title = document.querySelector('#applicationTitle').value.trim();
+    const content = document.querySelector('#applicationDesc').value.trim();
     // 현재 사용자 ID를 포함시키기 위해 this.props.currentUser.id를 사용
-    const userId = this.props ? this.props.id : null;
+    const userId = this.currentUser ? this.currentUser.id : null;
 
-    return {
-      username,
-      typeForLeave,
-      applicationTitle,
-      applicationDesc,
-      userId, // 이 부분에서 currentUser의 ID를 formData에 추가
-    };
+    return new FormDataDTO({
+      title,
+      content,
+      attendanceType,
+      name,
+      userId,
+    });
   }
 
   // 폼 데이터의 유효성을 검사
@@ -67,12 +66,12 @@ export default class LeaveApplicationForm {
     // Reset previous error messages
     this.clearErrorMessages();
 
-    if (!formData.typeForLeave) {
+    if (!formData.attendanceType) {
       isValid = false;
       this.showErrorMessage('typeForLeave', '휴가 종류를 선택해주세요.');
     }
 
-    if (!formData.applicationTitle) {
+    if (!formData.title) {
       isValid = false;
       this.showErrorMessage('applicationTitle', '제목을 입력해주세요.');
     }
@@ -107,7 +106,7 @@ export default class LeaveApplicationForm {
           <h1 class="applicaion-form__heading">근태/휴가 신청서</h1>
           <div class="applicaion-form__profile">
             <img src="${avatarDefaultImg}" alt="profile image" class="profile-image" />
-            <span class="applicaion-form__username">${this.props.name}</span>
+            <span class="applicaion-form__username">${this.currentUser.name}</span>
           </div>
           <form class="form">
             <div class="container">
