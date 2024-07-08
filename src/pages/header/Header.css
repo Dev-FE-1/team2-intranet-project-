@@ -62,7 +62,7 @@
   text-decoration: none;
 }
 
-.header__nav-list li a svg {
+.header__nav-list li a span:first-child {
   display: none;
 }
 .header__btn-logout {
