@@ -146,12 +146,23 @@ export default class LeaveApplicationList {
     leaveApplicationItems.addEventListener('click', onClickEditButton);
   }
 
+  filterDeletedItem(attendancesUserData, itemId) {
+    return attendancesUserData.filter((item) => parseInt(item.id) !== parseInt(itemId));
+  }
+
   // 삭제 버튼 클릭 이벤트 핸들러
   handleDeleteButton() {
     const onClickDeleteButton = (e) => {
       if (e.target.classList.contains('btn-delete')) {
         const itemId = e.target.dataset.id;
-        console.log('delete button clicked', itemId);
+        const attendancesUserData = this.filterDeletedItem(this.attendancesUserData, itemId);
+        this.attendancesUserData = [...attendancesUserData];
+
+        if (this.isMyFiltered) {
+          this.renderfilteredMyApplications(attendancesUserData);
+        } else {
+          this.renderLeaveItems(attendancesUserData);
+        }
       }
     };
     const leaveApplicationItems = document.querySelector('.leave-application-items');
