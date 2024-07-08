@@ -2,6 +2,7 @@ import './LeaveApplicationForm.css';
 import './LeaveApplicationList.css';
 import { UserDataDTO as FormDataDTO } from './UserDataDTO';
 import avatarDefaultImg from '/src/assets/images/avatar-default.jpg';
+import lodash from 'lodash';
 
 export default class LeaveApplicationForm {
   constructor(container, currentUser) {
@@ -13,6 +14,7 @@ export default class LeaveApplicationForm {
   // 클릭한 LeaveApplicationItem의 기존 데이터를 보여줌
   // 폼 데이터를 로드하여 입력 필드에 채우기
   loadFormData(formData) {
+    if (lodash.isEmpty(formData)) return;
     console.log('props', this.currentUser);
     if (formData.typeForLeave) {
       const radioButton = document.querySelector(

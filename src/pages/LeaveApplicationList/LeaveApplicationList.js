@@ -2,6 +2,7 @@ import LeaveApplicationItem from './LeaveApplicationItem';
 import LeaveApplicationForm from './LeaveApplicationForm';
 import './LeaveApplicationForm.css';
 import './LeaveApplicationList.css';
+import lodash from 'lodash';
 
 import { attendancesUserData, currentUser } from './dummyData';
 
@@ -12,6 +13,7 @@ export default class LeaveApplicationList {
     this.attendancesUserData = [...attendancesUserData]; // 근태신청 데이터를 클래스 변수에 저장
     this.currentUser = { ...currentUser }; // 현재 사용자 정보를 클래스 변수에 저장
     this.leaveApplicationForm = new LeaveApplicationForm('div', this.currentUser); // 모달창에 렌더링할 폼 컴포넌트
+    this.isMyFiltered = false;
   }
 
   render() {
@@ -71,30 +73,45 @@ export default class LeaveApplicationList {
     });
   }
 
+  // 내 신청서만 필터링함
   filterMyApplications(leaveItems) {
     return leaveItems.filter((item) => item.userId === this.currentUser.id);
   }
 
-  renderfilteredMyApplications() {
-    const myApplications = this.filterMyApplications(this.attendancesUserData);
+  // 내 신청서만 렌더링함
+  renderfilteredMyApplications(attendancesUserData) {
+    const myApplications = this.filterMyApplications(attendancesUserData);
     this.renderLeaveItems(myApplications);
   }
 
   // 신청서 목록을 클릭 헨들러, 내 신청서들만 보여주게함.
-  handleClickMyApplyRequestButton() {
+  handleClickMyFillterButton() {
     const btnShowOnlyMe = document.querySelector('.btn-show-onlyMe');
-    btnShowOnlyMe.addEventListener('click', () => {
-      this.renderfilteredMyApplications();
-    });
+
+    const onClickMyFillterButton = (e) => {
+      e.preventDefault();
+      this.isMyFiltered = true;
+      this.renderfilteredMyApplications(this.attendancesUserData);
+    };
+
+    btnShowOnlyMe.addEventListener('click', onClickMyFillterButton);
   }
 
   // 신청 버튼 클릭 이벤트 헨들러, 폼 데이터를 받아서 신청서 목록에 추가하는 메서드
   handleClickApplyButton() {
+    const btnApply = document.querySelector('.btn-apply');
+    this.attachModalEventListeners({ buttonElement: btnApply });
+  }
+
+  // 모달창 이벤트 리스너 추가
+  attachModalEventListeners({ formdata, buttonElement }) {
     const modal = document.querySelector('.modal');
     const modalBackground = document.querySelector('.modal-background');
 
     const onSubmit = (formData) => {
-      this.handleFormSubmit(formData);
+      if (!lodash.isEmpty(formData)) {
+        this.handleFormSubmit(formData);
+      }
       modalBackground.style.display = 'none';
     };
 
@@ -102,18 +119,19 @@ export default class LeaveApplicationList {
       modalBackground.style.display = 'none';
     };
 
-    const onClickApplyButton = (e) => {
-      if (e.target.classList.contains('btn-apply')) {
-        modal.innerHTML = this.leaveApplicationForm.render();
-        modalBackground.style.display = 'block';
+    const onClickButton = (e) => {
+      e.preventDefault();
+      modal.innerHTML = this.leaveApplicationForm.render();
+      modalBackground.style.display = 'block';
 
-        // leaveApplicationForm(자식)의 setAddEventListener 실행시,
-        // LeaveApplicationList(부모)로부터 내려보낼 콜백함수2개(onSubmit, onClose)를 작성
-        // onSubmit에 필요한 파라미터(formData) 같이 내려보냄
-        this.leaveApplicationForm.attachEventListeners(onSubmit, onClose);
+      if (!lodash.isEmpty(formdata)) {
+        this.leaveApplicationForm.loadFormData(formdata);
       }
+
+      this.leaveApplicationForm.attachEventListeners(onSubmit, onClose);
     };
-    document.querySelector('.btn-apply').addEventListener('click', onClickApplyButton);
+
+    buttonElement.addEventListener('click', onClickButton);
   }
 
   // 수정 버튼 클릭 이벤트 핸들러
@@ -142,13 +160,18 @@ export default class LeaveApplicationList {
 
   // 모달창 폼 submit 이벤트 핸들러, 폼 데이터를 받아서 신청서 목록에 추가하는 메서드
   handleFormSubmit(formDataDTO) {
-    const newItem = formDataDTO;
-    this.attendancesUserData.push(newItem);
+    if (!lodash.isEmpty(formDataDTO)) {
+      this.attendancesUserData = [formDataDTO, ...this.attendancesUserData];
+    }
     // 모달 닫기
     document.querySelector('.modal-background').style.display = 'none';
 
-    // 신청서 목록에 추가
-    this.renderLeaveItems(this.attendancesUserData);
+    // 내 신청서만 보기 필터링이 켜져있으면, 내 신청서만 보여주기
+    if (this.isMyFiltered) {
+      this.renderfilteredMyApplications(this.attendancesUserData);
+    } else {
+      this.renderLeaveItems(this.attendancesUserData);
+    }
   }
 
   // 이벤트 리스너를 추가하는 메서드
@@ -156,6 +179,6 @@ export default class LeaveApplicationList {
     this.handleClickEditButton();
     this.handleDeleteButton();
     this.handleClickApplyButton();
-    this.handleClickMyApplyRequestButton();
+    this.handleClickMyFillterButton();
   }
 }
