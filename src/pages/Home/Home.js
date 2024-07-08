@@ -1,8 +1,7 @@
-import './HomeUpper.css';
-import { AttendanceList } from '../attendancePreview/AttendanceList';
+import './Home.css';
+import { AttendanceList } from '../attendanceList/AttendanceList';
 import { phoneIcon, jobIcon, emailIcon } from '../../utils/icons';
-import avatarDefaultImg from '/src/assets/images/avatar-default.jpg';
-export class HomeUpper {
+export class Home {
   constructor(container, props = {}) {
     const {
       userName = '이동혁',
@@ -31,12 +30,11 @@ export class HomeUpper {
   render() {
     this.container.innerHTML = /* HTML */ `
       <section class="user-dashboard__wrap">
-      <h1 class="user-dashboard__title">홈 대시보드</h1>
         <div>
           <div class="working-timer-page">
             <div class="work">
               <div class="summary">
-                <img src="${avatarDefaultImg}" alt="" />
+                <img src="src/assets/images/avatar-default.jpg" alt="" />
                 <div class="worker-name">${this.userName}</div>
                 <div class="worker-rank">${this.rank}</div>
               </div>
@@ -78,7 +76,6 @@ export class HomeUpper {
       </section>
     `;
     const attendenList = new AttendanceList(document.querySelector('.attendanceList'), {});
-    attendenList.setListItemsNumbers(7);
     attendenList.render();
     this.addEventListeners();
     this.startClock();

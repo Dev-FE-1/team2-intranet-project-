@@ -1,4 +1,6 @@
 import './login.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import axios from 'axios';
 export default class Login {
   constructor(container) {
     this.container = container;
@@ -16,13 +18,13 @@ export default class Login {
                 <p class="login__description">Enter your email to sign up for this app</p>
                 <div class="login__group">
                     <label class='login__label' for="username">아이디</label>
-                    <input class="login__input" type="text" id="username" name="username" placeholder="ID" required>
+                    <input class="login__input" type="text" id="username" name="username" placeholder="ID" value="H2410001" required>
                     <span class="usernameError"></span>
                 </div>
                 <div class="login__group">
                     <label class='login__label' for="password">비밀번호</label>
                     <div class="login__password-wrapper">
-                        <input class="login__input" type="password" id="password" name="password" placeholder="Password" required>
+                        <input class="login__input" type="password" id="password" name="password" placeholder="Password" value="P@ssw0rd!" required>
                         <button type="button" class="login__toggle-password" aria-label="비밀번호 보기" data-shown="false">
                             <i class="fas fa-eye"></i>
                         </button>
@@ -60,6 +62,10 @@ export default class Login {
     // 이벤트 리스너 추가
     this.adminCheck.addEventListener('change', this.adminChecker.bind(this));
     this.togglePasswordButton.addEventListener('click', this.togglePasswordVisibility.bind(this));
+    this.form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      sessionStorage.getItem('admin') === 'true' ? this.adminSubmit(e) : this.userSubmit(e);
+    });
   }
 
   togglePasswordVisibility() {
@@ -78,29 +84,48 @@ export default class Login {
   }
 
   adminChecker() {
-    this.form.removeEventListener('submit', this.userSubmit);
-    this.form.removeEventListener('submit', this.adminSubmit);
-
     if (this.adminCheck.checked) {
-      console.log('관리자 모드 활성화');
-      this.form.addEventListener('submit', this.adminSubmit.bind(this));
+      sessionStorage.setItem('admin', true);
+      console.log(sessionStorage.getItem('admin'));
     } else {
-      console.log('일반 사용자 모드 활성화');
-      this.form.addEventListener('submit', this.userSubmit.bind(this));
+      sessionStorage.setItem('admin', false);
+      console.log(sessionStorage.getItem('admin'));
     }
   }
 
   adminSubmit(e) {
+    console.log(this.idValue);
+    console.log(this.pwValue);
     e.preventDefault();
+    console.log('관리자 로그인시도');
     this.clearErrors();
-    this.attemptAdminLogin();
   }
 
-  userSubmit = (e) => {
+  userSubmit = async (e) => {
     e.preventDefault();
-    this.clearErrors();
+    console.log(this.usernameInput.value);
+    console.log(this.passwordInput.value);
+    console.log('사용자 로그인 시도');
     if (this.validateInputs() && this.validateId() && this.validatePassword()) {
-      this.attemptLogin();
+      this.clearErrors();
+      console.log('타당성 검사 완료, 로그인 시도');
+      try {
+        const response = await axios.get(`/api/employees/${this.usernameInput.value.trim()}`);
+
+        // 서버 응답에서 데이터 부분을 추출합니다.
+        const employeeData = response.data;
+        console.log('직원 데이터:', employeeData.data);
+        const { email, employeeId, name, phone, position } = employeeData.data;
+
+        sessionStorage.setItem('id', employeeId);
+        sessionStorage.setItem('name', name);
+        sessionStorage.setItem('email', email);
+        sessionStorage.setItem('phone', phone);
+        sessionStorage.setItem('position', position);
+        window.location.reload();
+      } catch (error) {
+        console.error('attendances근태 리스트 데이터를 가져오는 중에 에러 발생', error);
+      }
     }
   };
 
@@ -123,8 +148,8 @@ export default class Login {
   validateId() {
     // 첫 문자는 H 또는 C, 그 뒤에 7자리 숫자
     const idPattern = /^(H|C)\d{7}$/;
-
     const isValid = idPattern.test(this.usernameInput.value.trim());
+    console.log(`id = ${isValid}`);
 
     if (!isValid) {
       this.showError(this.usernameError, '등록되지 않았거나 잘못된 형식의 아이디 입니다');
@@ -138,23 +163,16 @@ export default class Login {
     const pattern8 = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).{8}$/;
     const pattern10 = /^(?=.*[a-zA-Z])(?=.*\d)|(?=.*[a-zA-Z])(?=.*[\W_])|(?=.*\d)(?=.*[\W_]).{10}$/;
     const isValid8 = pattern8.test(this.passwordInput.value.trim());
+    console.log(isValid8);
     const isValid10 = pattern10.test(this.passwordInput.value.trim());
-    const isValid = isValid8 && isValid10;
+    console.log(isValid10);
+    const isValid = isValid8 || isValid10;
     if (!isValid) {
       this.showError(this.passwordError, '등록되지 않았거나 잘못된 형식의 비밀번호 입니다');
       return isValid;
     }
 
     return isValid;
-  }
-
-  attemptLogin() {
-    ///백단 로그인 로직
-    console.log('attemptLogin');
-  }
-  attemptAdminLogin() {
-    ///백단 로그인 로직(관리자)
-    console.log('attemptAdminLogin');
   }
 
   showError(element, message) {

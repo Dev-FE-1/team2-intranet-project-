@@ -1,6 +1,8 @@
 // import 순서를 관리자와 사용자별 메뉴 순서에 맞게 수정했습니다.
 import { Layout } from './layout/Layout.js';
 import { EmployeeListTable } from './employeeListTable/EmployeeListTable.js';
+// import { AttendanceList } from './attendanceList/AttendanceList.js';
+import { Home } from './Home/Home.js';
 import UserInfo from './userinfo/UserInfo';
 
 import { AdminGallery } from './gallery/AdminGallery.js';
@@ -19,7 +21,7 @@ const app = document.querySelector('#app');
 // 유저 타입 정보 세션스토리지에서 가져오기
 const userType = sessionStorage.getItem('userType');
 
-if (!sessionStorage.length) {
+if (!sessionStorage.id) {
   history.replaceState('', '', '/');
   const login = new Login(app);
   login.render();
@@ -31,7 +33,10 @@ if (!sessionStorage.length) {
   const routeView = app.querySelector('route-view');
 
   const routes = {
-    // 관리자 페이지
+    '/': {
+      title: 'Home',
+      Component: Home,
+    },
     '/userinfo': {
       title: 'userinfo',
       Component: UserInfo,

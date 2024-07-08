@@ -75,7 +75,7 @@ body {
   font-size: 1rem;
   padding: 0;
   line-height: 1.5;
-  height: 100%; /* Ensures it vertically aligns */
+  height: 100%;
   display: flex;
   align-items: center;
 }

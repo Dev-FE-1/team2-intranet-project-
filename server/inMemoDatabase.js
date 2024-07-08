@@ -71,11 +71,14 @@ export default class InMemoDatabase {
   }
 
   getEmployeeById(id, callback) {
-    const sql = 'SELECT * FROM Employees WHERE id = ?';
+    const sql =
+      'SELECT email,employeeid,name,phone,position,profileImg FROM Employees WHERE employeeId = ?';
     this.db.get(sql, [id], (err, row) => {
+      console.log(id);
       if (err) {
         console.error('Error selecting Employee by id:', err);
       }
+      console.log(`${id}에 맞는 데이터 찾기 성공`);
       callback(row);
     });
   }

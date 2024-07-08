@@ -61,9 +61,9 @@ app.get('/api/employees', cors(), (req, res) => {
     });
   });
 });
-
 app.get('/api/employees/:id', (req, res) => {
   const id = req.params.id;
+  console.log(`/api/employees/${id} 라우팅 확인`);
   indb.getEmployeeById(id, (employee) => {
     res.json({
       status: 'OK',
