@@ -17,7 +17,9 @@ export default class Modal {
           <button class="modal__btn modal__btn--cancel">아니오</button>
           <button class="modal__btn modal__btn--click"></button>
         </div>
-        <span class="modal--close">x</span>
+        <span class="modal--close"><span class="material-symbols-rounded">
+        close
+        </span></span>
       </div>
     `;
     this.btnHandler();
@@ -45,10 +47,13 @@ export default class Modal {
     btnClose.forEach((btn) => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
+        // 스크롤링 블락 해제
+        document.body.style.overflow = 'auto';
         this.hideModal();
       });
     });
   }
+
   showModal() {
     this.el.classList.add('show');
   }
