@@ -1,62 +1,37 @@
 import './LeaveApplicationItem.css';
-import avatarDefaultImg from '/src/assets/images/avatar-default.jpg';
+import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
+import { currentUser } from './dummyData';
+
 export default class LeaveApplicationItem {
-  constructor(props, currentUser) {
-    this.props = props;
-    this.currentUser = currentUser;
+  constructor() {
+    this.avatarDefaultImg = avatarDefaultImg;
+    this.currentUserId = currentUser.id;
   }
 
-  render() {
-    const { id, userId, username, typeForLeave, applicationTitle, applicationDesc } = this.props;
+  renderLeaveItem(userData) {
+    const { id, title, content, attendanceType, name, attendanceApplyTime, userId } = userData;
     // 현재 사용자가 정의되어 있고, 현재 사용자의 ID가 글 작성자의 ID와 동일한지 확인
-    const canEdit = this.currentUser && this.currentUser.id === userId;
-    console.log('canEdit', userId, canEdit);
     return /* HTML */ `
       <li class="leave-application-item" data-id="${id}">
         <img src="${avatarDefaultImg}" alt="profile-image" class="photo" />
         <div class="formdata">
-          <span>${typeForLeave}</span>
+          <span>${attendanceType}</span>
           <div>
-            <p class="title">제목: ${applicationTitle}</p>
-            <p class="desc">내용: ${applicationDesc}</p>
+            <p class="eave-application-item__title">제목: ${title}</p>
+            <p class="leave-application-item__conetent">내용: ${content}</p>
+            <p class="eave-application-item__attendanceApplyTime">${attendanceApplyTime}</p>
           </div>
         </div>
-        <div class="author">${username}</div>
-        ${canEdit
-          ? `
-      <div class="btn-for-update">
-          <button class="btn-edit" data-id="${id}">수정</button>
-      <button class="btn-delete" data-id="${id}">삭제</button>
-      </div>
-    `
-          : ''}
+        <span class="author">${name}</span>
+        ${this.currentUserId === userId ? `${this.renderEditAndDeleteButton(id)}` : ''}
       </li>
     `;
   }
 
-  render2({ id, userId, typeForLeave, applicationTitle, applicationDesc }) {
-    // 현재 사용자가 정의되어 있고, 현재 사용자의 ID가 글 작성자의 ID와 동일한지 확인
-    const canEdit = this.currentUser && this.currentUser.id === userId;
-    return /* HTML */ `
-      <li class="leave-application-item" data-id="${id}">
-        <img src="${avatarDefaultImg}" alt="profile-image" class="photo" />
-        <div class="formdata">
-          <span>${typeForLeave}</span>
-          <div>
-            <p class="title">제목: ${applicationTitle}</p>
-            <p class="desc">내용: ${applicationDesc}</p>
-          </div>
-        </div>
-        <div class="author">${'글쓴이'}</div>
-        ${canEdit
-          ? `
-      <div class="btn-for-update">
-          <button class="btn-edit" data-id="${id}">수정</button>
+  renderEditAndDeleteButton(id) {
+    return /* HTML */ ` <div class="btn-for-update">
+      <button class="btn-edit" data-id="${id}">수정</button>
       <button class="btn-delete" data-id="${id}">삭제</button>
-      </div>
-    `
-          : ''}
-      </li>
-    `;
+    </div>`;
   }
 }
