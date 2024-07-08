@@ -1,10 +1,27 @@
 import './LeaveApplicationForm.css';
 import './LeaveApplicationList.css';
+import avatarDefaultImg from '/src/assets/images/avatar-default.jpg';
 
 export default class LeaveApplicationForm {
   constructor(container, props) {
     this.container = container;
-    this.props = props;
+    this.props = props || {}; // props가 없을 경우 빈 객체로 초기화
+  }
+
+  // LeaveApplicationList의 1개의 LeaveApplicationItem 클릭 하면,
+  // 클릭한 LeaveApplicationItem의 기존 데이터를 보여줌
+  // 폼 데이터를 로드하여 입력 필드에 채우기
+  loadFormData(formData) {
+    if (formData.typeForLeave) {
+      const radioButton = document.querySelector(
+        `input[name="typeForLeave"][value="${formData.typeForLeave}"]`,
+      );
+      if (radioButton) {
+        radioButton.checked = true;
+      }
+    }
+    document.querySelector('#applicationTitle').value = formData.applicationTitle;
+    document.querySelector('#applicationDesc').value = formData.applicationDesc;
   }
   setAddEventListener(onSubmit, onClose) {
     const btnApply = document.querySelector('.btn-applyform');
@@ -27,10 +44,14 @@ export default class LeaveApplicationForm {
     const typeForLeave = selectedRadio ? selectedRadio.value : null;
     const applicationTitle = document.querySelector('#applicationTitle').value.trim();
     const applicationDesc = document.querySelector('#applicationDesc').value.trim();
+    // 현재 사용자 ID를 포함시키기 위해 this.props.currentUser.id를 사용
+    const userId = this.props.currentUser ? this.props.currentUser.id : null;
+
     return {
       typeForLeave,
       applicationTitle,
       applicationDesc,
+      userId, // 이 부분에서 currentUser의 ID를 formData에 추가
     };
   }
 
@@ -40,6 +61,7 @@ export default class LeaveApplicationForm {
 
     // Reset previous error messages
     this.clearErrorMessages();
+
     if (!formData.typeForLeave) {
       isValid = false;
       this.showErrorMessage('typeForLeave', '휴가 종류를 선택해주세요.');
@@ -78,12 +100,10 @@ export default class LeaveApplicationForm {
       <section class="applicaion-form-wrap">
         <div class="applicaion-form">
           <h1 class="applicaion-form__heading">근태/휴가 신청서</h1>
-          <img
-            src="/src/assets/images/avatar-default.jpg"
-            alt="profile image"
-            class="profile-image"
-          />
-
+          <div class="applicaion-form__profile">
+            <img src="${avatarDefaultImg}" alt="profile image" class="profile-image" />
+            <span class="applicaion-form__username">${'세션에서 가지고온 이름'}</span>
+          </div>
           <form class="form">
             <div class="container">
               <div class="radio-tile-group">

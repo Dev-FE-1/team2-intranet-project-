@@ -15,6 +15,12 @@
   display: none;
 }
 
+.gallery__heading {
+  font-size: var(--font-large);
+  display: none;
+}
+
+/* 페이지 전체가 아니라, 갤러리 안에서만 스크롤 적용. */
 .gallery__container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -92,7 +98,8 @@
     margin-top: 80px;
     margin-bottom: 150px;
   }
-  .gallery__title {
+
+  .gallery__heading {
     display: block;
     position: fixed;
     top: 0;
@@ -150,6 +157,7 @@
     width: 100vw;
     height: 60px;
     font-size: var(--font-large);
+    color: var(--color-black);
     text-align: center;
     line-height: 60px;
     background-color: rgba(255, 255, 255, 1);
@@ -181,5 +189,6 @@
     background-color: var(--color-white);
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+    z-index: 10;
   }
 }
