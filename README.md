@@ -126,7 +126,7 @@ npm install
 ### 서버 실행
 
 ```
-npm run server
+npm run start
 ```
 
 ### 클라이언트 실행
