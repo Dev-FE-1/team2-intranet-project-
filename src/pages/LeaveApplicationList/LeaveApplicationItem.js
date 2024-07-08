@@ -7,9 +7,10 @@ export default class LeaveApplicationItem {
   }
 
   render() {
-    const { id, userId, typeForLeave, applicationTitle, applicationDesc } = this.props;
+    const { id, userId, username, typeForLeave, applicationTitle, applicationDesc } = this.props;
     // 현재 사용자가 정의되어 있고, 현재 사용자의 ID가 글 작성자의 ID와 동일한지 확인
     const canEdit = this.currentUser && this.currentUser.id === userId;
+    console.log('canEdit', userId, canEdit);
     return /* HTML */ `
       <li class="leave-application-item" data-id="${id}">
         <img src="${avatarDefaultImg}" alt="profile-image" class="photo" />
@@ -20,7 +21,7 @@ export default class LeaveApplicationItem {
             <p class="desc">내용: ${applicationDesc}</p>
           </div>
         </div>
-        <div class="author">${'글쓴이'}</div>
+        <div class="author">${username}</div>
         ${canEdit
           ? `
       <div class="btn-for-update">
