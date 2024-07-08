@@ -197,8 +197,17 @@ export default class LeaveApplicationList {
   // 내 신청서만 보기 버튼 클릭하면,
   // 글 필터링 된 것 렌더링
   renderItems(items) {
+    const itemstemplate = new LeaveApplicationItem();
     const leaveApplicationItems = document.querySelector('.leave-application-items');
-    leaveApplicationItems.innerHTML = items.map((item) => item.render()).join('');
+
+    items.forEach((item) => {
+      console.log(item);
+    });
+
+    leaveApplicationItems.innerHTML = items.map((item) => itemstemplate.render2(item)).join('');
+
+    // const leaveApplicationItems = document.querySelector('.leave-application-items');
+    // leaveApplicationItems.innerHTML = items.map((item) => item.render()).join('');
   }
 
   // leaveApplicationForm으로 부터 받아온 formData를 처리(렌더)하는 로직
