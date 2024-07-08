@@ -4,6 +4,7 @@ import avatarDefaultImg from '/src/assets/images/avatar-default.jpg';
 
 export default class LeaveApplicationForm {
   constructor(container, props) {
+    console.log(container, props);
     this.container = container;
     this.props = props || {}; // props가 없을 경우 빈 객체로 초기화
   }
@@ -40,12 +41,13 @@ export default class LeaveApplicationForm {
   }
   // 폼 데이터를 가져오고 반환
   getFormData() {
+    console.log('this.props', this.props);
     const selectedRadio = document.querySelector('input[name="typeForLeave"]:checked');
     const typeForLeave = selectedRadio ? selectedRadio.value : null;
     const applicationTitle = document.querySelector('#applicationTitle').value.trim();
     const applicationDesc = document.querySelector('#applicationDesc').value.trim();
     // 현재 사용자 ID를 포함시키기 위해 this.props.currentUser.id를 사용
-    const userId = this.props.currentUser ? this.props.currentUser.id : null;
+    const userId = this.props ? this.props.id : null;
 
     return {
       typeForLeave,
