@@ -71,11 +71,20 @@ export default class LeaveApplicationList {
     });
   }
 
+  filterMyApplications(leaveItems) {
+    return leaveItems.filter((item) => item.userId === this.currentUser.id);
+  }
+
+  renderfilteredMyApplications() {
+    const myApplications = this.filterMyApplications(this.attendancesUserData);
+    this.renderLeaveItems(myApplications);
+  }
+
   // 신청서 목록을 클릭 헨들러, 내 신청서들만 보여주게함.
   handleClickMyApplyRequestButton() {
     const btnShowOnlyMe = document.querySelector('.btn-show-onlyMe');
     btnShowOnlyMe.addEventListener('click', () => {
-      this.filterMyApplications();
+      this.renderfilteredMyApplications();
     });
   }
 

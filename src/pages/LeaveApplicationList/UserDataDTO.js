@@ -24,13 +24,3 @@ export class UserDataDTO {
     this.userId = data.userId || '';
   }
 }
-
-console.log(
-  new UserDataDTO({
-    title: '테스트 제목',
-    content: '테스트 내용',
-    attendanceType: '연차',
-    name: '테스터',
-    userId: 'H2410014',
-  }),
-);
