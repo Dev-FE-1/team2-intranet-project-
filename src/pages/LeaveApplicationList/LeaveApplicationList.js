@@ -78,6 +78,12 @@ export default class LeaveApplicationList {
       // 현재 사용자 정보를 각 LeaveApplicationItem에 전달
       this.items.push(new LeaveApplicationItem(data, this.currentUser));
     });
+    console.log(this.items);
+  }
+
+  loadItems() {
+    const LeaveApplicationItems = document.querySelector('.leave-application-items');
+    LeaveApplicationItems.innerHTML = this.items.map((item) => item.render()).join('');
   }
 
   setAddEventListener() {
@@ -85,7 +91,8 @@ export default class LeaveApplicationList {
     const modal = document.querySelector('.modal');
     const btnApply = document.querySelector('.btn-apply');
 
-    const leaveApplicationForm = new LeaveApplicationForm();
+    console.log('this.currentUser', this.currentUser);
+    const leaveApplicationForm = new LeaveApplicationForm('div', this.currentUser);
 
     // 모달 기본 초기화: 안보이게
     modalBackground.style.display = 'none';
@@ -100,6 +107,7 @@ export default class LeaveApplicationList {
       // onSubmit에 필요한 파라미터(formData) 같이 내려보냄
       leaveApplicationForm.setAddEventListener(
         (formData) => {
+          console.log(formData);
           this.handleFormSubmit(formData);
           modalBackground.style.display = 'none';
         },
@@ -129,6 +137,7 @@ export default class LeaveApplicationList {
     // 새로 생성된 leaveApplicationItem이 어떻게 그려질까
     const leaveApplicationItems = document.querySelector('.leave-application-items');
     leaveApplicationItems.addEventListener('click', (event) => {
+      console.log(event.target.classList.contains('btn-edit'));
       if (event.target.classList.contains('btn-edit')) {
         const itemId = event.target.dataset.id;
         console.log(itemId);
@@ -182,6 +191,7 @@ export default class LeaveApplicationList {
   filterMyApplications() {
     const userId = this.currentUser.id;
     const myItems = this.items.filter((item) => item.props.userId === userId);
+    console.log(myItems);
     this.renderItems(myItems);
   }
   // 내 신청서만 보기 버튼 클릭하면,
@@ -195,6 +205,7 @@ export default class LeaveApplicationList {
   handleFormSubmit(formData, itemId = null) {
     console.log('Form submitted:', formData);
     // 여기에 formData를 처리하는 로직 추가
+    console.log(formData, itemId);
 
     if (itemId) {
       // 여기서 itemId를 숫자로 변환합니다.
@@ -279,6 +290,7 @@ export default class LeaveApplicationList {
         <div class="modal"></div>
       </div>
     `;
+    this.loadItems();
     this.setAddEventListener();
   }
 }
