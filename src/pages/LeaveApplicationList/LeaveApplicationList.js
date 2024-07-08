@@ -245,6 +245,7 @@ export default class LeaveApplicationList {
       listElement.insertAdjacentHTML('beforeend', itemHTML); // 새 아이템을 리스트에 추가
     }
   }
+
   // 특정 아이템만 다시 렌더링하는 메서드
   updateItemRender(item) {
     const element = document.querySelector(`.leave-application-item[data-id="${item.props.id}"]`);
@@ -253,14 +254,19 @@ export default class LeaveApplicationList {
       element.outerHTML = item.render(); // 기존 요소를 새로운 마크업으로 교체
     }
   }
+
+  filterMyListDeleted(myItems, itemId) {
+    return [...myItems].filter((item) => parseInt(item.dataset.id, 10) !== parseInt(itemId, 10));
+  }
+
   // 내가 쓴 신청서의 삭제버튼 클릭하면,
   // 작성자 아이디와 글 아이디 비교 후 필터링,
   // 동일하지 않은 글(필터링한 결과값)만 다시 렌더링
-  deleteApplication(itemId) {
+  deleteApplication(deletedItemId) {
     // itemId를 정수로 변환하고 올바른 아이템을 찾아서 삭제
-    itemId = parseInt(itemId, 10);
-    this.items = this.items.filter((item) => parseInt(item.props.id, 10) !== itemId);
-    this.renderItems(this.items); // 변경된 아이템 목록을 다시 렌더링
+    const myItems = document.querySelectorAll('.leave-application-item');
+    const myItemsFiltered = this.filterMyListDeleted(myItems, parseInt(deletedItemId));
+    this.renderItems(myItemsFiltered); // 변경된 아이템 목록을 다시 렌더링
   }
   render() {
     this.container.innerHTML = /* HTML */ `
