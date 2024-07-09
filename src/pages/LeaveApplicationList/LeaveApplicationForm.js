@@ -1,7 +1,8 @@
 import './LeaveApplicationForm.css';
 import './LeaveApplicationList.css';
-import { UserDataDTO as FormDataDTO } from './UserDataDTO';
+import { FormDataDTO } from './FormDataDTO';
 import avatarDefaultImg from '/src/assets/images/avatar-default.jpg';
+import lodash from 'lodash';
 
 export default class LeaveApplicationForm {
   constructor(container, currentUser) {
@@ -12,18 +13,21 @@ export default class LeaveApplicationForm {
   // LeaveApplicationList의 1개의 LeaveApplicationItem 클릭 하면,
   // 클릭한 LeaveApplicationItem의 기존 데이터를 보여줌
   // 폼 데이터를 로드하여 입력 필드에 채우기
-  loadFormData(formData) {
-    console.log('props', this.currentUser);
-    if (formData.typeForLeave) {
+  loadFormData(formDataDTO) {
+    if (lodash.isEmpty(formDataDTO)) return;
+    console.log('formDataDTO:', formDataDTO);
+    const { attendanceType, title, content } = formDataDTO;
+    if (attendanceType) {
       const radioButton = document.querySelector(
-        `input[name="typeForLeave"][value="${formData.typeForLeave}"]`,
+        `input[name="typeForLeave"][value="${attendanceType}"]`,
       );
       if (radioButton) {
         radioButton.checked = true;
       }
     }
-    document.querySelector('#applicationTitle').value = formData.applicationTitle;
-    document.querySelector('#applicationDesc').value = formData.applicationDesc;
+    document.querySelector('.applicaion-form').dataset.id = formDataDTO.id;
+    document.querySelector('#applicationTitle').value = title;
+    document.querySelector('#applicationDesc').value = content;
   }
   attachEventListeners(onSubmit, onClose) {
     const btnApply = document.querySelector('.btn-applyform');
@@ -42,6 +46,8 @@ export default class LeaveApplicationForm {
   }
   // 폼 데이터를 가져오고 반환
   getFormData() {
+    const dataId = document.querySelector('.applicaion-form').dataset.id;
+    const id = dataId ?? null;
     const name = document.querySelector('.applicaion-form__username').textContent;
     const selectedRadio = document.querySelector('input[name="typeForLeave"]:checked');
     const attendanceType = selectedRadio ? selectedRadio.value : null;
@@ -51,6 +57,7 @@ export default class LeaveApplicationForm {
     const userId = this.currentUser ? this.currentUser.id : null;
 
     return new FormDataDTO({
+      id,
       title,
       content,
       attendanceType,
@@ -99,10 +106,10 @@ export default class LeaveApplicationForm {
     errorMessage.textContent = message;
     inputElement.appendChild(errorMessage);
   }
-  render() {
+  render(id) {
     return /* HTML */ `
       <section class="applicaion-form-wrap">
-        <div class="applicaion-form">
+        <div class="applicaion-form" data-id="${id ?? ''}">
           <h1 class="applicaion-form__heading">근태/휴가 신청서</h1>
           <div class="applicaion-form__profile">
             <img src="${avatarDefaultImg}" alt="profile image" class="profile-image" />

@@ -13,14 +13,15 @@ function Counter() {
 
 const counter = Counter();
 
-export class UserDataDTO {
+export class FormDataDTO {
   constructor(data) {
-    this.id = counter.increase();
+    this.id = data.id || counter.increase();
     this.title = data.title || '제목없음';
     this.content = data.content || '내용없음';
     this.attendanceType = data.attendanceType || '';
     this.name = data.name || '익명';
-    this.attendanceApplyTime = date.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
+    this.attendanceApplyTime =
+      data.attendanceApplyTime || date.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
     this.userId = data.userId || '';
   }
 }
