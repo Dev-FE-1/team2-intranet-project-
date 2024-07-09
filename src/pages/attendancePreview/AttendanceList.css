@@ -54,7 +54,7 @@
   height: var(--size-button-height);
   border: none;
   border-radius: 5px;
-  background-color: var(--color-jordy-blue);
+  background-color: var(--color-slate-blue);
   font-size: var(--font-small);
   color: var(--color-white);
   cursor: pointer;
