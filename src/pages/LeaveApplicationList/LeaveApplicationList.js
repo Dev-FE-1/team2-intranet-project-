@@ -5,6 +5,7 @@ import './LeaveApplicationList.css';
 import lodash from 'lodash';
 
 import { attendancesUserData, currentUser } from './dummyData';
+import { FormDataDTO } from './FormDataDTO';
 
 export default class LeaveApplicationList {
   constructor(container, props) {
@@ -103,8 +104,8 @@ export default class LeaveApplicationList {
     this.attachModalEventListeners({ buttonElement: btnApply });
   }
 
-  // 모달창 이벤트 리스너 추가
-  attachModalEventListeners({ formdata, buttonElement }) {
+  // 신청 버튼 클릭 모달창 이벤트 리스너 추가
+  attachModalEventListeners({ buttonElement }) {
     const modal = document.querySelector('.modal');
     const modalBackground = document.querySelector('.modal-background');
 
@@ -124,10 +125,6 @@ export default class LeaveApplicationList {
       modal.innerHTML = this.leaveApplicationForm.render();
       modalBackground.style.display = 'block';
 
-      if (!lodash.isEmpty(formdata)) {
-        this.leaveApplicationForm.loadFormData(formdata);
-      }
-
       this.leaveApplicationForm.attachEventListeners(onSubmit, onClose);
     };
 
@@ -136,16 +133,39 @@ export default class LeaveApplicationList {
 
   // 수정 버튼 클릭 이벤트 핸들러
   handleClickEditButton() {
-    const onClickEditButton = (e) => {
-      if (e.target.classList.contains('btn-edit')) {
-        const itemId = e.target.dataset.id;
-        console.log('edit button clicked', itemId);
+    const modal = document.querySelector('.modal');
+    const modalBackground = document.querySelector('.modal-background');
+
+    const onSubmit = (formData) => {
+      if (!lodash.isEmpty(formData)) {
+        // formData.id = parseInt(formData.id);
+        this.handleFormEditSubmit(formData);
       }
+      modalBackground.style.display = 'none';
     };
+
+    const onClose = () => {
+      modalBackground.style.display = 'none';
+    };
+
+    const onClickEditButton = (e) => {
+      e.preventDefault();
+      const dataId = e.target.closest('li').dataset.id;
+      modal.innerHTML = this.leaveApplicationForm.render(dataId);
+      modalBackground.style.display = 'block';
+
+      const formdata = this.attendancesUserData.find(
+        (item) => parseInt(item.id) === parseInt(e.target.dataset.id),
+      );
+      this.leaveApplicationForm.loadFormData(new FormDataDTO(formdata));
+      this.leaveApplicationForm.attachEventListeners(onSubmit, onClose);
+    };
+
     const leaveApplicationItems = document.querySelector('.leave-application-items');
     leaveApplicationItems.addEventListener('click', onClickEditButton);
   }
 
+  // 삭제 버튼 클릭 시, 삭제된 아이템을 필터링하는 메서드
   filterDeletedItem(attendancesUserData, itemId) {
     return attendancesUserData.filter((item) => parseInt(item.id) !== parseInt(itemId));
   }
@@ -174,6 +194,26 @@ export default class LeaveApplicationList {
     if (!lodash.isEmpty(formDataDTO)) {
       this.attendancesUserData = [formDataDTO, ...this.attendancesUserData];
     }
+    // 모달 닫기
+    document.querySelector('.modal-background').style.display = 'none';
+
+    // 내 신청서만 보기 필터링이 켜져있으면, 내 신청서만 보여주기
+    if (this.isMyFiltered) {
+      this.renderfilteredMyApplications(this.attendancesUserData);
+    } else {
+      this.renderLeaveItems(this.attendancesUserData);
+    }
+  }
+
+  // 수정 모달창 submit  이벤트 헨들러, 폼 데이터를 반아서 신청 목록을 수정하는 메서드
+  handleFormEditSubmit(formDataDTO) {
+    // this.attendancesUserData = [formDataDTO, ...this.attendancesUserData];
+    this.attendancesUserData = this.attendancesUserData.map((item) => {
+      if (parseInt(item.id) === parseInt(formDataDTO.id)) {
+        return formDataDTO;
+      }
+      return item;
+    });
     // 모달 닫기
     document.querySelector('.modal-background').style.display = 'none';
 
