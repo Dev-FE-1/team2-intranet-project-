@@ -24,6 +24,8 @@ export default class InMemoDatabase {
 
   createTable() {
     this.db.serialize(() => {
+      this.db.run('PRAGMA foreign_keys = ON');
+
       this.db.run(`
         CREATE TABLE IF NOT EXISTS Employees (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,7 +33,7 @@ export default class InMemoDatabase {
           email TEXT,
           phone TEXT,
           position TEXT,
-          employeeId TEXT,
+          employeeId TEXT NOT NULL UNIQUE,
           profileImg TEXT,
           password TEXT
         )`).run(`
@@ -42,6 +44,15 @@ export default class InMemoDatabase {
             profileImg TEXT,
             content TEXT
           )`);
+      this.db.run(`
+        CREATE TABLE IF NOT EXISTS WorkTimes (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          employeeId TEXT NOT NULL,
+          INtime DATETIME,
+          OUTtime DATETIME,
+          status INTEGER CHECK (status IN (0, 1, 2)),
+          FOREIGN KEY (employeeId) REFERENCES Employees (employeeId)
+        )`);
     });
   }
 
@@ -71,11 +82,14 @@ export default class InMemoDatabase {
   }
 
   getEmployeeById(id, callback) {
-    const sql = 'SELECT * FROM Employees WHERE id = ?';
+    const sql =
+      'SELECT email,employeeid,name,phone,position,profileImg FROM Employees WHERE employeeId = ?';
     this.db.get(sql, [id], (err, row) => {
+      console.log(id);
       if (err) {
         console.error('Error selecting Employee by id:', err);
       }
+      console.log(`${id}에 맞는 데이터 찾기 성공`);
       callback(row);
     });
   }
@@ -117,6 +131,41 @@ export default class InMemoDatabase {
         console.error('Error selecting all Attendances:', err);
       }
       callback(rows);
+    });
+  }
+  getEmployeeByIdPw(id, pw, callback) {
+    const sql =
+      'SELECT email,employeeid,name,phone,position,profileImg FROM Employees WHERE employeeId = ? AND password = ?';
+    this.db.get(sql, [id, pw], (err, row) => {
+      console.log(id);
+      console.log(pw);
+      console.log(row);
+      if (err) {
+        console.error('Error selecting Employee by id and pw:', err);
+      }
+      callback(row);
+    });
+  }
+
+  setTime({ employeeId, INtime, OUTtime, status }) {
+    const sql = `INSERT INTO WorkTimes (employeeId, INtime, OUTtime, status) VALUES (?, ?, ?, ?)`;
+    this.db.run(sql, [employeeId, INtime, OUTtime, status], (err) => {
+      console.log('setTime initialization completed');
+      if (err) {
+        console.error('Error inserting timer:', err);
+      }
+    });
+  }
+
+  getTime(id, callback) {
+    const sql = 'SELECT * FROM WorkTimes WHERE employeeId = ? ORDER BY INtime DESC LIMIT 1';
+    this.db.get(sql, [id], (err, row) => {
+      console.log(id);
+      if (err) {
+        console.error('Error selecting Employee by id to getTime', err);
+      }
+      console.log(`${id}에 맞는 데이터 찾기 성공 getTime`);
+      callback(row);
     });
   }
 }
