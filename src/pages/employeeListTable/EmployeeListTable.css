@@ -22,7 +22,7 @@
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  height: calc(100vh - 160px);
+  height: 100vh;
   white-space: nowrap;
 }
 
