@@ -2,13 +2,12 @@
 import { Layout } from './layout/Layout.js';
 import { EmployeeListTable } from './employeeListTable/EmployeeListTable.js';
 // import { AttendanceList } from './attendanceList/AttendanceList.js';
-import { Home } from './Home/Home.js';
 import UserInfo from './userinfo/UserInfo';
 
 import { AdminGallery } from './gallery/AdminGallery.js';
 // HomeUpper와 bottom은 나중에 Home.js 에 합쳐질 예정, 합친 후 수정 필요
 // import Home from './Home';
-import { HomeUpper } from './Home/HomeUpper.js';
+import { Home } from './Home/Home.js';
 import { EmployeeGallery } from './gallery/EmployeeGallery.js';
 
 import Mypage from './mypage/Mypage';
@@ -33,7 +32,7 @@ if (!sessionStorage.id) {
   const routeView = app.querySelector('route-view');
 
   const routes = {
-    '/': {
+    '/adminHome': {
       title: 'Home',
       Component: Home,
     },
@@ -52,7 +51,7 @@ if (!sessionStorage.id) {
     // 직원 페이지
     '/': {
       title: 'Home',
-      Component: HomeUpper,
+      Component: Home,
     },
     '/gallery': {
       title: 'Gallery',

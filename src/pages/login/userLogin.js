@@ -94,24 +94,29 @@ export default class Login {
   }
 
   adminSubmit(e) {
-    console.log(this.idValue);
-    console.log(this.pwValue);
     e.preventDefault();
     console.log('관리자 로그인시도');
-    this.clearErrors();
+    if (this.validateInputs()) {
+      console.log('타당성 검사 완료, 로그인 시도');
+      this.clearErrors();
+    } else {
+      // this.validateInputs()
+    }
   }
 
   userSubmit = async (e) => {
     e.preventDefault();
-    console.log(this.usernameInput.value);
-    console.log(this.passwordInput.value);
     console.log('사용자 로그인 시도');
     if (this.validateInputs() && this.validateId() && this.validatePassword()) {
       this.clearErrors();
       console.log('타당성 검사 완료, 로그인 시도');
-      try {
-        const response = await axios.get(`/api/employees/${this.usernameInput.value.trim()}`);
+      const requestData = {
+        username: this.usernameInput.value,
+        password: this.passwordInput.value,
+      };
 
+      try {
+        const response = await axios.post(`/api/employees/loginCheck`, requestData);
         // 서버 응답에서 데이터 부분을 추출합니다.
         const employeeData = response.data;
         console.log('직원 데이터:', employeeData.data);
@@ -122,9 +127,23 @@ export default class Login {
         sessionStorage.setItem('email', email);
         sessionStorage.setItem('phone', phone);
         sessionStorage.setItem('position', position);
-        window.location.reload();
       } catch (error) {
-        console.error('attendances근태 리스트 데이터를 가져오는 중에 에러 발생', error);
+        console.error('로그인 정보 불일치', error);
+        //모달창 확인후 입력값 전부 clear
+        this.usernameInput.value = '';
+        this.passwordInput.value = '';
+      }
+
+      if (sessionStorage.getItem('id')) {
+        const timeResponse = await axios.get(`/api/employees/getTime/${requestData.username}`);
+        const timeData = timeResponse.data;
+        console.log('시간 데이터:', timeData.data);
+        const { employeeId, INtime, OUTtime, status } = timeData.data;
+        console.log(employeeId + '시간값 확인');
+        sessionStorage.setItem('INtime', INtime);
+        sessionStorage.setItem('OUTtime', OUTtime);
+        sessionStorage.setItem('status', status);
+        window.location.reload();
       }
     }
   };

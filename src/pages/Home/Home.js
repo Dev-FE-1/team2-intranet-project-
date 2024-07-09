@@ -1,20 +1,20 @@
 import './Home.css';
-import { AttendanceList } from '../attendanceList/AttendanceList';
+import { AttendanceList } from '../attendancePreview/AttendanceList';
 import { phoneIcon, jobIcon, emailIcon } from '../../utils/icons';
 export class Home {
-  constructor(container, props = {}) {
+  constructor(container) {
     const {
-      userName = '이동혁',
-      rank = '신입',
+      name = '이동혁',
+      position = '신입',
       atWork = 0,
-      ph = '01028263158',
+      phone = '010-2826-3158',
       email = 'asd1234',
-    } = props;
+    } = sessionStorage;
 
-    this.userName = userName;
-    this.rank = rank;
+    this.userName = name;
+    this.rank = position;
     this.atWork = atWork;
-    this.ph = ph;
+    this.ph = phone;
     this.email = email;
 
     this.container = container;
@@ -48,7 +48,7 @@ export class Home {
                   <p class="current-displayer">${this.atWork == 1 ? '근무중' : '퇴근'}</p>
                 </div>
               </div>
-              <button class="puncher">근무종료</button>
+              <button class="puncher">근무시작</button>
             </div>
             <div class="profil-mini">
               <div class="profile-title">PROFILE</div>
@@ -77,28 +77,28 @@ export class Home {
     `;
     const attendenList = new AttendanceList(document.querySelector('.attendanceList'), {});
     attendenList.render();
-    this.addEventListeners();
+    this.timepuchListener();
     this.startClock();
   }
 
   startClock() {
     this.updateCurrentTime();
-    setInterval(this.updateCurrentTime.bind(this), 1000);
+    setInterval(this.updateCurrentTime, 1000);
   }
 
-  updateCurrentTime() {
+  updateCurrentTime = () => {
     const timeString = this.timeFormatter.format(new Date());
     const timeDisplay = this.container.querySelector('.timer .current-displayer');
     if (timeDisplay) {
       timeDisplay.textContent = timeString;
     }
-    timeDisplay;
-  }
+  };
 
-  addEventListeners() {
+  timepuchListener() {
     const puncherButton = this.container.querySelector('.puncher');
-    puncherButton.addEventListener('click', () => {
+    puncherButton.addEventListener('click', async () => {
       this.atWork = 1 - this.atWork; // 0과 1 사이를 토글
+
       this.updateWorkStatus();
     });
   }

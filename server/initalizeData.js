@@ -411,6 +411,12 @@ const employees = [
     password: '2626',
   },
 ];
+const workTimeData = {
+  employeeId: 'H2410001',
+  INtime: '2024-07-08 09:30:00',
+  OUTtime: '2024-07-08 17:30:00',
+  status: 2,
+};
 
 // console.log('총 직원 수:', employees.length);
 
@@ -418,6 +424,7 @@ const initializeDatabase = () => {
   try {
     indb.insertEmployees(employees);
     indb.insertAttendances(attendances);
+    indb.setTime(workTimeData);
   } catch (error) {
     console.error('inMemoryDatabase 초기화 실패:', error);
   }
