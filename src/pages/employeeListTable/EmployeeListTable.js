@@ -237,10 +237,14 @@ export class EmployeeListTable {
         modalContainer.innerHTML = '';
         modalContainer.appendChild(modal.el);
 
+        // 모달 팝업되면 body 스크롤링 금지
+        document.body.style.overflow = 'hidden';
+
         modal.onClickDeleteButton((value) => {
           if (value) {
             console.log(value);
           }
+          document.body.style.overflow = 'auto';
         });
       }
     };

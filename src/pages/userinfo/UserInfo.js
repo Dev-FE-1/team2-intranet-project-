@@ -36,10 +36,10 @@ export default class UserInfo {
   }
 
   render() {
-    this.el.innerHTML =
-      /* HTML */
-      `
-        <form class="user-info">
+    this.el.innerHTML = /* HTML */ `
+      <form class="user-info">
+        <div class="user-info__lists-wrap">
+          <div class="user-info__profile"></div>
           <div class="user-info__lists">
             <h1>임직원 ${this.info}</h1>
             <ul>
@@ -47,30 +47,35 @@ export default class UserInfo {
                 <label for="user-id">
                   <span>아이디</span>
                 </label>
-                <input
-                  type="text"
-                  id="user-id"
-                  name="user-id"
-                  placeholder="아이디를 입력해주세요"
-                />
-                <p class="user-info__error"></p>
+                <div>
+                  <input
+                    type="text"
+                    id="user-id"
+                    name="user-id"
+                    placeholder="아이디를 입력해주세요"
+                  />
+                  <p class="user-info__error"></p>
+                </div>
               </li>
               <li class="user-info__list">
                 <label for="user-password">
                   <span>패스워드</span>
                 </label>
-                <input
-                  type="password"
-                  id="user-password"
-                  name="user-password"
-                  placeholder="비밀번호를 입력해주세요"
-                />
-                <p class="user-info__error"></p>
+                <div>
+                  <input
+                    type="password"
+                    id="user-password"
+                    name="user-password"
+                    placeholder="비밀번호를 입력해주세요"
+                  />
+                  <p class="user-info__error"></p>
+                </div>
               </li>
               <li class="user-info__list">
                 <label for="user-name">
                   <span>이름</span>
                 </label>
+
                 <input
                   type="text"
                   id="user-name"
@@ -82,47 +87,52 @@ export default class UserInfo {
                 <label for="user-email">
                   <span>이메일</span>
                 </label>
-                <input
-                  type="email"
-                  id="user-email"
-                  name="user-email"
-                  placeholder="이메일을 입력해주세요"
-                />
-                <p class="user-info__error"></p>
+                <div>
+                  <input
+                    type="email"
+                    id="user-email"
+                    name="user-email"
+                    placeholder="이메일을 입력해주세요"
+                  />
+                  <p class="user-info__error"></p>
+                </div>
               </li>
               <li class="user-info__list">
                 <label for="user-phone">
                   <span>휴대폰번호</span>
                 </label>
-                <input
-                  type="text"
-                  id="user-phone"
-                  name="user-phone"
-                  placeholder="휴대폰 번호를 입력해주세요"
-                />
-                <p class="user-info__error"></p>
+                <div>
+                  <input
+                    type="text"
+                    id="user-phone"
+                    name="user-phone"
+                    placeholder="휴대폰 번호를 입력해주세요"
+                  />
+                  <p class="user-info__error"></p>
+                </div>
               </li>
               <li class="user-info__list">
                 <label for="user-position"> <span>직급</span></label>
                 <select id="user-position" name="user-position">
+                  <option value="" selected disabled hidden>직급 선택</option>
                   <option value="부장">부장</option>
                   <option value="차장">차장</option>
                   <option value="과장">과장</option>
                   <option value="대리">대리</option>
                 </select>
               </li>
-              <div class="user-info__btns ">
-                <button class="user-info__btn--cancel">취소</button>
-                <button class="user-info__btn--save">저장</button>
-              </div>
-              <div class="user-info__btns">
-                <button class="user-info__btn--edit">정보변경</button>
-              </div>
             </ul>
           </div>
-          <div class="user-info__profile"></div>
-        </form>
-      `;
+        </div>
+        <div class="user-info__btns ">
+          <button class="user-info__btn--cancel">취소</button>
+          <button class="user-info__btn--save">저장</button>
+        </div>
+        <div class="user-info__btns">
+          <button class="user-info__btn--edit">정보변경</button>
+        </div>
+      </form>
+    `;
     if (this.permission === 'user') {
       this.el.querySelector('#user-id').readOnly = true;
       this.el.querySelector('.user-info__btn--cancel').addEventListener('click', (e) => {

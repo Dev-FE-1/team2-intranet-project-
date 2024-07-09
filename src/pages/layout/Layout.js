@@ -5,11 +5,11 @@ export class Layout {
   constructor(container = document.querySelector('#app'), props = {}) {
     this.container = container;
     this.props = props;
-    this.userType = props.userType;
+    this.isAdmin = props.isAdmin || false;
   }
   render() {
     this.container.innerHTML = /* HTML */ `
-      ${new Header(null, { userType: this.userType }).render()}
+      ${new Header(null, { isAdmin: this.isAdmin }).render()}
       <route-view></route-view>
       ${new Footer().render()}
     `;

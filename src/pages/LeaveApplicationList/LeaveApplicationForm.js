@@ -1,29 +1,35 @@
 import './LeaveApplicationForm.css';
 import './LeaveApplicationList.css';
+import { FormDataDTO } from './FormDataDTO';
 import avatarDefaultImg from '/src/assets/images/avatar-default.jpg';
+import lodash from 'lodash';
 
 export default class LeaveApplicationForm {
-  constructor(container, props) {
+  constructor(container, currentUser) {
     this.container = container;
-    this.props = props || {}; // props가 없을 경우 빈 객체로 초기화
+    this.currentUser = currentUser || {}; // props가 없을 경우 빈 객체로 초기화
   }
 
   // LeaveApplicationList의 1개의 LeaveApplicationItem 클릭 하면,
   // 클릭한 LeaveApplicationItem의 기존 데이터를 보여줌
   // 폼 데이터를 로드하여 입력 필드에 채우기
-  loadFormData(formData) {
-    if (formData.typeForLeave) {
+  loadFormData(formDataDTO) {
+    if (lodash.isEmpty(formDataDTO)) return;
+    console.log('formDataDTO:', formDataDTO);
+    const { attendanceType, title, content } = formDataDTO;
+    if (attendanceType) {
       const radioButton = document.querySelector(
-        `input[name="typeForLeave"][value="${formData.typeForLeave}"]`,
+        `input[name="typeForLeave"][value="${attendanceType}"]`,
       );
       if (radioButton) {
         radioButton.checked = true;
       }
     }
-    document.querySelector('#applicationTitle').value = formData.applicationTitle;
-    document.querySelector('#applicationDesc').value = formData.applicationDesc;
+    document.querySelector('.applicaion-form').dataset.id = formDataDTO.id;
+    document.querySelector('#applicationTitle').value = title;
+    document.querySelector('#applicationDesc').value = content;
   }
-  setAddEventListener(onSubmit, onClose) {
+  attachEventListeners(onSubmit, onClose) {
     const btnApply = document.querySelector('.btn-applyform');
     const btnGoBack = document.querySelector('.btn-goback');
 
@@ -40,19 +46,24 @@ export default class LeaveApplicationForm {
   }
   // 폼 데이터를 가져오고 반환
   getFormData() {
+    const dataId = document.querySelector('.applicaion-form').dataset.id;
+    const id = dataId ?? null;
+    const name = document.querySelector('.applicaion-form__username').textContent;
     const selectedRadio = document.querySelector('input[name="typeForLeave"]:checked');
-    const typeForLeave = selectedRadio ? selectedRadio.value : null;
-    const applicationTitle = document.querySelector('#applicationTitle').value.trim();
-    const applicationDesc = document.querySelector('#applicationDesc').value.trim();
+    const attendanceType = selectedRadio ? selectedRadio.value : null;
+    const title = document.querySelector('#applicationTitle').value.trim();
+    const content = document.querySelector('#applicationDesc').value.trim();
     // 현재 사용자 ID를 포함시키기 위해 this.props.currentUser.id를 사용
-    const userId = this.props.currentUser ? this.props.currentUser.id : null;
+    const userId = this.currentUser ? this.currentUser.id : null;
 
-    return {
-      typeForLeave,
-      applicationTitle,
-      applicationDesc,
-      userId, // 이 부분에서 currentUser의 ID를 formData에 추가
-    };
+    return new FormDataDTO({
+      id,
+      title,
+      content,
+      attendanceType,
+      name,
+      userId,
+    });
   }
 
   // 폼 데이터의 유효성을 검사
@@ -62,12 +73,12 @@ export default class LeaveApplicationForm {
     // Reset previous error messages
     this.clearErrorMessages();
 
-    if (!formData.typeForLeave) {
+    if (!formData.attendanceType) {
       isValid = false;
       this.showErrorMessage('typeForLeave', '휴가 종류를 선택해주세요.');
     }
 
-    if (!formData.applicationTitle) {
+    if (!formData.title) {
       isValid = false;
       this.showErrorMessage('applicationTitle', '제목을 입력해주세요.');
     }
@@ -95,14 +106,14 @@ export default class LeaveApplicationForm {
     errorMessage.textContent = message;
     inputElement.appendChild(errorMessage);
   }
-  render() {
+  render(id) {
     return /* HTML */ `
       <section class="applicaion-form-wrap">
-        <div class="applicaion-form">
+        <div class="applicaion-form" data-id="${id ?? ''}">
           <h1 class="applicaion-form__heading">근태/휴가 신청서</h1>
           <div class="applicaion-form__profile">
             <img src="${avatarDefaultImg}" alt="profile image" class="profile-image" />
-            <span class="applicaion-form__username">${'세션에서 가지고온 이름'}</span>
+            <span class="applicaion-form__username">${this.currentUser.name}</span>
           </div>
           <form class="form">
             <div class="container">

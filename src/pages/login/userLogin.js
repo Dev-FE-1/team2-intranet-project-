@@ -1,6 +1,8 @@
 import './login.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import axios from 'axios';
+
+
 export default class Login {
   constructor(container) {
     this.container = container;
@@ -8,6 +10,7 @@ export default class Login {
   }
 
   render() {
+
     this.container.innerHTML = `
         <div class="user">
             <h1 class="user__title">INTRANET</h1>
@@ -184,7 +187,9 @@ export default class Login {
     const isValid8 = pattern8.test(this.passwordInput.value.trim());
     console.log(isValid8);
     const isValid10 = pattern10.test(this.passwordInput.value.trim());
+
     console.log(isValid10);
+
     const isValid = isValid8 || isValid10;
     if (!isValid) {
       this.showError(this.passwordError, '등록되지 않았거나 잘못된 형식의 비밀번호 입니다');
@@ -193,7 +198,7 @@ export default class Login {
 
     return isValid;
   }
-
+  
   showError(element, message) {
     element.textContent = message;
   }

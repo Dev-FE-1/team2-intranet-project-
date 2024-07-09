@@ -17,32 +17,35 @@ import LeaveApplicationList from './LeaveApplicationList/LeaveApplicationList.js
 
 const app = document.querySelector('#app');
 
-// 유저 타입 정보 세션스토리지에서 가져오기
-const userType = sessionStorage.getItem('userType');
+// isAdmin으로 admin 상태를 확인
+const isAdmin = sessionStorage.getItem('admin') === 'true';
 
 if (!sessionStorage.id) {
   history.replaceState('', '', '/');
   const login = new Login(app);
   login.render();
 } else {
-  // 유저타입에 따른 레이아웃 인스턴스 생성
-  const layout = new Layout(app, { userType });
+  // admin 상태에 따른 레이아웃 인스턴스 생성
+  const layout = new Layout(app, { isAdmin });
   layout.render();
 
   const routeView = app.querySelector('route-view');
 
   const routes = {
+    
     '/adminHome': {
       title: 'Home',
       Component: Home,
     },
-    '/userinfo': {
-      title: 'userinfo',
-      Component: UserInfo,
-    },
+
+    // 관리자 페이지
     '/employee-list': {
       title: 'Employee List',
       Component: EmployeeListTable,
+    },
+    '/userinfo': {
+      title: 'userinfo',
+      Component: UserInfo,
     },
     '/galleryManagement': {
       title: 'GalleryManagement',
