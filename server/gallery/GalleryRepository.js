@@ -8,14 +8,26 @@ export class GalleryRepository extends BaseRepository {
   }
 
   // 갤러리 글 생성
-  async createPosts(post) {
+  async createPosts(entity) {
+    await this.initialize();
+    const keys = Object.keys(entity);
+    const values = Object.values(entity);
+
+    const placeholders = keys.map(() => '?').join(',');
+
     try {
-      const postKeys = this.converter.convertKeysToSnakeCase(Object.keys(post));
-      const postValues = Object.values(post);
-      const posts = await this.create(post, postKeys, postValues);
-      return this.converter.convertEntitySnakeToCamelCaseKeys(posts);
+      await this.db.run(
+        `INSERT INTO ${this.tableName} (${keys.join(',')}) VALUES (
+      ${placeholders})`,
+        values,
+      );
+      const result = await this.db.get(
+        `SELECT * FROM ${this.tableName} where id = last_insert_rowid()`,
+      );
+      return result;
     } catch (e) {
-      throw new Error('Failed to create gallery', e);
+      console.error(e);
+      return null;
     }
   }
 

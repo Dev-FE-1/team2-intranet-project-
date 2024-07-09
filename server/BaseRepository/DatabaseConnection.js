@@ -95,10 +95,10 @@ create table if not exists administrator(
 create table if not exists company_gallery(
     id integer primary key,
     administrator_id integer,
+    date text default (datetime('now', '+9 hours')),
     title TEXT,
     content text,
-    img text,
-    FOREIGN KEY (administrator_id) REFERENCES administrator(id)
+    image text
 );
         `);
     //     await this.db.run(`
