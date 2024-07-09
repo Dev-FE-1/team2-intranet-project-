@@ -17,7 +17,7 @@ export default class LeaveApplicationItem {
         <div class="formdata">
           <span>${attendanceType}</span>
           <div>
-            <p class="eave-application-item__title">제목: ${title}</p>
+            <p class="leave-application-item__title">제목: ${title}</p>
             <p class="leave-application-item__conetent">내용: ${content}</p>
             <p class="eave-application-item__attendanceApplyTime">${attendanceApplyTime}</p>
           </div>
