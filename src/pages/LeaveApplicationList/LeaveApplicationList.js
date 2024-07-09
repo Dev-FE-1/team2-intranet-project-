@@ -27,6 +27,7 @@ export default class LeaveApplicationList {
           <div>
             <button class="btn-apply">휴가 신청하기</button>
             <button class="btn-show-onlyMe">내 신청서만 보기</button>
+            <button class="btn-show-all">전체 신청서 보기</button>
           </div>
           <div class="leave-type">
             <select>
@@ -74,7 +75,7 @@ export default class LeaveApplicationList {
     });
   }
 
-  // 내 신청서만 필터링함
+  // 신청 리스트 배열 안에서 내 신청서만 필터링함
   filterMyApplications(leaveItems) {
     return leaveItems.filter((item) => item.userId === this.currentUser.id);
   }
@@ -85,7 +86,7 @@ export default class LeaveApplicationList {
     this.renderLeaveItems(myApplications);
   }
 
-  // 신청서 목록을 클릭 헨들러, 내 신청서들만 보여주게함.
+  // '내 신청서만 보기'버튼 클릭 헨들러, 내 신청서들만 보여주게함.
   handleClickMyFillterButton() {
     const btnShowOnlyMe = document.querySelector('.btn-show-onlyMe');
 
@@ -96,6 +97,18 @@ export default class LeaveApplicationList {
     };
 
     btnShowOnlyMe.addEventListener('click', onClickMyFillterButton);
+  }
+
+  // '전체 신청서'버튼 클릭 헨들러, 전체 신청서 목록이 보여주게함.
+  handleClickShowAllButton() {
+    const btnShowAll = document.querySelector('.btn-show-all');
+    const onClickShowAllButton = (e) => {
+      e.preventDefault();
+      this.isMyFiltered = false;
+      this.renderLeaveItems(this.attendancesUserData);
+    };
+
+    btnShowAll.addEventListener('click', onClickShowAllButton);
   }
 
   // 신청 버튼 클릭 이벤트 헨들러, 폼 데이터를 받아서 신청서 목록에 추가하는 메서드
@@ -232,5 +245,6 @@ export default class LeaveApplicationList {
     this.handleDeleteButton();
     this.handleClickApplyButton();
     this.handleClickMyFillterButton();
+    this.handleClickShowAllButton();
   }
 }

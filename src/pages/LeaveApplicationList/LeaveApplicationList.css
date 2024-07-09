@@ -55,6 +55,35 @@
   border-radius: 2px;
   cursor: pointer;
 }
+/* .btn-show-onlyMe {
+  border: none;
+  outline: none;
+  width: var(--size-button-medium);
+  height: var(--size-button-height);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-pale-gray);
+  box-shadow: var(--box-flat-shadow);
+  font-size: var(--font-small);
+  color: var(--color-coral-light);
+
+  border-radius: 2px;
+  cursor: pointer;
+} */
+
+.btn-show-all {
+  border: none;
+  outline: none;
+  width: var(--size-button-medium);
+  height: var(--size-button-height);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-pale-gray);
+  box-shadow: var(--box-flat-shadow);
+  font-size: var(--font-small);
+  color: var(--color-coral-light);
+
+  border-radius: 2px;
+  cursor: pointer;
+}
 
 .leave-type select {
   -webkit-appearance: none; /* for chrome */
