@@ -29,7 +29,6 @@
 .header__intranet-logo {
   display: inline-block;
   width: 36px;
-  margin-right: 10px;
 }
 
 .header__heading-title {
@@ -42,11 +41,13 @@
   display: flex;
 }
 .header__heading-title span {
-  font-family: 'Open Sans', sans-serif;
   line-height: 36px;
+  font-size: 20px;
+  text-transform: uppercase;
 }
 .header__gnb {
   flex-grow: 2;
+  text-transform: uppercase;
 }
 
 .header__nav-list {
