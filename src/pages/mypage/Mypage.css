@@ -61,8 +61,7 @@
   font-weight: 300;
 }
 
-.mypage__state,
-.mypage__state-end {
+.mypage__state {
   padding: 4px 8px;
   border-radius: 6px;
   color: var(--color-white);

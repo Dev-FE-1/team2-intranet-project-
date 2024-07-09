@@ -17,24 +17,21 @@ export default class UserInfo {
     this.userid = userId;
     this.permission = permission;
     this.info = info;
-
-    console.log(`프로필 이미지: ${profileImg}`);
-
     this.state = {
       user: {
         [userId]: {
-          userId: userId,
-          userPassword: userPassword,
-          userName: name,
-          userEmail: email,
-          userPhone: phone,
-          userPosition: position,
+          id: userId,
+          userPassword,
+          name,
+          email,
+          phone,
+          position,
         },
       },
     };
     this.el = cotainer;
+    console.log(profileImg);
   }
-
   render() {
     this.el.innerHTML = /* HTML */ `
       <form class="user-info">
@@ -143,93 +140,156 @@ export default class UserInfo {
     // 폼전송 방지
     this.preventFormSubmission();
     // 수정, 조회 페이지 전환
-    this.pageChange();
+    this.toggleFormMode();
     // 유저정보 불러오기
-    this.userValue();
+    this.loadUserData();
     // 입력값 검증
-    this.inputValidator();
+    this.setupInputValidation();
 
     // 프로필 이미지 컴포넌트 불러오기
-    const profileImage = document.querySelector('.user-info__profile');
-    new ProfileImage(profileImage).render();
+    this.renderProfileImage();
   }
+
+  // 폼 전송 방지 및 버튼 핸들러 설정
   preventFormSubmission() {
     const form = this.el.querySelector('.user-info');
     form.addEventListener('submit', function (event) {
       event.preventDefault();
     });
-    this.btnHandler(form);
+    this.setupButtonHandlers(form); // 버튼 핸들러 설정
   }
 
-  btnHandler(props) {
+  // 버튼 핸들러
+  setupButtonHandlers(props) {
     this.el.querySelectorAll('.user-info__btns > button').forEach((btn) => {
       btn.addEventListener('click', (e) => {
         if (e.target.classList.contains('user-info__btn--edit')) {
-          this.formChange('수정');
+          this.switchToEditMode(); // 수정 모드로 전환
         } else if (e.target.classList.contains('user-info__btn--cancel')) {
-          this.info === '등록' ? history.back() : this.formChange('조회');
+          this.info === '등록' ? history.back() : this.switchToViewMode();
+          //조회 모드 전환
         } else if (e.target.classList.contains('user-info__btn--save')) {
-          const formData = new FormData(props); // 폼 데이터 가져오기
-          // 폼 데이터 출력
-          for (let [key, value] of formData.entries()) {
-            console.log(`${key}: ${value}`);
-          }
+          this.saveUserData(props);
         }
       });
     });
   }
-
-  pageChange() {
+  // 수정 모드와 조회 모드 전환
+  toggleFormMode() {
     const sel = this.el.querySelector('#user-position');
-    const btn = this.el.querySelectorAll('.user-info__btns');
+    const [editInfoButton, saveCancelButton] = this.el.querySelectorAll('.user-info__btns');
+    console.log(editInfoButton, saveCancelButton);
     if (this.info === '조회') {
       const inputEl = this.el.querySelectorAll('input');
       inputEl.forEach((el) => {
         el.readOnly = true;
         el.style.border = 'none';
         sel.disabled = true;
-        btn[0].style.display = 'none';
+        editInfoButton.style.display = 'none';
       });
     } else {
-      btn[1].style.display = 'none';
+      saveCancelButton.style.display = 'none';
     }
   }
-  userValue() {
+  // 유저 정보 불러오기
+  loadUserData() {
     const fields = [
-      { id: 'user-id', key: 'userId' },
+      { id: 'user-id', key: 'id' },
       { id: 'user-password', key: 'userPassword' },
-      { id: 'user-name', key: 'userName' },
-      { id: 'user-email', key: 'userEmail' },
-      { id: 'user-phone', key: 'userPhone' },
-      { id: 'user-position', key: 'userPosition' },
+      { id: 'user-name', key: 'name' },
+      { id: 'user-email', key: 'email' },
+      { id: 'user-phone', key: 'phone' },
+      { id: 'user-position', key: 'position' },
     ];
+    if (this.permission === 'user') {
+      this.loadUserFromSession(fields);
+    } else {
+      this.loadUserFromProps(fields);
+    }
+  }
+
+  // user일경우 세션스토리지에서 정보 가져오기
+  loadUserFromSession(fields) {
+    this.state = { ...sessionStorage };
+    if (this.state) {
+      sessionStorage.setItem('userPassword', 'password');
+      fields.forEach(({ id, key }) => {
+        this.el.querySelector(`#${id}`).value = this.state[key] || '';
+      });
+    }
+  }
+
+  // admin일경우 props에서 정보 가져오기
+  loadUserFromProps(fields) {
     if (this.state.user && this.state.user[this.userid]) {
       fields.forEach(({ id, key }) => {
         this.el.querySelector(`#${id}`).value = this.state.user[this.userid][key] || '';
       });
     }
   }
-
-  formChange(val) {
-    this.info = val;
+  // 수정 모드로 전환
+  switchToEditMode() {
+    this.info = '수정';
+    this.render();
+  }
+  // 조회 모드로 전환
+  switchToViewMode() {
+    this.info = '조회';
     this.render();
   }
 
-  inputValidator() {
-    const validator = new Validator();
-    this.testinput('user-id', validator.idValidator, '.user-info__error');
-    this.testinput('user-password', validator.passwordValidator, '.user-info__error');
-    this.testinput('user-email', validator.emailValidator, '.user-info__error');
-    this.testinput('user-phone', validator.phoneValidator, '.user-info__error');
+  // 프로필 이미지 컴포넌트 렌더링
+  renderProfileImage() {
+    const profileImage = this.el.querySelector('.user-info__profile');
+    new ProfileImage(profileImage).render();
   }
 
-  testinput(id, fn, err) {
+  // 입력값 검증 설정
+  setupInputValidation() {
+    const validator = new Validator();
+    this.validateInput('user-id', validator.idValidator, '.user-info__error');
+    this.validateInput('user-password', validator.passwordValidator, '.user-info__error');
+    this.validateInput('user-email', validator.emailValidator, '.user-info__error');
+    this.validateInput('user-phone', validator.phoneValidator, '.user-info__error');
+  }
+
+  // 입력값 검증
+  validateInput(id, fn, err) {
     const idCheck = this.el.querySelector(`#${id}`);
     const errCheck = this.el.querySelector(`
       #${id} + ${err}`);
+    const saveBtn = this.el.querySelector('.user-info__btn--save');
     idCheck.addEventListener('change', () => {
-      this.el.querySelector('.user-info__btn--save').classList.add('user-info__btn--disable');
-      errCheck.textContent = fn(idCheck.value);
+      const errorMsg = fn(idCheck.value);
+      errCheck.textContent = errorMsg;
+
+      if (errorMsg !== 'success') {
+        saveBtn.classList.add('user-info__btn--disable');
+        saveBtn.disabled = true;
+      } else {
+        saveBtn.classList.remove('user-info__btn--disable');
+        saveBtn.disabled = false;
+      }
+    });
+  }
+  // 유저정보 수정
+  saveUserData(props) {
+    const formData = new FormData(props); // 폼 데이터 가져오기
+    const fields = [
+      { id: 'user-id', key: 'id' },
+      { id: 'user-password', key: 'userPassword' },
+      { id: 'user-name', key: 'name' },
+      { id: 'user-email', key: 'email' },
+      { id: 'user-phone', key: 'phone' },
+      { id: 'user-position', key: 'position' },
+    ];
+
+    fields.forEach(({ id, key }) => {
+      const value = formData.get(id); // 폼 데이터에서 값 가져오기
+      if (value !== null) {
+        sessionStorage.setItem(key, value);
+        // console.log(`${key}: ${value}`);
+      }
     });
   }
 }
