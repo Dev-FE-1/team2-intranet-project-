@@ -1,3 +1,8 @@
+.w-heading-events {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .leave-application-wrap {
   width: calc(100vw - 15rem);
   min-height: calc(100vh - 160px);
@@ -41,7 +46,7 @@
   border-radius: 2px;
   cursor: pointer;
 }
-.btn-show-onlyMe {
+/* .btn-show-onlyMe {
   border: none;
   outline: none;
   width: var(--size-button-medium);
@@ -54,7 +59,7 @@
 
   border-radius: 2px;
   cursor: pointer;
-}
+} */
 
 .leave-type select {
   -webkit-appearance: none; /* for chrome */
