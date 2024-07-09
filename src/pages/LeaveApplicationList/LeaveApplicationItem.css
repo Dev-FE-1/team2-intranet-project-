@@ -4,9 +4,19 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+  height: 130px;
   border: 1px solid var(--color-light-gray);
   box-shadow: var(--box-flat-shadow);
   margin-bottom: 1rem;
+  transition: all 300ms ease-in;
+}
+
+.leave-application-item__title,
+.leave-application-item__conetent {
+  width: 50vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .photo {
   width: 80px;
@@ -22,14 +32,7 @@
   align-items: stretch;
 }
 .formdata span {
-  text-align: center;
-  width: 40px;
-  font-size: var(--font-small);
-  padding: 0.2rem 0.3rem;
-  background-color: var(--color-french-skyblue);
-  box-shadow: var(--box-flat-shadow);
-  color: var(--color-white);
-  border-radius: 2px;
+  font-weight: 300;
 }
 .title {
   background-color: var(--color-white);
@@ -86,4 +89,27 @@
 
 .author {
   font-size: var(--font-small);
+}
+
+/* 테블릿 가로 (해상도 768px ~ 1023px)*/
+@media all and (max-width: 1023px) {
+}
+
+@media all and (max-width: 827px) {
+  .leave-application-item__title,
+  .leave-application-item__conetent {
+    width: 40vw;
+  }
+}
+
+@media all and (max-width: 565px) {
+  .photo {
+    width: 50px;
+    height: 50px;
+  }
+}
+@media all and (max-width: 375px) {
+  .photo {
+    display: none;
+  }
 }
