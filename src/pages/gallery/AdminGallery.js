@@ -25,10 +25,12 @@ export class AdminGallery {
     this.renderGalleryContainer(galleryCardData);
   }
 
+  // 갤러리
   render() {
     this.container.innerHTML = /* HTML */ `
       <div class="gallery">
-        <h1 class="gallery__title">갤러리 관리</h1>
+        <h1 class="gallery__heading">갤러리 관리</h1>
+        <button class="gallery__button">카드 추가</button>
         <div class="gallery__container"></div>
       </div>
     `;

@@ -28,7 +28,7 @@ export class EmployeeGallery {
   render() {
     this.container.innerHTML = /* HTML */ `
       <div class="gallery">
-        <h1 class="gallery__title">사진 갤러리</h1>
+        <h1 class="gallery__heading">사진 갤러리</h1>
         <div class="gallery__container"></div>
       </div>
     `;
