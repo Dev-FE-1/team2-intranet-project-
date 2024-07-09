@@ -149,6 +149,7 @@ export default class LeaveApplicationList {
     };
 
     const onClickEditButton = (e) => {
+      if (!e.target.classList.contains('btn-edit')) return;
       e.preventDefault();
       const dataId = e.target.closest('li').dataset.id;
       modal.innerHTML = this.leaveApplicationForm.render(dataId);
