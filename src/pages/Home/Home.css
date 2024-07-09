@@ -167,6 +167,9 @@
 }
 /* 테블릿 가로 (해상도 768px ~ 1023px)*/
 @media all and (max-width: 1023px) {
+  .user-dashboard__wrap {
+    height: 100vh;
+  }
   .user-dashboard__title {
     display: block;
     position: fixed;
@@ -179,14 +182,6 @@
     line-height: 60px;
     background-color: rgba(255, 255, 255, 1);
     border-bottom: 1px solid var(--color-pale-gray);
-  }
-}
-@media all and (max-width: 900px) {
-  .user-dashboard__wrap {
-    width: calc(100vw - 5rem);
-    height: auto;
-    margin-top: 80px;
-    margin-bottom: 150px;
   }
   .user-dashboard__heading {
     display: block;
@@ -201,6 +196,15 @@
     border-bottom: 1px solid var(--color-pale-gray);
     z-index: 10;
   }
+}
+@media all and (max-width: 900px) {
+  .user-dashboard__wrap {
+    width: calc(100vw - 5rem);
+    height: auto;
+    margin-top: 80px;
+    margin-bottom: 150px;
+  }
+
   .user-dashboard__wrap > div {
     height: auto;
   }
