@@ -3,7 +3,7 @@ import './gallery.css';
 export class EmployeeGallery {
   constructor(container, props = {}) {
     this.container = container;
-    this.galleryDataPath = props.galleryDataPath || '/api/gallery/contents';
+    this.galleryDataPath = props.galleryDataPath || '/api/v1/gallery';
   }
 
   async getGalleryData() {
