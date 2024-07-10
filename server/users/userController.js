@@ -23,7 +23,7 @@ export class UserController {
   // => req.body: { loginId, password, name, email, phone }
   async createUser(req, res) {
     try {
-      const user = await this.userService.createUser(req.body);
+      const user = await this.userService.createUser(req.body.data);
       res.status(200).json(ResponseDTO.success(user));
 
       if (loadish.isEmpty(user)) {
@@ -75,10 +75,8 @@ export class UserController {
   // 계정 개인정보 수정
   // => req.body: { loginId, password, name, email, phone }
   async updateByLoginId(req, res) {
-    const { loginId } = req.body;
-
     try {
-      const user = await this.userService.updateByLoginId(loginId, req.body);
+      const user = await this.userService.updateByLoginId(req.body.data);
       res.status(200).json(user);
     } catch (e) {
       console.error(e);

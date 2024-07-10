@@ -105,21 +105,23 @@ export class UserRepository extends BaseRepository {
   }
 
   // 계정 수정
-  async updateByLoginId(loginId, entity) {
+  async updateByLoginId(entity) {
     if (this.db == null) {
       await this.initialize();
     }
-    const keys = this.convertKeysToSnakeCase(Object.keys(entity));
-    const values = Object.values(entity);
+    const { id, ...updateEntity } = entity;
+    const keys = this.convertKeysToSnakeCase(Object.keys(updateEntity));
+    const values = Object.values(updateEntity);
 
     const sets = keys.map((key) => `${key} = ?`).join(', ');
 
     try {
-      await this.db.run(`UPDATE ${this.tableName} SET ${sets} WHERE login_id = ?`, [
-        ...values,
-        loginId,
-      ]);
-      return await this.getByLoginId(loginId);
+      return await this.db.run(
+        `UPDATE ${this.tableName} SET ${sets} 
+        WHERE id=?
+        `,
+        [...values, id],
+      );
     } catch (e) {
       console.error(e);
       return null;
