@@ -172,6 +172,7 @@ export default class LeaveApplicationList {
     const onSubmit = (formData) => {
       if (!lodash.isEmpty(formData)) {
         this.handleFormSubmit(formData);
+        this.leaveApplicationFetch.fetchCreateLeaveApplication(formData);
       }
       modalBackground.style.display = 'none';
     };
