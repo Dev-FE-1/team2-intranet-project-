@@ -47,13 +47,13 @@ export class DatabaseConnection {
     await this.runQuery(`
       CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY,
-        login_id TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL,
-        name TEXT NOT NULL,
         email TEXT,
+        name TEXT NOT NULL,
         position TEXT,
+        employee_id TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL,
         phone TEXT,
-        img TEXT,
+        profileImg TEXT,
         is_deleted INTEGER DEFAULT 0
       )
     `);

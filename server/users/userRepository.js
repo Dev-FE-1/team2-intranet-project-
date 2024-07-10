@@ -9,7 +9,10 @@ export class UserRepository extends BaseRepository {
 
   // 회원가입
   async create(entity) {
-    await this.initialize();
+    if (this.db == null) {
+      await this.initialize();
+    }
+
     const keys = this.convertKeysToSnakeCase(Object.keys(entity));
     const values = Object.values(entity);
 
@@ -29,10 +32,12 @@ export class UserRepository extends BaseRepository {
 
   // 직원 전체 조회
   async getAll() {
-    await this.initialize();
+    if (this.db == null) {
+      await this.initialize();
+    }
     try {
       const result = await this.db.all(
-        `SELECT id, login_id, name, password, email, position, phone, img FROM ${this.tableName} WHERE is_deleted = 0`,
+        `SELECT id, employee_id, name, password, email, position, phone, profileImg FROM ${this.tableName} WHERE is_deleted = 0`,
       );
       return this.convertFieldsToCamelCase(result);
     } catch (e) {
@@ -43,11 +48,13 @@ export class UserRepository extends BaseRepository {
 
   // 직원 조회: 이메일로 조회
   async getByEmail(email) {
-    await this.initialize();
+    if (this.db == null) {
+      await this.initialize();
+    }
 
     try {
       return await this.db.get(
-        `SELECT id, login_id, name, email, position, phone, img FROM ${this.tableName} WHERE email = ?
+        `SELECT  id, employee_id, name, password, email, position, phone, profileImg FROM ${this.tableName} WHERE email = ?
       AND is_deleted = 0
       `,
         email,
@@ -60,10 +67,13 @@ export class UserRepository extends BaseRepository {
 
   // 직원 조회: 아이디로 조회
   async getByLoginId(loginId) {
-    await this.initialize();
+    if (this.db == null) {
+      await this.initialize();
+    }
     try {
       const result = await this.db.get(
-        `SELECT id, login_id, name, email, position, phone, img FROM ${this.tableName} WHERE login_id = ?
+        `SELECT id, employee_id, name, password, email, position, phone, profileImg
+      FROM ${this.tableName} WHERE login_id = ?
       AND is_deleted = 0`,
         loginId,
       );
@@ -76,10 +86,12 @@ export class UserRepository extends BaseRepository {
 
   // 로그인: 아이디와 비밀번호로 조회
   async getByLoginIdAndPassword(loginId, password) {
-    await this.initialize();
+    if (this.db == null) {
+      await this.initialize();
+    }
     try {
       const result = await this.db.get(
-        `SELECT id, login_id, name, email, position, phone, img
+        `SELECT id, employee_id, name, password, email, position, phone, profileImg 
         FROM ${this.tableName} WHERE login_id = ? AND password = ?
         AND is_deleted = 0`,
         loginId,
@@ -94,7 +106,9 @@ export class UserRepository extends BaseRepository {
 
   // 계정 수정
   async updateByLoginId(loginId, entity) {
-    await this.initialize();
+    if (this.db == null) {
+      await this.initialize();
+    }
     const keys = this.convertKeysToSnakeCase(Object.keys(entity));
     const values = Object.values(entity);
 
@@ -114,7 +128,9 @@ export class UserRepository extends BaseRepository {
 
   //  계정 삭제
   async deleteByLoginId(loginId) {
-    await this.initialize();
+    if (this.db == null) {
+      await this.initialize();
+    }
     try {
       await this.db.run(
         `UPDATE ${this.tableName} 
@@ -132,7 +148,9 @@ export class UserRepository extends BaseRepository {
 
   //  계정 복구
   async restoreByLoginId(loginId) {
-    await this.initialize();
+    if (this.db == null) {
+      await this.initialize();
+    }
     try {
       await this.db.run(
         `UPDATE ${this.tableName} 
