@@ -1,6 +1,6 @@
 import './Header.css';
 import { EmployeeGnb, AdminGnb } from './gnb';
-import Login from '../login/userLogin';
+// import Login from '../login/userLogin';
 import faviconImg from '/src/assets/images/favicon/android-chrome-192x192.png';
 
 export class Header {
@@ -26,20 +26,9 @@ export class Header {
             </a>
           </h1>
           ${this.isAdmin ? AdminGnb() : EmployeeGnb()}
-          <button class="header__btn-logout">로그아웃</button>
+          <button id="logoutButton" class="header__btn-logout">로그아웃</button>
         </div>
       </header>
     `;
-  }
-
-  setupLogoutButton() {
-    const logoutButton = document.querySelector(`#${this.cid} .header__btn-logout`);
-    logoutButton.addEventListener('click', () => {
-      sessionStorage.clear();
-      const app = document.querySelector('#app');
-      history.replaceState('', '', '/');
-      const login = new Login(app);
-      login.render();
-    });
   }
 }
