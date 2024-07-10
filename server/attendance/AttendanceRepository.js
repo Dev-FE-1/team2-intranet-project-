@@ -1,6 +1,6 @@
 import { BaseRepository } from '../BaseRepository/BaseRepository.js';
 import { AttendanceType } from './AttendanceType.js';
-import { EntityKeyConverter } from '../utils/entityKeyConverter.js';
+import { EntityKeyConverter } from './AttendanceEntityKeyConverter.js';
 import { UserRepository } from '../users/userRepository.js';
 
 export class AttendanceRepository extends BaseRepository {
