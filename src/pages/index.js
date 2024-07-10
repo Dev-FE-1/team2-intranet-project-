@@ -32,7 +32,6 @@ if (!sessionStorage.id) {
   const routeView = app.querySelector('route-view');
 
   const routes = {
-    
     '/adminHome': {
       title: 'Home',
       Component: Home,

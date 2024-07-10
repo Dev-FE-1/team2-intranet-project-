@@ -1,7 +1,9 @@
 import loadish from 'lodash';
+import { attendancesUserDatas } from './attendanceDummyDatas.js';
 export class AttendanceService {
   constructor({ attendanceRepository }) {
     this.attendanceRepository = attendanceRepository;
+    this.insertDummyDatasToAttendanceTable();
   }
 
   // 근태 신청하기
@@ -68,13 +70,23 @@ export class AttendanceService {
     }
   }
 
-  // 근태 신청 내역 아이디로 삭제하기
-  async deleteAttendancebyIdAndUserId(loginId, id) {
+  // 근태 신청 내역 번호로 삭제하기
+  async deleteAttendancebyIdAndUserId(id) {
     try {
-      return await this.attendanceRepository.deleteAttendancebyIdAndUserId(loginId, id);
+      return await this.attendanceRepository.deleteAttendancebyIdAndUserId(id);
     } catch (e) {
       console.error(e);
       throw new Error('Failed to delete attendance');
+    }
+  }
+
+  // 근태 신청 내역 초기 데이터 넣기
+  async insertDummyDatasToAttendanceTable() {
+    try {
+      const dummyDatas = attendancesUserDatas;
+      dummyDatas.map(async (dummydata) => await this.createAttendance(dummydata));
+    } catch (e) {
+      console.error(e);
     }
   }
 }
