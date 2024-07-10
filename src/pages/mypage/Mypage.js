@@ -1,4 +1,3 @@
-// import axios from 'axios';
 import './Mypage.css';
 import { Route } from '../router/route';
 import UserInfo from '../userinfo/UserInfo';
@@ -7,17 +6,11 @@ import Login from '../login/userLogin';
 
 export default class Mypage {
   constructor(cotainer, props = {}) {
-    const { userId = '1234', str = '근무시작' } = props;
-    this.userid = userId;
-    this.str = str;
+    this.props = props;
     this.el = cotainer;
-    this.state = {};
-    this.init();
+    this.state = { ...sessionStorage };
   }
-  init() {
-    this.sessionStorageFetchUser();
-    this.sessionStorageGetUser();
-  }
+
   render() {
     this.el.innerHTML = /* HTML */ `
       <div class="mypage">
@@ -36,9 +29,9 @@ export default class Mypage {
               <li><span>이메일</span><span class="user-email"></span></li>
               <li><span>휴대폰 번호</span><span class="user-phone"></span></li>
               <li><span>직급</span><span class="user-position"></span></li>
-              <li><span>출근시간</span><span class="work-start">-</span></li>
-              <li><span>퇴근시간</span><span class="work-end">-</span></li>
-              <li><span>근무상태</span><span class="mypage__state">근무 중</span></li>
+              <li><span>출근시간</span><span class="work-start"></span></li>
+              <li><span>퇴근시간</span><span class="work-end"></span></li>
+              <li><span>근무상태</span><span class="mypage__state"></span></li>
             </ul>
 
             <div class="mypage__btns">
@@ -49,93 +42,90 @@ export default class Mypage {
         </div>
       </div>
     `;
-    this.goUserInfo();
-    this.userValue();
-    const profileImage = document.querySelector('.mypage__profile-image');
-    new ProfileImage(profileImage).render();
+    // 이벤트 핸들러 설정
+    this.setupEventHandlers();
+    // 사용자 데이터 채우기
+    this.loadUserData();
+    // 프로필 이미지 컴포넌트 렌더링
+    this.renderProfileImage();
+  }
 
-    const logout = this.el.querySelector('.header__btn-logout');
-    logout.addEventListener('click', () => {
+  // 프로필 이미지 컴포넌트를 렌더링하는 함수
+  renderProfileImage() {
+    const profileImage = this.el.querySelector('.mypage__profile-image');
+    new ProfileImage(profileImage).render();
+  }
+
+  // 이벤트 핸들러들을 설정하는 함수
+  setupEventHandlers() {
+    this.setupLogoutHandler(); // 로그아웃 버튼의 이벤트 핸들러 설정
+    this.setupUserInfoButtonHandler(); // 정보수정 버튼의 이벤트 핸들러 설정
+  }
+
+  // 로그아웃 버튼의 이벤트 핸들러를 설정하는 함수
+  setupLogoutHandler() {
+    const logoutButton = this.el.querySelector('.header__btn-logout');
+    logoutButton.addEventListener('click', () => {
       sessionStorage.clear();
       const app = document.querySelector('#app');
       history.replaceState('', '', '/');
       const login = new Login(app);
-      login.render();
+      login.render(); // 로그인 페이지로 이동
     });
   }
 
-  goUserInfo() {
-    const goBtn = this.el.querySelector('.mypage__btns--info');
-    goBtn.addEventListener('click', (e) => {
+  // 정보수정 페이지로 이동하는 함수
+  setupUserInfoButtonHandler() {
+    const userInfoButton = this.el.querySelector('.mypage__btns--info');
+    userInfoButton.addEventListener('click', (e) => {
       e.preventDefault();
       const pathMappings = {
         '/userinfo': { title: 'userinfo', ComponentClass: UserInfo },
       };
       const routeView = document.querySelector('route-view');
-
       const route = new Route({ pathMappings, routeView });
       const href = '/userinfo';
-      const props = this.getRowData();
+      const props = this.getUserInfoProps(); // 정보수정 페이지로 전달할 데이터
       route.router(props, href);
     });
   }
-  getRowData() {
+
+  // 정보수정 페이지로 전달할 데이터를 반환하는 함수
+  getUserInfoProps() {
     return {
-      userId: this.state.user[this.userid].userId,
-      userPassword: this.state.user[this.userid].userPassword,
-      profileImg: this.state.user[this.userid].profileImg,
-      name: this.state.user[this.userid].userName,
-      email: this.state.user[this.userid].userEmail,
-      phone: this.state.user[this.userid].userPhone,
-      position: this.state.user[this.userid].userPosition,
       info: '수정',
       permission: 'user',
     };
   }
-  userValue() {
-    const field = [
-      { 'user-name': 'userName' },
-      { 'user-email': 'userEmail' },
-      { 'user-phone': 'userPhone' },
-      { 'user-position': 'userPosition' },
+  // 사용자 데이터를 채워 넣는 함수
+  loadUserData() {
+    const fields = [
+      { key: 'user-name', value: 'name' },
+      { key: 'user-email', value: 'email' },
+      { key: 'user-phone', value: 'phone' },
+      { key: 'user-position', value: 'position' },
+      { key: 'work-start', value: 'INtime' },
+      { key: 'work-end', value: 'OUTtime' },
     ];
-    if (this.state.user[this.userid]) {
-      field.forEach((el) => {
-        this.el.querySelector(`.${Object.keys(el)[0]}`).textContent =
-          this.state.user[this.userid][Object.values(el)[0]];
+
+    if (this.state) {
+      fields.forEach(({ key, value }) => {
+        this.el.querySelector(`.${key}`).textContent = this.state[value] || '';
       });
     }
+    this.checkWorkStatus(); // 근무 상태 업데이트
   }
 
-  sessionStorageFetchUser() {
-    try {
-      sessionStorage.setItem(
-        'user',
-        JSON.stringify({
-          1234: {
-            userId: '1234',
-            userPassword: 'password',
-            userName: '홍길동',
-            userEmail: 'hong@gmail.com',
-            userPhone: '123-456-7890',
-            userPosition: '차장',
-          },
-          4567: {
-            userId: '4567',
-            userPassword: 'password',
-            userName: '세종대왕',
-            userEmail: 'se@gmail.com',
-            userPhone: '098-765-4321',
-            userPosition: '부장',
-          },
-        }),
-      );
-    } catch (e) {
-      console.error('Failed fetch users! User.json 파일을 불러오는 데 실패했습니다.', e);
+  // 근무 상태 업데이트
+  checkWorkStatus() {
+    const workStatus = this.el.querySelector('.mypage__state');
+    if (this.state.status === '2') {
+      workStatus.classList.add('mypage__state-end');
+      workStatus.textContent = '퇴근';
+    } else if (this.state.status === '1') {
+      workStatus.textContent = '출근';
+    } else {
+      workStatus.textContent = '미출근';
     }
-  }
-
-  sessionStorageGetUser() {
-    this.state.user = JSON.parse(sessionStorage.getItem('user'));
   }
 }

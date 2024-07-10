@@ -8,6 +8,10 @@
   gap: 1rem;
   margin: 0 auto;
 }
+.user-dashboard__heading {
+  font-size: var(--font-large);
+  display: none;
+}
 .user-dashboard__wrap > div {
   height: calc((100vh - 218px) / 2);
 }
@@ -103,6 +107,7 @@
   height: 36px;
   background-color: var(--color-ocean-blue);
   color: var(--color-white);
+  font-size: var(--font-small);
   border: none;
   border-radius: var(--size-border);
   cursor: pointer;
@@ -136,6 +141,11 @@
   gap: var(--size-border);
   width: 25%;
 }
+.ph-section > p:last-child,
+.rank-section > p:last-child,
+.email-section > p:last-child {
+  width: 75%;
+}
 .ph-section p span {
   line-height: 1.2;
   font-size: 20px;
@@ -157,6 +167,9 @@
 }
 /* 테블릿 가로 (해상도 768px ~ 1023px)*/
 @media all and (max-width: 1023px) {
+  .user-dashboard__wrap {
+    height: 100vh;
+  }
   .user-dashboard__title {
     display: block;
     position: fixed;
@@ -170,6 +183,19 @@
     background-color: rgba(255, 255, 255, 1);
     border-bottom: 1px solid var(--color-pale-gray);
   }
+  .user-dashboard__heading {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    background-color: rgba(255, 255, 255, 1);
+    border-bottom: 1px solid var(--color-pale-gray);
+    z-index: 10;
+  }
 }
 @media all and (max-width: 900px) {
   .user-dashboard__wrap {
@@ -178,6 +204,7 @@
     margin-top: 80px;
     margin-bottom: 150px;
   }
+
   .user-dashboard__wrap > div {
     height: auto;
   }

@@ -13,7 +13,7 @@ export class Footer {
         <div class="footer__container">
           <h1 class="footer__title">
             <img src="${faviconImg}" alt="logo" />
-            <span>Intranet</span>
+            <span>corenet</span>
           </h1>
           <div class="footer__contents">
             <p class="footer__copyright">
