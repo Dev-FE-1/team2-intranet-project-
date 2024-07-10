@@ -29,7 +29,6 @@ export default class LeaveApplicationList {
         </header>
         <div class="heading-events">
           <div class="w-heading-events">
-            <button class="btn-apply">휴가 신청하기</button>
             <div class="myApplication-toggle" id="myApplicationList-container">
               <div class="myApplicationList-inner-container">
                 <div class="myApplicationList-toggle btn-show-onlyMe">
@@ -53,6 +52,7 @@ export default class LeaveApplicationList {
             </div>
           </div>
 
+          <button class="btn-apply">휴가 신청하기</button>
           <div class="leave-type">
             <select>
               <option value="" selected disabled hidden>휴가 신청타입</option>

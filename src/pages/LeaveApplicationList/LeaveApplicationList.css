@@ -2,11 +2,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: var(--font-small);
 }
 .leave-application-wrap {
   /* width: calc(100vw - 15rem); */
-  height: auto;
+  min-height: calc(100vh - 160px);
   margin: 0 auto;
+  padding: 0 3rem;
 }
 .leave-application {
   position: relative;
@@ -42,7 +44,7 @@
   box-shadow: var(--box-flat-shadow);
   font-size: var(--font-small);
   color: var(--color-white);
-  margin-right: 1rem;
+  margin: 0 2rem;
   border-radius: 2px;
   cursor: pointer;
 }
@@ -140,6 +142,7 @@
     flex-direction: column;
     margin-top: 100px;
     margin-bottom: 200px;
+    padding: 0;
   }
   .leave-application__heading {
     display: block;
