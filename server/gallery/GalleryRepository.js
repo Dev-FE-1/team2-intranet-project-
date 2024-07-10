@@ -1,5 +1,5 @@
 import { BaseRepository } from '../BaseRepository/BaseRepository.js';
-import { EntityKeyConverter } from '../utils/entityKeyConverter.js';
+import { EntityKeyConverter } from '../converter/entityKeyConverter.js';
 
 export class GalleryRepository extends BaseRepository {
   constructor() {
