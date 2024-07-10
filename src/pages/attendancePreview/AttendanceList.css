@@ -135,19 +135,19 @@
   padding-left: 10px;
 }
 
-.attendance-item .-attendance-annual-leave {
+.-attendance-annual-leave {
   color: var(--color-slate-blue);
 }
 
-.attendance-item .-attendance-half-day {
+.-attendance-half-day {
   color: var(--color-teal-grean);
 }
 
-.attendance-item .-attendance-early-out {
+.-attendance-early-out {
   color: var(--color-coral-light);
 }
 
-.attendance-item .-attendance-etc {
+.-attendance-etc {
   color: var(--color-simple-gray);
 }
 
