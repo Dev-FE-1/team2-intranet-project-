@@ -4,7 +4,7 @@
   align-items: center;
 }
 .leave-application-wrap {
-  width: calc(100vw - 15rem);
+  /* width: calc(100vw - 15rem); */
   height: auto;
   margin: 0 auto;
 }

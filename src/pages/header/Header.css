@@ -3,6 +3,7 @@
   position: relative;
   height: 80px;
   z-index: 10;
+  padding: 0 2rem;
   background-color: var(--color-white);
 }
 
@@ -21,7 +22,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: calc(100vw - 15rem);
+  /* width: calc(100vw - 15rem); */
   height: 80px;
   margin: 0 auto;
 }
@@ -87,6 +88,8 @@
     position: fixed;
     left: 0;
     bottom: 0;
+    padding: 0;
+    z-index: 12;
   }
   .header__heading-title {
     display: none;

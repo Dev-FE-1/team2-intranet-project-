@@ -1,5 +1,5 @@
 .applicaion-form-wrap {
-  margin: 2rem;
+  margin-top: 12rem;
 }
 .applicaion-form {
   display: flex;
@@ -167,5 +167,15 @@
     background-color: rgba(255, 255, 255, 1);
     border-bottom: 1px solid var(--color-pale-gray);
     z-index: 10;
+  }
+  .applicaion-form {
+    margin-top: 205px;
+    margin-bottom: 160px;
+    height: 100vh;
+    overflow: scroll;
+  }
+  .btn-group {
+    margin-top: 0;
+    margin-bottom: 180px;
   }
 }
