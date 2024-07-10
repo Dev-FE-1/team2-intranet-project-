@@ -23,7 +23,6 @@
   justify-content: flex-start;
   flex-direction: column;
   height: 100vh;
-  white-space: nowrap;
 }
 
 /* 직원등록,삭제 버튼 */
@@ -31,7 +30,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: calc(100vw - 15rem);
+  width: 1000px;
   padding: 25px 0;
 }
 
@@ -115,7 +114,7 @@
   height: 507px;
 }
 .employee-list table {
-  width: calc(100vw - 15rem);
+  width: 1000px;
   border-collapse: collapse;
 }
 .employee-list table thead {
@@ -224,10 +223,6 @@
     flex-direction: column-reverse;
   }
 
-  .table-wrap {
-    width: calc(100vw - 3rem);
-  }
-
   .employee-list table {
     width: calc(100vw - 3rem);
   }
@@ -255,19 +250,11 @@
   }
 }
 
-/* 모바일 세로 (해상도 ~ 479px)*/
-@media all and (max-width: 479px) {
-  .employee-list__header {
-    width: 90vw;
-    flex-direction: column-reverse;
-  }
-  .employee-list {
-    padding-top: 80px;
+@media all and (max-width: 518px) {
+  .employee-list table col {
+    width: 0;
   }
 
-  .employee-list table {
-    width: 90vw;
-  }
   .employee-list table colgroup col:nth-child(5),
   .employee-list table colgroup col:nth-child(6) {
     display: none;
@@ -280,6 +267,19 @@
   .employee-list table tbody tr td:nth-child(4) {
     display: none;
   }
+}
+
+/* 모바일 세로 (해상도 ~ 479px)*/
+@media all and (max-width: 479px) {
+  .employee-list__header {
+    width: 90vw;
+    flex-direction: column-reverse;
+  }
+
+  .employee-list table {
+    width: 90vw;
+  }
+
   .employee-list tr {
     height: 46px;
   }
