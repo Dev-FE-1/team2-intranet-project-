@@ -2,6 +2,9 @@ import './LeaveApplicationItem.css';
 import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
 import { currentUser } from './dummyData';
 
+import '../attendancePreview/AttendanceList.css';
+import { attendanceTypeStyleClass } from '../attendancePreview/AttendanceListItems';
+
 export default class LeaveApplicationItem {
   constructor() {
     this.avatarDefaultImg = avatarDefaultImg;
@@ -15,7 +18,7 @@ export default class LeaveApplicationItem {
       <li class="leave-application-item" data-id="${id}">
         <img src="${avatarDefaultImg}" alt="profile-image" class="photo" />
         <div class="formdata">
-          <span>${attendanceType}</span>
+          <span class=${attendanceTypeStyleClass[attendanceType]}>${attendanceType}</span>
           <div>
             <p class="leave-application-item__title">제목: ${title}</p>
             <p class="leave-application-item__conetent">내용: ${content}</p>

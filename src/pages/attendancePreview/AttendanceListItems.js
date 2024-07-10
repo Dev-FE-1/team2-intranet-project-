@@ -4,12 +4,15 @@ import axios from 'axios';
 const defaultProfileImg = 'https://i.imgur.com/JJEqrWE.png';
 
 // 근태 타입
-const attendanceType = {
+const attendanceTypeStyleClass = {
   연차: '-attendance-annual-leave',
   반차: '-attendance-half-day',
   조퇴: '-attendance-early-out',
   기타: '-attendance-etc',
 };
+
+export { attendanceTypeStyleClass };
+// export { attendanceTypeStyleClass as attendanceType };
 
 export class AttendanceListItems {
   constructor(container) {
@@ -53,7 +56,9 @@ export class AttendanceListItems {
         <img src="${profileImg || defaultProfileImg}" alt="profile image" srcset="" />
         <div class="l-attendance-item">
           <div class="attendance-item__status">
-            <h2 class="${attendanceType[type] || attendanceType['기타']}">${type}</h2>
+            <h2 class="${attendanceTypeStyleClass[type] || attendanceTypeStyleClass['기타']}">
+              ${type}
+            </h2>
             <p>${content || '신청합니다.'}</p>
           </div>
           <div class="attendance-item__name">

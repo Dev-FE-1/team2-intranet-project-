@@ -33,7 +33,7 @@
   align-items: stretch;
 }
 .formdata span {
-  font-weight: 300;
+  font-weight: 600;
 }
 .title {
   background-color: var(--color-white);
