@@ -38,14 +38,14 @@ if (!sessionStorage.id) {
 
   const routeView = app.querySelector('route-view');
 
-  const routes = {
+  const adminRoutes = {
     '/adminHome': {
       title: 'Home',
       Component: Home,
     },
 
     // 관리자 페이지
-    '/employee-list': {
+    '/': {
       title: 'Employee List',
       Component: EmployeeListTable,
     },
@@ -57,6 +57,9 @@ if (!sessionStorage.id) {
       title: 'GalleryManagement',
       Component: AdminGallery,
     },
+  };
+
+  const userRoutes = {
     // 직원 페이지
     '/': {
       title: 'Home',
@@ -82,6 +85,7 @@ if (!sessionStorage.id) {
   };
 
   function router(props = {}) {
+    const routes = isAdmin ? adminRoutes : userRoutes;
     const view = routes[location.pathname];
     if (view) {
       const { Component: ComponentClass, title: title } = view;
@@ -90,7 +94,7 @@ if (!sessionStorage.id) {
       renderComponent({ ComponentClass, props });
     } else {
       history.replaceState('', '', '/');
-      routeView.innerHTML = '';
+      router();
     }
   }
 
