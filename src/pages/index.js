@@ -5,8 +5,6 @@ import { EmployeeListTable } from './employeeListTable/EmployeeListTable.js';
 import UserInfo from './userinfo/UserInfo';
 
 import { AdminGallery } from './gallery/AdminGallery.js';
-// HomeUpper와 bottom은 나중에 Home.js 에 합쳐질 예정, 합친 후 수정 필요
-// import Home from './Home';
 import { Home } from './Home/Home.js';
 import { EmployeeGallery } from './gallery/EmployeeGallery.js';
 
@@ -29,9 +27,20 @@ if (!sessionStorage.id) {
   const layout = new Layout(app, { isAdmin });
   layout.render();
 
+  // 로그아웃 이벤트 리스너 설정
+  const logoutButton = document.getElementById('logoutButton');
+  if (logoutButton) {
+    logoutButton.addEventListener('click', () => {
+      sessionStorage.clear();
+      window.location.href = '/';
+    });
+  }
+
   const routeView = app.querySelector('route-view');
 
+
   const adminRoutes = {
+
     '/adminHome': {
       title: 'Home',
       Component: Home,
