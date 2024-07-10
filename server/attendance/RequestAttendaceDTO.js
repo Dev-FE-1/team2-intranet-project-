@@ -20,7 +20,7 @@ export class RequestAttendanceDTO {
     attendanceDays,
     attendanceApplyTime,
   }) {
-    this.loginId = loginId;
+    this.loginId = parseInt(loginId);
     this.attendanceType = AttendanceType[attendanceType] || attendanceDefaultDTO.attendanceType;
     this.title = title || attendanceDefaultDTO.title;
     this.content = content || attendanceDefaultDTO.content;

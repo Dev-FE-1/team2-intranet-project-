@@ -6,9 +6,10 @@ export class BaseRepository {
   }
 
   async initialize() {
-    if (!this.db) {
+    if (this.db === null) {
       const connection = await DatabaseConnection.getInstance();
-      this.db = connection.getDatabase();
+      this.db = await connection.getDatabase();
+      return this.db;
     }
   }
 

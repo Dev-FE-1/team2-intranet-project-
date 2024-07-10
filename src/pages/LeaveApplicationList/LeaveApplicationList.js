@@ -4,8 +4,9 @@ import './LeaveApplicationForm.css';
 import './LeaveApplicationList.css';
 import lodash from 'lodash';
 
-import { attendancesUserData, currentUser } from './dummyData';
+import { attendancesUserData, currentUser, attendanceType } from './dummyData';
 import { FormDataDTO } from './FormDataDTO';
+import { LeaveAppplicationFetch } from './LeaveApplicationFetch';
 
 import './LeaveAppplicationToggle.css';
 
@@ -17,6 +18,7 @@ export default class LeaveApplicationList {
     this.currentUser = { ...currentUser }; // 현재 사용자 정보를 클래스 변수에 저장
     this.leaveApplicationForm = new LeaveApplicationForm('div', this.currentUser); // 모달창에 렌더링할 폼 컴포넌트
     this.isMyFiltered = false;
+    this.leaveApplicationFetch = new LeaveAppplicationFetch({});
   }
 
   render() {
@@ -68,10 +70,17 @@ export default class LeaveApplicationList {
         <div class="modal"></div>
       </div>
     `;
-    this.renderLeaveItems(this.attendancesUserData);
+    // this.renderLeaveItems(this.attendancesUserData);
+    this.updateLeaveItemsByGetFetch();
     this.attachEventListeners();
     this.initializeModal();
     this.buttonToggle();
+  }
+
+  // 근태신청 목록을 서버에서 가져와서 렌더링하는 메서드
+  async updateLeaveItemsByGetFetch() {
+    this.attendancesUserData = await this.leaveApplicationFetch.getLeaveApplication();
+    this.renderLeaveItems(this.attendancesUserData);
   }
 
   buttonToggle() {
@@ -227,14 +236,19 @@ export default class LeaveApplicationList {
     const onClickDeleteButton = (e) => {
       if (e.target.classList.contains('btn-delete')) {
         const itemId = e.target.dataset.id;
+        this.leaveApplicationFetch.fetchDeleteLeaveApplication(itemId);
         const attendancesUserData = this.filterDeletedItem(this.attendancesUserData, itemId);
         this.attendancesUserData = [...attendancesUserData];
+        e.target.parentElement.parentElement.classList.add('deletingLeave');
+        setTimeout(() => {
+          e.target.parentElement.parentElement.style.display = 'none';
+        }, 500);
 
-        if (this.isMyFiltered) {
-          this.renderfilteredMyApplications(attendancesUserData);
-        } else {
-          this.renderLeaveItems(attendancesUserData);
-        }
+        // if (this.isMyFiltered) {
+        //   this.renderfilteredMyApplications(attendancesUserData);
+        // } else {
+        //   this.renderLeaveItems(attendancesUserData);
+        // }
       }
     };
     const leaveApplicationItems = document.querySelector('.leave-application-items');
@@ -259,6 +273,7 @@ export default class LeaveApplicationList {
 
   // 수정 모달창 submit  이벤트 헨들러, 폼 데이터를 반아서 신청 목록을 수정하는 메서드
   handleFormEditSubmit(formDataDTO) {
+    this.leaveApplicationFetch.fetchUpdateLeaveApplication(formDataDTO);
     // this.attendancesUserData = [formDataDTO, ...this.attendancesUserData];
     this.attendancesUserData = this.attendancesUserData.map((item) => {
       if (parseInt(item.id) === parseInt(formDataDTO.id)) {
@@ -277,11 +292,36 @@ export default class LeaveApplicationList {
     }
   }
 
+  handleClickLeaveTypeFilterButton() {
+    const leaveTypeFilter = document.querySelector('.leave-type select');
+
+    const onChange = (e) => {
+      const selectedAttendanceType = attendanceType[e.target.value];
+
+      const filteredAttendancesUserData = this.filterAttendanceType(
+        this.attendancesUserData,
+        selectedAttendanceType,
+      );
+
+      if (this.isMyFiltered) {
+        this.renderfilteredMyApplications(filteredAttendancesUserData);
+      } else {
+        this.renderLeaveItems(filteredAttendancesUserData);
+      }
+    };
+    leaveTypeFilter.addEventListener('change', onChange);
+  }
+
+  filterAttendanceType(attendancesUserData, selectedAttendanceType) {
+    return attendancesUserData.filter((item) => item.attendanceType === selectedAttendanceType);
+  }
+
   // 이벤트 리스너를 추가하는 메서드
   attachEventListeners() {
     this.handleClickEditButton();
     this.handleDeleteButton();
     this.handleClickApplyButton();
+    this.handleClickLeaveTypeFilterButton();
     // this.handleClickMyFillterButton();
   }
 }

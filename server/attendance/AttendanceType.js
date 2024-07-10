@@ -1,8 +1,8 @@
 const AttendanceType = Object.freeze({
-  AuunalLeave: 'annual_leave', // 연차
-  HalfDay: 'half_day', // 반차
-  EaryOut: 'early_out', // 조퇴
-  Etc: 'etc', // 기타
+  annual_leave: 'annual_leave', // 연차
+  half_day: 'half_day', // 반차
+  early_out: 'early_out', // 조퇴
+  etc: 'etc', // 기타
 });
 
 export { AttendanceType };

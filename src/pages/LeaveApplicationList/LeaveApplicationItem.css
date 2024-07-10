@@ -8,16 +8,17 @@
   border: 1px solid var(--color-light-gray);
   box-shadow: var(--box-flat-shadow);
   margin-bottom: 1rem;
-  transition: all 300ms ease-in;
+  transition: all 0.5s ease;
 }
 
-.leave-application-item__title,
-.leave-application-item__conetent {
-  width: 50vw;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.deletingLeave {
+  /* width: 0%; */
+  opacity: 0;
+  height: 0;
+  padding: 0;
+  margin: 0;
 }
+
 .photo {
   width: 80px;
   height: 80px;

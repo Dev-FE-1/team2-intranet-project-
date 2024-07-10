@@ -2,7 +2,6 @@ import { BaseRepository } from '../BaseRepository/BaseRepository.js';
 import { AttendanceType } from './AttendanceType.js';
 import { EntityKeyConverter } from '../utils/entityKeyConverter.js';
 import { UserRepository } from '../users/userRepository.js';
-import loadish from 'lodash';
 
 export class AttendanceRepository extends BaseRepository {
   constructor() {
@@ -13,21 +12,14 @@ export class AttendanceRepository extends BaseRepository {
 
   // 근태 신청하기
   async createAttendace(requestDTO) {
-    const { loginId, ...attendanceEntity } = requestDTO;
-    const user = await this.userRepository.getByLoginId(loginId);
-    if (loadish.isEmpty(user)) {
-      throw new Error(`UserID not found, loginID: ${loginId}`);
-    }
-
-    await this.initialize();
+    const attendanceEntity = requestDTO;
+    this.db = await this.initialize();
     const keys = this.converter.convertKeysToSnakeCase(Object.keys(attendanceEntity));
     const values = Object.values(attendanceEntity);
     const placeholders = keys.map(() => '?').join(',');
     try {
       const { lastID } = await this.db.run(
-        `INSERT INTO ${this.tableName} (USER_ID, ${keys.join(',')}) VALUES (${
-          user.id
-        }, ${placeholders})`,
+        `INSERT INTO ${this.tableName} (${keys.join(',')}) VALUES (${placeholders})`,
         values,
       );
       return { id: lastID, ...attendanceEntity };
@@ -42,10 +34,8 @@ export class AttendanceRepository extends BaseRepository {
     try {
       const attendanceList = await this.db.all(
         `select
-          a.id, u.login_id, u.name, title, content, attendance_start_date, attendance_days, attendance_type, attendance_apply_time
-        from
-          ${this.tableName} a, users u
-        where a.user_id = u.id;`,
+        id, user_id, title, content, attendance_start_date, attendance_days, attendance_type, attendance_apply_time, name
+        from ${this.tableName}`,
       );
       return this.converter.convertFieldsToCamelCase(attendanceList);
     } catch (e) {
@@ -103,6 +93,7 @@ export class AttendanceRepository extends BaseRepository {
   async updateAttendanceByLoginId(requestPatchAttendanceDTO) {
     const { loginId, id, ...entity } = requestPatchAttendanceDTO;
     await this.initialize();
+    console.log(loginId);
     const sets = this.converter
       .convertKeysToSnakeCase(Object.keys(entity))
       .map((key) => `${key} = ?`)
@@ -110,35 +101,31 @@ export class AttendanceRepository extends BaseRepository {
 
     const values = [...Object.values(entity)];
 
-    await this.db.run('BEGIN TRANSACTION');
     try {
       console.log(sets);
       await this.db.run(
         `
       update ${this.tableName} 
       SET ${sets} 
-      where user_id = (select users.id from users where users.login_id = '${loginId}')
-      and ${this.tableName}.id = ${id};
+      where ${this.tableName}.id = ${id};
       `,
         values,
       );
-      const updatedAttendance = await this.getAttendanceListById(loginId);
-      await this.db.run('COMMIT');
-      return updatedAttendance;
+
+      return entity;
     } catch (e) {
       console.error(e);
     }
   }
 
-  // 근태 신청 내역 아이디와 신청내역 번호(id)를 이용해서 삭제하기
-  async deleteAttendancebyIdAndUserId(loginId, id) {
+  // 근태 신청내역 번호(id)를 이용해서 삭제하기
+  async deleteAttendancebyIdAndUserId(id) {
     await this.initialize();
     try {
       await this.db.run(
         `
       delete from ${this.tableName} 
-      where ${this.tableName}.user_id = (select users.id from users where users.login_id = '${loginId}')
-      AND ${this.tableName}.id = ?;
+      where ${this.tableName}.id = ?;
       `,
         id,
       );

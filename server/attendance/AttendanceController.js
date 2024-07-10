@@ -1,7 +1,7 @@
 import express from 'express';
 import { ResponseDTO } from '../DTO/responseDTO.js';
 import { RequestAttendanceDTO } from './RequestAttendaceDTO.js';
-import { RequestPatchAttendanceDTO } from './RequestPatchAttendanceDTO.js';
+// import { RequestPatchAttendanceDTO } from './RequestPatchAttendanceDTO.js';
 
 export class AttendanceController {
   constructor({ attendanceService }) {
@@ -89,9 +89,43 @@ export class AttendanceController {
   // req.body = { loginId, title, content, attendance_start_date, attendance_days, attendance_type, attendance_apply_time}
   async updateAttendanceByLoginId(req, res) {
     try {
-      const requestPatchAttendanceDTO = new RequestPatchAttendanceDTO(req.body);
-      const updatedAttendance =
-        await this.attendanceService.updateAttendanceByLoginId(requestPatchAttendanceDTO);
+      const data = await req.body.data;
+
+      const attendanceFrontTypeEnum = Object.freeze({
+        연차: 'annual_leave', // 연차
+        반차: 'half_day', // 반차
+        조퇴: 'early_out', // 조퇴
+        기타: 'etc', // 기타
+      });
+
+      // export class RequestPatchAttendanceDTO {
+      //   constructor(data) {
+      //     this.id = data.itemId;
+      //     this.userId = data.userLoginId || 'defaultID12';
+      //     this.attendanceType =
+      //       attendanceFrontTypeEnum[data.attendanceType] ||
+      //       attendancePatchDefaultDTO.attendanceType;
+      //     this.title = data.itle || attendancePatchDefaultDTO.title;
+      //     this.content = data.content || attendancePatchDefaultDTO.content;
+      //     this.attendanceStartDate =
+      //       data.attendanceStartDate || attendancePatchDefaultDTO.attendanceStartDate;
+      //     this.attendanceDays = data.attendanceDays || attendancePatchDefaultDTO.attendanceDays;
+      //     this.attendanceApplyTime =
+      //       data.attendanceApplyTime || attendancePatchDefaultDTO.attendanceApplyTime;
+      //   }
+      // }
+
+      const request = {
+        id: data.id,
+        userId: data.userId,
+        attendanceType: attendanceFrontTypeEnum[data.attendanceType],
+        title: data.title,
+        content: data.content,
+        attendanceApplyTime: data.attendanceApplyTime,
+      };
+
+      // const requestPatchAttendanceDTO = new RequestPatchAttendanceDTO({ request });
+      const updatedAttendance = await this.attendanceService.updateAttendanceByLoginId(request);
       res.status(200).json(ResponseDTO.success(updatedAttendance));
     } catch (e) {
       console.error(e);
@@ -99,12 +133,12 @@ export class AttendanceController {
     }
   }
 
-  // 근태 신청 내역 아이디와 신청내역 번호(id)를 이용해서 삭제하기
-  // req.body = { loginId, id }
+  // 근태 신청내역 번호(id)를 이용해서 삭제하기
+  // req.body = { id }
   async deleteAttendancebyIdAndUserId(req, res) {
     try {
-      const { loginId, id } = req.body;
-      const result = await this.attendanceService.deleteAttendancebyIdAndUserId(loginId, id);
+      const { id } = req.body;
+      const result = await this.attendanceService.deleteAttendancebyIdAndUserId(id);
       res.status(200).json(ResponseDTO.success(result));
     } catch (e) {
       console.error(e);

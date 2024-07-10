@@ -5,7 +5,7 @@ import morgan from 'morgan';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { indb, initializeDatabase } from './initalizeData.js';
-
+import cors from 'cors';
 const app = express();
 const PORT = process.env.PORT || 8080;
 const __filename = fileURLToPath(import.meta.url);
@@ -31,6 +31,13 @@ app.use(
         },
       },
     ],
+  }),
+);
+
+app.use(
+  cors({
+    origin: 'http://localhost:8080',
+    credentials: true,
   }),
 );
 
