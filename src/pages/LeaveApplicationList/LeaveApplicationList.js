@@ -7,6 +7,8 @@ import lodash from 'lodash';
 import { attendancesUserData, currentUser } from './dummyData';
 import { FormDataDTO } from './FormDataDTO';
 
+import './LeaveAppplicationToggle.css';
+
 export default class LeaveApplicationList {
   constructor(container, props) {
     this.container = container;
@@ -24,10 +26,31 @@ export default class LeaveApplicationList {
           <h1 class="leave-application__heading">근태신청</h1>
         </header>
         <div class="heading-events">
-          <div>
+          <div class="w-heading-events">
             <button class="btn-apply">휴가 신청하기</button>
-            <button class="btn-show-onlyMe">내 신청서만 보기</button>
+            <div class="myApplication-toggle" id="myApplicationList-container">
+              <div class="myApplicationList-inner-container">
+                <div class="myApplicationList-toggle btn-show-onlyMe">
+                  <p>내 신청 목록</p>
+                </div>
+                <div class="myApplicationList-toggle btn-show-all">
+                  <p>전체 신청 목록</p>
+                </div>
+              </div>
+              <div
+                class="myApplicationList-inner-container"
+                id="myApplicationList-toggle-container"
+              >
+                <div class="myApplicationList-toggle btn-show-onlyMe">
+                  <p>내 신청 목록</p>
+                </div>
+                <div class="myApplicationList-toggle btn-show-all">
+                  <p>전체 신청 목록</p>
+                </div>
+              </div>
+            </div>
           </div>
+
           <div class="leave-type">
             <select>
               <option value="" selected disabled hidden>휴가 신청타입</option>
@@ -48,6 +71,33 @@ export default class LeaveApplicationList {
     this.renderLeaveItems(this.attendancesUserData);
     this.attachEventListeners();
     this.initializeModal();
+    this.buttonToggle();
+  }
+
+  buttonToggle() {
+    const myApplicationListToggle = document.getElementById('myApplicationList-container');
+    const myApplicationListToggleContainer = document.getElementById(
+      'myApplicationList-toggle-container',
+    );
+    let toggleState = false;
+
+    const onToggle = (e) => {
+      toggleState = !toggleState;
+      e.preventDefault();
+      if (toggleState) {
+        myApplicationListToggleContainer.style.clipPath = 'inset(0 0 0 50%)';
+        myApplicationListToggleContainer.style.backgroundColor = 'var(--color-vivid-red)';
+        this.isMyFiltered = true;
+        this.renderfilteredMyApplications(this.attendancesUserData);
+      } else {
+        myApplicationListToggleContainer.style.clipPath = 'inset(0 50% 0 0)';
+        myApplicationListToggleContainer.style.backgroundColor = 'var(--color-teal-grean)';
+        this.isMyFiltered = false;
+        this.renderLeaveItems(this.attendancesUserData);
+      }
+      console.log(toggleState);
+    };
+    myApplicationListToggle.addEventListener('click', onToggle);
   }
 
   // 근태신청 목록을 렌더링하는 메서드
@@ -87,15 +137,16 @@ export default class LeaveApplicationList {
 
   // 신청서 목록을 클릭 헨들러, 내 신청서들만 보여주게함.
   handleClickMyFillterButton() {
-    const btnShowOnlyMe = document.querySelector('.btn-show-onlyMe');
-
     const onClickMyFillterButton = (e) => {
-      e.preventDefault();
-      this.isMyFiltered = true;
-      this.renderfilteredMyApplications(this.attendancesUserData);
+      const myButton = e.target.closest('div');
+      if (myButton.classList.contains('btn-show-onlyMe')) {
+        // e.preventDefault();
+        this.isMyFiltered = true;
+        this.renderfilteredMyApplications(this.attendancesUserData);
+      }
     };
 
-    btnShowOnlyMe.addEventListener('click', onClickMyFillterButton);
+    this.container.addEventListener('click', onClickMyFillterButton);
   }
 
   // 신청 버튼 클릭 이벤트 헨들러, 폼 데이터를 받아서 신청서 목록에 추가하는 메서드
@@ -149,6 +200,7 @@ export default class LeaveApplicationList {
     };
 
     const onClickEditButton = (e) => {
+      if (!e.target.classList.contains('btn-edit')) return;
       e.preventDefault();
       const dataId = e.target.closest('li').dataset.id;
       modal.innerHTML = this.leaveApplicationForm.render(dataId);
@@ -230,6 +282,6 @@ export default class LeaveApplicationList {
     this.handleClickEditButton();
     this.handleDeleteButton();
     this.handleClickApplyButton();
-    this.handleClickMyFillterButton();
+    // this.handleClickMyFillterButton();
   }
 }

@@ -3,12 +3,12 @@ import './gallery.css';
 export class AdminGallery {
   constructor(container, props = {}) {
     this.container = container;
-    this.galleryDataPath = props.galleryDataPath || '/api/gallery/contents';
+    this.apiEndpoint = props.galleryDataPath || '/api/v1/gallery';
   }
 
   async getGalleryData() {
     try {
-      const response = await axios.get(this.galleryDataPath);
+      const response = await axios.get(this.apiEndpoint);
       return response.data.data;
     } catch (e) {
       console.error('gallery contents를 fetch해서 불러오는 데 실패했습니다.', e);
