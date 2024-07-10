@@ -109,7 +109,7 @@ export default class Login {
     this.togglePasswordButton.addEventListener('click', this.togglePasswordVisibility.bind(this));
     this.form.addEventListener('submit', (e) => {
       e.preventDefault();
-      sessionStorage.getItem('admin') === 'true' ? this.adminSubmit(e) : this.userSubmit(e);
+      sessionStorage.getItem('admin') === '' ? this.adminSubmit(e) : this.userSubmit(e);
     });
   }
 
@@ -131,10 +131,8 @@ export default class Login {
   adminChecker() {
     if (this.adminCheck.checked) {
       sessionStorage.setItem('admin', true);
-      console.log(sessionStorage.getItem('admin'));
     } else {
       sessionStorage.setItem('admin', false);
-      console.log(sessionStorage.getItem('admin'));
     }
   }
 
@@ -144,8 +142,9 @@ export default class Login {
     if (this.validateInputs()) {
       console.log('타당성 검사 완료, 로그인 시도');
       this.clearErrors();
-    } else {
-      // this.validateInputs()
+      //employee-list
+      sessionStorage.setItem('id', 'admin');
+      // history.replaceState('', '', '/employee-list');
     }
   }
 

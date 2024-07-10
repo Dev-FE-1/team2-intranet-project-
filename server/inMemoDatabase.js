@@ -36,14 +36,15 @@ export default class InMemoDatabase {
           employeeId TEXT NOT NULL UNIQUE,
           profileImg TEXT,
           password TEXT
-        )`).run(`
-          CREATE TABLE IF NOT EXISTS Attendances (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            type TEXT,
-            profileImg TEXT,
-            content TEXT
-          )`);
+        )`);
+      this.db.run(`
+        CREATE TABLE IF NOT EXISTS Attendances (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT,
+          type TEXT,
+          profileImg TEXT,
+          content TEXT
+        )`);
       this.db.run(`
         CREATE TABLE IF NOT EXISTS WorkTimes (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -52,6 +53,13 @@ export default class InMemoDatabase {
           OUTtime DATETIME,
           status INTEGER CHECK (status IN (0, 1, 2)),
           FOREIGN KEY (employeeId) REFERENCES Employees (employeeId)
+        )`);
+      this.db.run(`
+        CREATE TABLE IF NOT EXISTS ADMIN (
+        managerID TEXT NOT NULL UNIQUE,
+        employeeId TEXT NOT NULL,
+        password TEXT,
+        FOREIGN KEY (employeeId) REFERENCES Employees (employeeId)
         )`);
     });
   }
