@@ -123,18 +123,11 @@
 npm install
 ```
 
-## 실행
-
-### 서버 실행
+## 서버 및 클라이언트 실행
 
 ```
+npm run build
 npm run start
-```
-
-### 클라이언트 실행
-
-```
-npm run dev
 ```
 
 ## 개발 문서
