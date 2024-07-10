@@ -51,16 +51,17 @@ export default class LeaveApplicationList {
               </div>
             </div>
           </div>
-
-          <button class="btn-apply">휴가 신청하기</button>
-          <div class="leave-type">
-            <select>
-              <option value="" selected disabled hidden>휴가 신청타입</option>
-              <option value="annual-leave">연차</option>
-              <option value="half-dayoff">반차</option>
-              <option value="sick-leave">조퇴</option>
-              <option value="others">기타</option>
-            </select>
+          <div>
+            <button class="btn-apply">휴가 신청하기</button>
+            <div class="leave-type">
+              <select>
+                <option value="" selected disabled hidden>휴가 신청타입</option>
+                <option value="annual-leave">연차</option>
+                <option value="half-dayoff">반차</option>
+                <option value="sick-leave">조퇴</option>
+                <option value="others">기타</option>
+              </select>
+            </div>
           </div>
         </div>
         <div class="leave-application-list"><ul class="leave-application-items"></ul></div>
@@ -95,12 +96,12 @@ export default class LeaveApplicationList {
       e.preventDefault();
       if (toggleState) {
         myApplicationListToggleContainer.style.clipPath = 'inset(0 0 0 50%)';
-        myApplicationListToggleContainer.style.backgroundColor = 'var(--color-vivid-red)';
+        myApplicationListToggleContainer.style.backgroundColor = 'var(--color-coral-light)';
         this.isMyFiltered = true;
         this.renderfilteredMyApplications(this.attendancesUserData);
       } else {
         myApplicationListToggleContainer.style.clipPath = 'inset(0 50% 0 0)';
-        myApplicationListToggleContainer.style.backgroundColor = 'var(--color-teal-grean)';
+        myApplicationListToggleContainer.style.backgroundColor = 'var(--color-slate-blue)';
         this.isMyFiltered = false;
         this.renderLeaveItems(this.attendancesUserData);
       }
