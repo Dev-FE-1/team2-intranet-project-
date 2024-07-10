@@ -113,7 +113,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 500px;
+  width: 450px;
   background-color: var(--color-white);
   transform: translate(-50%, -50%);
 }
@@ -235,8 +235,5 @@
   }
   .heading-events > div:first-child button {
     width: 100%;
-  }
-  .btn-apply {
-    /* width: var(--size-button-small); */
   }
 }

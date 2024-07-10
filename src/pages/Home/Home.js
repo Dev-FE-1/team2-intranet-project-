@@ -2,8 +2,6 @@ import './Home.css';
 import { AttendanceList } from '../attendancePreview/AttendanceList';
 import { phoneIcon, jobIcon, emailIcon } from '../../utils/icons';
 
-import defaultAvatarUrl from '../../assets/images/avatar-default.jpg';
-
 export class Home {
   constructor(container) {
     const {
@@ -38,7 +36,7 @@ export class Home {
           <div class="working-timer-page">
             <div class="work">
               <div class="summary">
-                <img src="${defaultAvatarUrl}" alt="" />
+                <img src="https://imgur.com/qr7cBFt.jpg" alt="" />
                 <div class="worker-name">${this.userName}</div>
                 <div class="worker-rank">${this.rank}</div>
               </div>
