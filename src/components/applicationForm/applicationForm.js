@@ -1,4 +1,5 @@
 import './applicationForm.css';
+import { defaultAvatarUrl } from '../../assets/images/avatar-default.jpg';
 
 export default class ApplicationForm {
   constructor(container, props) {
@@ -9,11 +10,7 @@ export default class ApplicationForm {
     this.container.innerHTML = /* HTML */ ` <section class="applicaion-form-wrap">
       <div class="applicaion-form">
         <!-- <h1>근태신청 폼</h1> -->
-        <img
-          src="/src/assets/images/avatar-default.jpg"
-          alt="profile image"
-          class="profile-image"
-        />
+        <img src="${defaultAvatarUrl}" alt="profile image" class="profile-image" />
 
         <form class="form">
           <div class="container">
