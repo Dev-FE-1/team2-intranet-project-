@@ -175,7 +175,7 @@ export class EmployeeListTable {
 
   fetchEmployees = async () => {
     try {
-      const response = await axios.get('/api/employees');
+      const response = await axios.get('/api/v1/users');
       return [...response.data.data];
     } catch (error) {
       console.error('Error get employees', error);

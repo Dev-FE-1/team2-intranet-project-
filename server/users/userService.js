@@ -1,9 +1,11 @@
 import loadish from 'lodash';
 
 const defaultPassword = '1q2w3e4r';
+import { userdatadummydatas } from './userDummyDatas.js';
 export class UserService {
   constructor({ userRepository }) {
     this.userRepository = userRepository;
+    this.initalizeUserTableByDummyDatas();
   }
 
   async getUserById(id) {
@@ -62,5 +64,11 @@ export class UserService {
 
   createPasswordDefault() {
     return defaultPassword;
+  }
+
+  initalizeUserTableByDummyDatas() {
+    userdatadummydatas.forEach(async (user) => {
+      await this.createUser(user);
+    });
   }
 }
