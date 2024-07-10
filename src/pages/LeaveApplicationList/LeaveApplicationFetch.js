@@ -29,14 +29,18 @@ export class LeaveAppplicationFetch {
     }
   }
 
-  async fetchCreateLeaveApplication() {
-    const response = await axios.post(this.urlpath);
+  // {{orgin}}{{/api/version/}}attendance
+  // 근태 신청을 추가하는 API post 요청
+  async fetchCreateLeaveApplication(formDataDTO) {
+    const response = await axios.post(this.urlpath, {
+      data: formDataDTO,
+    });
     const data = await response.json();
     return data;
   }
 
   // {{orgin}}{{/api/version/}}attendance/update
-  // 근태 신청 내역을 수정 하는 API put
+  // 근태 신청 내역을 수정 하는 API put 요청
   async fetchUpdateLeaveApplication(formDataDTO) {
     const { id, attendanceType } = formDataDTO;
 

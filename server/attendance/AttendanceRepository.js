@@ -8,12 +8,22 @@ export class AttendanceRepository extends BaseRepository {
     super('Attendance');
     this.converter = new EntityKeyConverter();
     this.userRepository = new UserRepository();
+    // this.initializeAttdance();
   }
+
+  // async initializeAttdance() {
+  //   if (!this.db) {
+  //     this.db = await super.initialize();
+  //   }
+  //   return this.db;
+  // }
 
   // 근태 신청하기
   async createAttendace(requestDTO) {
     const attendanceEntity = requestDTO;
-    this.db = await this.initialize();
+    if (this.db === null) {
+      await this.initialize();
+    }
     const keys = this.converter.convertKeysToSnakeCase(Object.keys(attendanceEntity));
     const values = Object.values(attendanceEntity);
     const placeholders = keys.map(() => '?').join(',');
@@ -30,7 +40,9 @@ export class AttendanceRepository extends BaseRepository {
 
   // 전직원 근태 전체 신청 내역 조회하기
   async getAllAttendanceList() {
-    await this.initialize();
+    if (this.db === null) {
+      await this.initialize();
+    }
     try {
       const attendanceList = await this.db.all(
         `select
@@ -74,7 +86,10 @@ export class AttendanceRepository extends BaseRepository {
 
   // 근태 신청 내역 조회
   async getAllAttendanceListByFilter(filter) {
-    await this.initialize();
+    if (this.db === null) {
+      await this.initialize();
+    }
+
     try {
       const attendanceLists = await this.db.all(
         `select
@@ -92,7 +107,9 @@ export class AttendanceRepository extends BaseRepository {
   // 근태 신청 내역 아이디와 근태신청번호(id)를 이용해서 수정하기
   async updateAttendanceByLoginId(requestPatchAttendanceDTO) {
     const { loginId, id, ...entity } = requestPatchAttendanceDTO;
-    await this.initialize();
+    if (this.db === null) {
+      await this.initialize();
+    }
     console.log(loginId);
     const sets = this.converter
       .convertKeysToSnakeCase(Object.keys(entity))
@@ -120,7 +137,9 @@ export class AttendanceRepository extends BaseRepository {
 
   // 근태 신청내역 번호(id)를 이용해서 삭제하기
   async deleteAttendancebyIdAndUserId(id) {
-    await this.initialize();
+    if (this.db === null) {
+      await this.initialize();
+    }
     try {
       await this.db.run(
         `

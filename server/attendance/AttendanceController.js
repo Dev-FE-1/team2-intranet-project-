@@ -1,6 +1,6 @@
 import express from 'express';
 import { ResponseDTO } from '../DTO/responseDTO.js';
-import { RequestAttendanceDTO } from './RequestAttendaceDTO.js';
+// import { RequestAttendanceDTO } from './RequestAttendaceDTO.js';
 // import { RequestPatchAttendanceDTO } from './RequestPatchAttendanceDTO.js';
 
 export class AttendanceController {
@@ -23,10 +23,26 @@ export class AttendanceController {
   // 근태 신청하기
   // req.body = { user_id, title, content, attendance_start_date, attendance_days, attendance_type, attendance_apply_time }
   async createAttendance(req, res) {
+    const data = await req.body.data;
+    const attendanceFrontTypeEnum = Object.freeze({
+      연차: 'annual_leave', // 연차
+      반차: 'half_day', // 반차
+      조퇴: 'early_out', // 조퇴
+      기타: 'etc', // 기타
+    });
+
+    const request = {
+      id: data.id,
+      name: data.name,
+      userId: data.userId,
+      attendanceType: attendanceFrontTypeEnum[data.attendanceType],
+      title: data.title,
+      content: data.content,
+      attendanceApplyTime: data.attendanceApplyTime,
+    };
+
     try {
-      const attendance = await this.attendanceService.createAttendance(
-        new RequestAttendanceDTO(req.body),
-      );
+      const attendance = await this.attendanceService.createAttendance(request);
       res.status(200).json(ResponseDTO.success(attendance));
     } catch (e) {
       console.error(e);
