@@ -1,6 +1,6 @@
 import { BaseRepository } from '../BaseRepository/BaseRepository.js';
-import { camelToSnakeCase } from '../utils/camelToSnakeCase.js';
-import { snakeToCamelCase } from '../utils/snakeToCamelCase.js';
+import { camelToSnakeCase } from '../converter/camelToSnakeCase.js';
+import { snakeToCamelCase } from '../converter/snakeToCamelCase.js';
 
 export class UserRepository extends BaseRepository {
   constructor() {
