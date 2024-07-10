@@ -109,7 +109,7 @@
 }
 .attendance-item__status > p {
   margin-left: 20px;
-  width: 40vw;
+  width: 28vw;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

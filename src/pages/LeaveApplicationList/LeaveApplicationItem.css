@@ -10,7 +10,13 @@
   margin-bottom: 1rem;
   transition: all 0.5s ease;
 }
-
+.leave-application-item__title,
+.leave-application-item__conetent {
+  width: 30vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .deletingLeave {
   /* width: 0%; */
   opacity: 0;
