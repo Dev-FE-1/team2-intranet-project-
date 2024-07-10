@@ -20,7 +20,43 @@
   display: none;
 }
 
-.gallery__button {
+/* 카드 추가,삭제 버튼 */
+.gallery__header {
+  display: flex;
+  justify-content: ?;
+  align-items: ?;
+  width: calc(100vw - 15rem);
+  padding: 10px 0;
+}
+
+.gallery__header__button a {
+  display: inline-block;
+}
+.gallery__header__button .button {
+  width: var(--size-button-small);
+  height: var(--size-button-height);
+  border: none;
+  border-radius: 5px;
+  font-size: var(--font-small);
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #424a530a;
+  margin-right: 20px;
+}
+
+.gallery__header__button .button-add {
+  background-color: var(--color-ocean-blue);
+  color: var(--color-white);
+}
+
+.gallery__header__button .button-add a {
+  color: var(--color-white);
+}
+
+.gallery__header__button .button-delete {
+  background-color: var(--color-white);
+  color: var(--color-vivid-red);
+  border: 1px solid var(--color-pale-gray);
+  margin-left: 8px;
 }
 
 .gallery__container {

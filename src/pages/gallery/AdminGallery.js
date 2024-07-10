@@ -1,5 +1,7 @@
 import axios from 'axios';
 import './gallery.css';
+// import { galleryData } from '../../../server/data/galleryDummyDatas';
+
 export class AdminGallery {
   constructor(container, props = {}) {
     this.container = container;
@@ -30,7 +32,16 @@ export class AdminGallery {
     this.container.innerHTML = /* HTML */ `
       <div class="gallery">
         <h1 class="gallery__heading">갤러리 관리</h1>
-        <button class="gallery__button">카드 추가</button>
+        <div class="gallery__header">
+          <div class="gallery__header__button">
+            <a href="/addCard" data-link>
+              <button class="button button-add">카드 추가</button>
+            </a>
+            <a>
+              <button id="card-delete" class="button button-delete">카드 삭제</button>
+            </a>
+          </div>
+        </div>
         <div class="gallery__container"></div>
       </div>
     `;
