@@ -210,9 +210,9 @@ export default class UserInfo {
 
   // user일경우 세션스토리지에서 정보 가져오기
   loadUserFromSession(fields) {
+    sessionStorage.setItem('userPassword', 'password');
     this.state = { ...sessionStorage };
     if (this.state) {
-      sessionStorage.setItem('userPassword', 'password');
       fields.forEach(({ id, key }) => {
         this.el.querySelector(`#${id}`).value = this.state[key] || '';
       });
