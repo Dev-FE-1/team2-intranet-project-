@@ -1,7 +1,47 @@
 import { BaseRepository } from '../BaseRepository/BaseRepository.js';
 import { AttendanceType } from './AttendanceType.js';
-import { EntityKeyConverter } from './AttendanceEntityKeyConverter.js';
 import { UserRepository } from '../users/userRepository.js';
+
+function camelToSnakeCase(str) {
+  return str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+}
+
+// 스네이크케이스를 카멜케이스로 변환하는 함수
+// ex) snakeToCamelCase('login_id') => 'loginId'
+function snakeToCamelCase(str) {
+  return str.replace(/([-_][a-z])/g, (group) =>
+    group.toUpperCase().replace('-', '').replace('_', ''),
+  );
+}
+
+class EntityKeyConverter {
+  constructor() {}
+
+  // 객체의 키를 스네이크케이스로 변환, 단일 객체에 대한 변환
+  convertKeysToSnakeCase(keys) {
+    return keys.map((key) => camelToSnakeCase(key));
+  }
+
+  // 필드(배열 안에 객체가 들어 있는 형태)를 스네이크케이스로 변환, 배열 안에 객체가 들어 있는 형태에 대한 변환
+  convertFieldsToCamelCase(fields) {
+    return fields.map((field) => {
+      const newField = {};
+      for (const key in field) {
+        newField[snakeToCamelCase(key)] = field[key];
+      }
+      return newField;
+    });
+  }
+
+  // 객체의 키를 카멜케이스로 변환, 단일 객체에 대한 변환
+  convertEntitySnakeToCamelCaseKeys(entity) {
+    const newEntity = {};
+    for (const key in entity) {
+      newEntity[snakeToCamelCase(key)] = entity[key];
+    }
+    return newEntity;
+  }
+}
 
 export class AttendanceRepository extends BaseRepository {
   constructor() {
@@ -10,13 +50,6 @@ export class AttendanceRepository extends BaseRepository {
     this.userRepository = new UserRepository();
     // this.initializeAttdance();
   }
-
-  // async initializeAttdance() {
-  //   if (!this.db) {
-  //     this.db = await super.initialize();
-  //   }
-  //   return this.db;
-  // }
 
   // 근태 신청하기
   async createAttendace(requestDTO) {
