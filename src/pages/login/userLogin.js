@@ -109,7 +109,7 @@ export default class Login {
     this.togglePasswordButton.addEventListener('click', this.togglePasswordVisibility.bind(this));
     this.form.addEventListener('submit', (e) => {
       e.preventDefault();
-      sessionStorage.getItem('admin') === '' ? this.adminSubmit(e) : this.userSubmit(e);
+      sessionStorage.getItem('admin') === 'true' ? this.adminSubmit(e) : this.userSubmit(e);
     });
   }
 
@@ -144,6 +144,7 @@ export default class Login {
       this.clearErrors();
       //employee-list
       sessionStorage.setItem('id', 'admin');
+      window.location.reload();
       // history.replaceState('', '', '/employee-list');
     }
   }
