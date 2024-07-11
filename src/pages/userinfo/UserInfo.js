@@ -254,6 +254,7 @@ export default class UserInfo {
     const [editInfoButton, saveCancelButton] = this.el.querySelectorAll('.user-info__btns');
     if (this.info === '조회') {
       const inputEl = this.el.querySelectorAll('input');
+      this.el.querySelector('.user-info__type').classList.add('btnNone');
       inputEl.forEach((el) => {
         el.readOnly = true;
         el.style.border = 'none';
