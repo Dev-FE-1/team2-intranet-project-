@@ -18,7 +18,7 @@ export class AttendanceList {
           <h1>근태현황</h1>
           <a href='/leave-application-list' data-link><span>근태현황</span></span>바로가기</span></a>
         </header>
-        <ul class="attendance-items"></ul>
+        <ul class="attendance-items scroll"></ul>
       </section>
     `;
     this.attendanceListItems.render();
