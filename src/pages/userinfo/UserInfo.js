@@ -157,6 +157,7 @@ export default class UserInfo {
       </form>
     `;
     if (this.permission === 'user') {
+      this.el.querySelector('.user-info__type').classList.add('btnNone');
       this.el.querySelector('#user-id').readOnly = true;
       this.el.querySelector('.user-info__btn--cancel').addEventListener('click', (e) => {
         e.preventDefault();
