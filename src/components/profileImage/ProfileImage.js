@@ -1,7 +1,7 @@
 import './ProfileImage.css';
 import { editIcon } from '/src/utils/icons';
 import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
-
+import axios from 'axios';
 export default class ProfileImage {
   constructor(container, props = {}) {
     this.container = container;
@@ -12,6 +12,10 @@ export default class ProfileImage {
     this.defaultProfileImg = avatarDefaultImg;
   }
   setAddEventListener() {
+    this.container.querySelector('form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      console.log('프로필 사진이 변경되었습니다.');
+    });
     const input = document.getElementById('fileField');
 
     const processReduce = async (photo) => {
@@ -21,8 +25,9 @@ export default class ProfileImage {
       let reader = new FileReader();
       reader.readAsDataURL(resizedPhoto); // converts the blob to base64 and calls onload
 
-      reader.onload = function () {
+      reader.onload = async () => {
         document.getElementById('img1').src = reader.result; // data url
+        await this.uploadToCloudinary(resizedPhoto); // 이미지 받기
       };
     };
 
@@ -47,26 +52,28 @@ export default class ProfileImage {
   }
   render() {
     this.container.innerHTML = /* HTML */ `
-      <div class="profile">
-        <img src="${this.defaultProfileImg}" alt="avatar" class="profile__image" id="img1" />
-        <button class="profile__btn-edit">${editIcon()} 사진변경</button>
+      <form>
+        <div class="profile">
+          <img src="${this.defaultProfileImg}" alt="avatar" class="profile__image" id="img1" />
+          <button class="profile__btn-edit">${editIcon()} 사진변경</button>
 
-        <ul class="profile__submenu">
-          <li>
-            <input
-              id="fileField"
-              type="file"
-              name="files[]"
-              accept="image/*"
-              class="profile__input-file"
-            />
-            <label for="fileField" class="profile__btn-upload"> Upload a photo </label>
-          </li>
-          <li>
-            <button class="profile__btn-remove">Remove photo</button>
-          </li>
-        </ul>
-      </div>
+          <ul class="profile__submenu">
+            <li>
+              <input
+                id="fileField"
+                type="file"
+                name="files[]"
+                accept="image/*"
+                class="profile__input-file"
+              />
+              <label for="fileField" class="profile__btn-upload"> Upload a photo </label>
+            </li>
+            <li>
+              <button class="profile__btn-remove">Remove photo</button>
+            </li>
+          </ul>
+        </div>
+      </form>
     `;
     this.setAddEventListener();
   }
@@ -132,5 +139,33 @@ export default class ProfileImage {
     input.value = '';
 
     console.log('프로필 사진이 제거되었습니다.');
+  }
+
+  async uploadToCloudinary(photo) {
+    const formData = new FormData();
+    formData.append('file', photo);
+    console.log(formData.get('file'));
+    formData.append('upload_preset', 'vvqjds26'); // Cloudinary 업로드 프리셋
+
+    try {
+      const cloudinaryResponse = await axios.post(
+        'https://api.cloudinary.com/v1_1/danwktom9/image/upload',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+
+      console.log('Image uploaded to Cloudinary:', cloudinaryResponse.data);
+      const imageUrl = cloudinaryResponse.data.secure_url;
+      console.log(imageUrl);
+      // 서버에 이미지 URL을 저장하도록 요청
+      const serverResponse = await axios.post('/api/save-image-url', { imageUrl });
+      console.log('Image URL saved to server:', serverResponse.data);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
   }
 }
