@@ -72,7 +72,7 @@ export default class UserInfo {
                     name="user-id"
                     placeholder="아이디를 입력해주세요"
                   />
-                  <p class="user-info__error"></p>
+                  <p class="user-info__error user-info__error-id"></p>
                   <button type="button" class="user-info__type">중복 확인</button>
                 </div>
               </li>
@@ -164,6 +164,10 @@ export default class UserInfo {
         history.back();
       });
     }
+
+    // 해당 페이지가 관리자 권한을 가지고 접속한 관리자 페이지일경우 에만 아이디 입력화면을 렌더링한다.
+    this.renderIDInputWhenUserIsAdmin();
+
     // 폼 제출 방지
     this.preventFormSubmission();
 
@@ -179,9 +183,23 @@ export default class UserInfo {
     // 프로필 이미지 컴포넌트 불러오기
     this.renderProfileImage();
 
-    this.btnType();
     // 수정 버튼 클릭 헨들러
     // this.handleEditButton();
+  }
+
+  renderIDInputWhenUserIsAdmin() {
+    if (sessionStorage.getItem('admin') === 'true') {
+      this.btnType();
+    } else {
+      this.renderUserEditPageNotAllowIdEdit();
+    }
+  }
+
+  // 관리자가 아닌 유저가 아이디를 수정하거나 입력하는 것을 막음.
+  renderUserEditPageNotAllowIdEdit() {
+    const userId = this.el.querySelector('#user-id');
+    userId.readOnly = true;
+    userId.style.border = 'none';
   }
 
   // 폼 제출 방지
@@ -319,7 +337,7 @@ export default class UserInfo {
   // 입력값 검증 설정
   setupInputValidation() {
     const validator = new Validator();
-    this.validateInput('user-id', validator.idValidator, '.user-info__error');
+    // this.validateInput('user-id', validator.idValidator, '.user-info__error');
     this.validateInput('user-password', validator.passwordValidator, '.user-info__error');
     this.validateInput('user-email', validator.emailValidator, '.user-info__error');
     this.validateInput('user-phone', validator.phoneValidator, '.user-info__error');
@@ -340,9 +358,10 @@ export default class UserInfo {
       if (!employeeId) {
         throw new Error('employeeId가 없습니다');
       }
-      const isIdDuplicated = await this.validatorIdDuplicate(employeeId);
+      // ID 중복이 존재하는지 확인함.
+      const isEmptyEmployeeId = await this.validatorIdDuplicate(employeeId);
 
-      if (isIdDuplicated) this.btnState = false;
+      if (!isEmptyEmployeeId) this.btnState = false;
       else this.btnState = true;
 
       // this.btnState = true;
@@ -351,6 +370,7 @@ export default class UserInfo {
         errCheck.textContent = '사용 가능한 아이디입니다.';
         saveBtn.classList.remove('user-info__btn--disable');
         saveBtn.disabled = false;
+        this.renderValidationID(employeeId);
       } else {
         // ID 중복일 경우
         errCheck.textContent = '이미 존재하는 아이디입니다.';
@@ -359,7 +379,15 @@ export default class UserInfo {
       }
     });
   }
-  // 입력값 검증
+
+  renderValidationID(employeeId) {
+    const validator = new Validator();
+    const waringId = document.querySelector('.user-info__error-id');
+    waringId.innerHTML = validator.idValidator(employeeId);
+  }
+
+  // 입력값 검증 함수
+  // 아이디를 제외한 (비밀번호, 이름, 이메일, 휴대폰 번호) 입력값 검증 로직
   validateInput(id, fn, err) {
     const idCheck = this.el.querySelector(`#${id}`);
     const errCheck = this.el.querySelector(`
@@ -373,14 +401,8 @@ export default class UserInfo {
         saveBtn.classList.add('user-info__btn--disable');
         saveBtn.disabled = true;
       } else {
-        if (!this.btnState) {
-          errCheck.textContent = '아이디 중복 확인 해주세요.';
-          saveBtn.classList.add('user-info__btn--disable');
-          saveBtn.disabled = true;
-        } else {
-          saveBtn.classList.remove('user-info__btn--disable');
-          saveBtn.disabled = false;
-        }
+        saveBtn.classList.add('user-info__btn--disable');
+        saveBtn.disabled = true;
       }
     });
   }

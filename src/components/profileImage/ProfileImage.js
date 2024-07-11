@@ -12,7 +12,7 @@ export default class ProfileImage {
     this.defaultProfileImg = avatarDefaultImg;
   }
   setAddEventListener() {
-    this.container.querySelector('form').addEventListener('submit', (e) => {
+    this.container.addEventListener('submit', (e) => {
       e.preventDefault();
       console.log('프로필 사진이 변경되었습니다.');
     });
@@ -52,7 +52,7 @@ export default class ProfileImage {
   }
   render() {
     this.container.innerHTML = /* HTML */ `
-      <form>
+      <form class="profile-form-">
         <div class="profile">
           <img src="${this.defaultProfileImg}" alt="avatar" class="profile__image" id="img1" />
           <button class="profile__btn-edit">${editIcon()} 사진변경</button>
