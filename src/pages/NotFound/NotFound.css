@@ -1,0 +1,23 @@
+.not-found-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+.not-found {
+  text-align: center;
+  transform: translateY(-3rem);
+}
+.not-found img {
+  width: 400px;
+}
+.not-found h1 {
+  font-size: 30px;
+}
+.not-found h1 strong {
+  color: var(--color-slate-blue);
+}
+.not-found p {
+  color: var(--color-dark-gray);
+}
