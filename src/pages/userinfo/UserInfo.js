@@ -243,7 +243,6 @@ export default class UserInfo {
       const value = formData.get(id); // 폼 데이터에서 값 가져오기
       if (value !== null) {
         sessionStorage.setItem(key, value);
-        // console.log(`${key}: ${value}`);
       }
     });
     history.back();
@@ -253,7 +252,6 @@ export default class UserInfo {
   toggleFormMode() {
     const sel = this.el.querySelector('#user-position');
     const [editInfoButton, saveCancelButton] = this.el.querySelectorAll('.user-info__btns');
-    console.log(editInfoButton, saveCancelButton);
     if (this.info === '조회') {
       const inputEl = this.el.querySelectorAll('input');
       inputEl.forEach((el) => {
@@ -332,7 +330,8 @@ export default class UserInfo {
   btnType() {
     const saveBtnType = this.el.querySelector('.user-info__type');
     const saveBtn = this.el.querySelector('.user-info__btn--save');
-
+    const errCheck = this.el.querySelector(`
+      #user-id + .user-info__error`);
     saveBtnType.addEventListener('click', async () => {
       const employeeId = document.querySelector('#user-id').value;
 
@@ -341,18 +340,18 @@ export default class UserInfo {
       }
       const isIdDuplicated = await this.validatorIdDuplicate(employeeId);
 
-      if (isIdDuplicated) this.btnState = false;
+      if (!isIdDuplicated) this.btnState = false;
       else this.btnState = true;
 
       // this.btnState = true;
       if (this.btnState) {
-        console.log(this.btnState);
         // ID 중복이 아닐 경우
+        errCheck.textContent = '사용 가능한 아이디입니다.';
         saveBtn.classList.remove('user-info__btn--disable');
         saveBtn.disabled = false;
       } else {
         // ID 중복일 경우
-        console.log(this.btnState);
+        errCheck.textContent = '이미 존재하는 아이디입니다.';
         saveBtn.classList.add('user-info__btn--disable');
         saveBtn.disabled = true;
       }
@@ -368,12 +367,18 @@ export default class UserInfo {
     idCheck.addEventListener('change', () => {
       const errorMsg = fn(idCheck.value);
       errCheck.textContent = errorMsg;
-      if (!this.btnState || errorMsg !== 'success') {
+      if (errorMsg !== 'success') {
         saveBtn.classList.add('user-info__btn--disable');
         saveBtn.disabled = true;
       } else {
-        saveBtn.classList.remove('user-info__btn--disable');
-        saveBtn.disabled = false;
+        if (!this.btnState) {
+          errCheck.textContent = '아이디 중복 확인 해주세요.';
+          saveBtn.classList.add('user-info__btn--disable');
+          saveBtn.disabled = true;
+        } else {
+          saveBtn.classList.remove('user-info__btn--disable');
+          saveBtn.disabled = false;
+        }
       }
     });
   }
