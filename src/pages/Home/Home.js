@@ -1,26 +1,27 @@
 import './Home.css';
 import { AttendanceList } from '../attendancePreview/AttendanceList';
 import { phoneIcon, jobIcon, emailIcon } from '../../utils/icons';
-import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
+import axios from 'axios';
 
 export class Home {
   constructor(container) {
-    const {
-      name = '이동혁',
-      position = '신입',
-      atWork = 0,
-      phone = '010-2826-3158',
-      email = 'asd1234',
-    } = sessionStorage;
+    // sessionStorage에서 값을 가져와 객체를 구성합니다.
+    const user = {
+      name: sessionStorage.getItem('name') || '이동혁',
+      position: sessionStorage.getItem('position') || '신입',
+      phone: sessionStorage.getItem('phone') || '010-2826-3158',
+      email: sessionStorage.getItem('email') || 'asd1234',
+      status: sessionStorage.getItem('status') || '0'
+    };
 
-    this.userName = name;
-    this.rank = position;
-    this.atWork = atWork;
-    this.ph = phone;
-    this.email = email;
-
+    this.userName = user.name;
+    this.rank = user.position;
+    this.ph = user.phone;
+    this.email = user.email;
+    this.status = Number(user.status);
     this.container = container;
 
+    console.log(typeof this.status);
     this.timeFormatter = new Intl.DateTimeFormat('ko-KR', {
       hour: '2-digit',
       minute: '2-digit',
@@ -49,10 +50,12 @@ export class Home {
                 </div>
                 <div class="working-status">
                   <p class="current-status">현재상태</p>
-                  <p class="current-displayer">${this.atWork == 1 ? '근무중' : '퇴근'}</p>
+                  <p class="current-displayer">${this.status === 1 ? '근무중' : '퇴근'}</p>
                 </div>
               </div>
-              <button class="puncher">근무시작</button>
+              <button class="puncher" ${this.status === 2 ? 'disabled' : ''}>
+              ${this.status === 1 ? '근무종료' : '근무시작'}
+              </button>
             </div>
             <div class="profil-mini">
               <div class="profile-title">PROFILE</div>
@@ -67,7 +70,7 @@ export class Home {
                 <p class="rank-name">${this.rank}</p>
               </div>
               <div class="email-section">
-                <p class="email-title">${emailIcon()}</span>Emaiil</p>
+                <p class="email-title">${emailIcon()}</span>Email</p>
                 <p class="email-address">${this.email}</p>
               </div>
             </div>
@@ -78,11 +81,12 @@ export class Home {
         
         
       </section>
-    `;
-    const attendenList = new AttendanceList(document.querySelector('.attendanceList'), {});
-    attendenList.render();
-    this.timepuchListener();
+    ` ;
+    const attendanceList = new AttendanceList(document.querySelector('.attendanceList'), {});
+    attendanceList.render();
+    this.timepunchListener();
     this.startClock();
+    console.log(new Date())
   }
 
   startClock() {
@@ -98,12 +102,30 @@ export class Home {
     }
   };
 
-  timepuchListener() {
+  timepunchListener() {
     const puncherButton = this.container.querySelector('.puncher');
     puncherButton.addEventListener('click', async () => {
-      this.atWork = 1 - this.atWork; // 0과 1 사이를 토글
-
-      this.updateWorkStatus();
+      try{
+        this.status += 1;
+        const requestData = {
+          employeeId: sessionStorage.getItem('id'),
+          INtime: sessionStorage.getItem('INtime'),
+          OUTtime: sessionStorage.getItem('OUTtime'),
+          status: sessionStorage.getItem('status'),
+        };
+        console.log(requestData)
+        const response = await axios.post('/api/employees/setTime', requestData)
+        if(response){
+          const responseData = response.data
+          console.log(responseData)
+          sessionStorage.setItem('status', responseData.status);
+          sessionStorage.setItem('OUTtime', responseData.OUTtime)
+          sessionStorage.setItem('INtime', responseData.INtime)
+          this.updateWorkStatus();
+        }
+      }catch(e){
+        console.error('출퇴근 시간 등록 실패', error);
+      }
     });
   }
 
@@ -111,7 +133,9 @@ export class Home {
     const statusDisplay = this.container.querySelector('.working-status .current-displayer');
     const puncherButton = this.container.querySelector('.puncher');
 
-    statusDisplay.textContent = this.atWork == 1 ? '근무중' : '퇴근';
-    puncherButton.textContent = this.atWork == 1 ? '근무종료' : '근무시작';
+    statusDisplay.textContent = this.status === 1 ? '근무중' : '퇴근';
+    puncherButton.textContent = this.status === 1 ? '근무종료' : '근무시작';
+
+    puncherButton.disabled = this.status === 2;
   }
 }
