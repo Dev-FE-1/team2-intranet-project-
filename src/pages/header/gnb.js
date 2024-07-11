@@ -21,11 +21,13 @@ function AdminGnb() {
       </a>
       </li>
       <li>
-        <button><span class="material-symbols-rounded">
-        logout
-        </span>
-          <span>logout</span></button>
-        </li>
+      <a href="/" data-link>
+      <span class="material-symbols-rounded">
+      logout
+      </span>
+        <span>로그아웃</span>
+      </a>
+      </li>
     </ul>
   </nav>
   `;
