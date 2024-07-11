@@ -1,3 +1,13 @@
+/* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
+.scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll {
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+
 .attendance-list {
   --size-attendance-list-width: 800px;
   --size-attendance-list-height: 450px;
