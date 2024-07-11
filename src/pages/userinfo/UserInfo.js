@@ -10,6 +10,7 @@ import { Route } from '../router/route';
 export default class UserInfo {
   constructor(cotainer, props = {}) {
     this.employeeListFetch = new EmployeeListFetch();
+    this.btnState = false;
 
     const {
       dataId,
@@ -72,7 +73,7 @@ export default class UserInfo {
                     placeholder="아이디를 입력해주세요"
                   />
                   <p class="user-info__error"></p>
-                  <button class="user-info__type">중복 확인</button>
+                  <button type="button" class="user-info__type">중복 확인</button>
                 </div>
               </li>
               <li class="user-info__list">
@@ -177,6 +178,7 @@ export default class UserInfo {
     // 프로필 이미지 컴포넌트 불러오기
     this.renderProfileImage();
 
+    this.btnType();
     // 수정 버튼 클릭 헨들러
     // this.handleEditButton();
   }
@@ -322,18 +324,38 @@ export default class UserInfo {
     this.validateInput('user-email', validator.emailValidator, '.user-info__error');
     this.validateInput('user-phone', validator.phoneValidator, '.user-info__error');
   }
+  btnType(fn) {
+    const saveBtnType = this.el.querySelector('.user-info__type');
+    const saveBtn = this.el.querySelector('.user-info__btn--save');
 
+    saveBtnType.addEventListener('click', () => {
+      fn((id) => {
+        if (id.includes(this.el.document.querySelector(`#user-id`).value)) this.btnState = false;
+        else this.btnState = true;
+      });
+      // this.btnState = true;
+      if (this.btnState) {
+        console.log(this.btnState);
+        saveBtn.classList.remove('user-info__btn--disable');
+        saveBtn.disabled = false;
+      } else {
+        console.log(this.btnState);
+        saveBtn.classList.add('user-info__btn--disable');
+        saveBtn.disabled = true;
+      }
+    });
+  }
   // 입력값 검증
   validateInput(id, fn, err) {
     const idCheck = this.el.querySelector(`#${id}`);
     const errCheck = this.el.querySelector(`
       #${id} + ${err}`);
     const saveBtn = this.el.querySelector('.user-info__btn--save');
+
     idCheck.addEventListener('change', () => {
       const errorMsg = fn(idCheck.value);
       errCheck.textContent = errorMsg;
-
-      if (errorMsg !== 'success') {
+      if (!this.btnState || errorMsg !== 'success') {
         saveBtn.classList.add('user-info__btn--disable');
         saveBtn.disabled = true;
       } else {
