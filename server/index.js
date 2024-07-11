@@ -7,6 +7,7 @@ import path from 'path';
 import { indb, initializeDatabase } from './initalizeData.js';
 import date from 'date-and-time';
 import cors from 'cors';
+
 const app = express();
 const PORT = process.env.PORT || 8080;
 const __filename = fileURLToPath(import.meta.url);
