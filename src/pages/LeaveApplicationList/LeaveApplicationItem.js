@@ -23,7 +23,7 @@ export default class LeaveApplicationItem {
             <p class="eave-application-item__attendanceApplyTime">작성일: ${attendanceApplyTime}</p>
           </div>
         </div>
-        <span class="author">${name}</span>
+        <span class="leave-author">${name}</span>
         ${this.currentUserId === userId ? `${this.renderEditAndDeleteButton(id)}` : ''}
       </li>
     `;

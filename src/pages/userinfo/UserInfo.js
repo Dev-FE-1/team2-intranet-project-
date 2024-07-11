@@ -1,9 +1,18 @@
+import { EmployeeListTable } from '../employeeListTable/EmployeeListTable';
 import './UserInfo.css';
 import ProfileImage from '../../components/profileImage/ProfileImage';
 import { Validator } from './Validator';
+
+import { UserInfoDTO } from './userInfoDTO';
+import { EmployeeListFetch } from '../employeeListTable/EmployeeListFetch';
+import { Route } from '../router/route';
+
 export default class UserInfo {
   constructor(cotainer, props = {}) {
+    this.employeeListFetch = new EmployeeListFetch();
+
     const {
+      dataId,
       name,
       email,
       phone,
@@ -14,12 +23,14 @@ export default class UserInfo {
       info = '등록',
       permission = '',
     } = props;
+
     this.userid = userId;
     this.permission = permission;
     this.info = info;
     this.state = {
       user: {
         [userId]: {
+          dataId,
           id: userId,
           userPassword,
           name,
@@ -122,11 +133,11 @@ export default class UserInfo {
           </div>
         </div>
         <div class="user-info__btns ">
-          <button class="user-info__btn--cancel">취소</button>
-          <button class="user-info__btn--save">저장</button>
+          <button type="button" class="user-info__btn--cancel">취소</button>
+          <button type="sumbit" class="user-info__btn--save">저장</button>
         </div>
         <div class="user-info__btns">
-          <button class="user-info__btn--edit">정보변경</button>
+          <button type="button" class="user-info__btn--edit">정보변경</button>
         </div>
       </form>
     `;
@@ -148,13 +159,28 @@ export default class UserInfo {
 
     // 프로필 이미지 컴포넌트 불러오기
     this.renderProfileImage();
+
+    // 수정 버튼 클릭 헨들러
+    this.handleEditButton();
   }
 
-  // 폼 전송 방지 및 버튼 핸들러 설정
+  // 서브밋 헨들러, 백엔드로 데이터 수정 요청 API 호출
   preventFormSubmission() {
     const form = this.el.querySelector('.user-info');
     form.addEventListener('submit', function (event) {
       event.preventDefault();
+      const formData = new FormData(form);
+      const userInfotr = Object.fromEntries(formData.entries());
+      const trdataId = document.querySelector('.user-info__lists-wrap');
+      const employeeListFetch = new EmployeeListFetch();
+      userInfotr['data-id'] = trdataId.dataset.dataId; // 데이터 아이디 설정
+      employeeListFetch.updateEmployee(new UserInfoDTO(userInfotr));
+      const pathMappings = {
+        '/employee-list': { title: 'Employee List', ComponentClass: EmployeeListTable },
+      };
+      const routeView = document.querySelector('route-view');
+      const route = new Route({ pathMappings, routeView });
+      route.router({}, '/employee-list');
     });
     this.setupButtonHandlers(form); // 버튼 핸들러 설정
   }
@@ -222,6 +248,11 @@ export default class UserInfo {
   // admin일경우 props에서 정보 가져오기
   loadUserFromProps(fields) {
     if (this.state.user && this.state.user[this.userid]) {
+      const trdataId = document.querySelector('.user-info__lists-wrap');
+      if (this.state.user[this.userid] === undefined) {
+        console.error('dataId가 없습니다.');
+      }
+      trdataId.dataset.dataId = this.state.user[this.userid].dataId || '';
       fields.forEach(({ id, key }) => {
         this.el.querySelector(`#${id}`).value = this.state.user[this.userid][key] || '';
       });
@@ -249,7 +280,7 @@ export default class UserInfo {
     const validator = new Validator();
     this.validateInput('user-id', validator.idValidator, '.user-info__error');
     this.validateInput('user-password', validator.passwordValidator, '.user-info__error');
-    this.validateInput('user-email', validator.emailValidator, '.user-info__error');
+    // this.validateInput('user-email', validator.emailValidator, '.user-info__error');
     this.validateInput('user-phone', validator.phoneValidator, '.user-info__error');
   }
 

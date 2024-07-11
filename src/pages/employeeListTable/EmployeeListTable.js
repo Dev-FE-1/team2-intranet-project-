@@ -254,6 +254,7 @@ export class EmployeeListTable {
   getRowData(tr) {
     const td = tr.querySelectorAll('td');
     return {
+      dataId: tr.dataset.dataId,
       userId: tr.dataset.id,
       userPassword: tr.dataset.password,
       profileImg: td[1].querySelector('img').src,

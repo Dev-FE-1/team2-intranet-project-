@@ -35,8 +35,8 @@ export class UserService {
   }
 
   // 계정 개인정보 수정
-  async updateByLoginId(loginId, user) {
-    return await this.userRepository.updateByLoginId(loginId, user);
+  async updateByLoginId(user) {
+    return await this.userRepository.updateByLoginId(user);
   }
 
   // 계정 개인 정보 조회
