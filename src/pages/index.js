@@ -37,6 +37,13 @@ if (!sessionStorage.id) {
     });
   }
 
+  const adminLogoutButton = document.getElementById('adminLogout');
+  if (adminLogoutButton) {
+    adminLogoutButton.addEventListener('click', () => {
+      sessionStorage.clear();
+      window.location.href = '/';
+    });
+  }
   const routeView = app.querySelector('route-view');
 
   const adminRoutes = {
