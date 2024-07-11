@@ -2,6 +2,7 @@ import './Home.css';
 import { AttendanceList } from '../attendancePreview/AttendanceList';
 import { phoneIcon, jobIcon, emailIcon } from '../../utils/icons';
 import axios from 'axios';
+import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
 
 export class Home {
   constructor(container) {
