@@ -57,12 +57,14 @@ export default class UserInfo {
                 </label>
                 <div>
                   <input
+                    required
                     type="text"
                     id="user-id"
                     name="user-id"
                     placeholder="아이디를 입력해주세요"
                   />
                   <p class="user-info__error"></p>
+                  <button type="button">중복 확인</button>
                 </div>
               </li>
               <li class="user-info__list">
@@ -71,6 +73,7 @@ export default class UserInfo {
                 </label>
                 <div>
                   <input
+                    required
                     type="password"
                     id="user-password"
                     name="user-password"
@@ -85,6 +88,7 @@ export default class UserInfo {
                 </label>
 
                 <input
+                  required
                   type="text"
                   id="user-name"
                   name="user-name"
@@ -97,6 +101,7 @@ export default class UserInfo {
                 </label>
                 <div>
                   <input
+                    required
                     type="email"
                     id="user-email"
                     name="user-email"
@@ -111,6 +116,7 @@ export default class UserInfo {
                 </label>
                 <div>
                   <input
+                    required
                     type="text"
                     id="user-phone"
                     name="user-phone"
@@ -121,7 +127,7 @@ export default class UserInfo {
               </li>
               <li class="user-info__list">
                 <label for="user-position"> <span>직급</span></label>
-                <select id="user-position" name="user-position">
+                <select required id="user-position" name="user-position">
                   <option value="" selected disabled hidden>직급 선택</option>
                   <option value="부장">부장</option>
                   <option value="차장">차장</option>
@@ -148,12 +154,15 @@ export default class UserInfo {
         history.back();
       });
     }
-    // 폼전송 방지
+
     this.preventFormSubmission();
+
     // 수정, 조회 페이지 전환
     this.toggleFormMode();
+
     // 유저정보 불러오기
     this.loadUserData();
+
     // 입력값 검증
     this.setupInputValidation();
 
@@ -167,21 +176,30 @@ export default class UserInfo {
   // 서브밋 헨들러, 백엔드로 데이터 수정 요청 API 호출
   preventFormSubmission() {
     const form = this.el.querySelector('.user-info');
-    form.addEventListener('submit', function (event) {
+
+    const onSumbit = async (event) => {
       event.preventDefault();
       const formData = new FormData(form);
       const userInfotr = Object.fromEntries(formData.entries());
       const trdataId = document.querySelector('.user-info__lists-wrap');
       const employeeListFetch = new EmployeeListFetch();
       userInfotr['data-id'] = trdataId.dataset.dataId; // 데이터 아이디 설정
-      employeeListFetch.updateEmployee(new UserInfoDTO(userInfotr));
+
+      if (this.info === '수정') {
+        await employeeListFetch.updateEmployee(new UserInfoDTO(userInfotr));
+      } else if (this.info === '등록') {
+        await employeeListFetch.addEmployee(new UserInfoDTO(userInfotr));
+      }
+
       const pathMappings = {
         '/employee-list': { title: 'Employee List', ComponentClass: EmployeeListTable },
       };
       const routeView = document.querySelector('route-view');
       const route = new Route({ pathMappings, routeView });
       route.router({}, '/employee-list');
-    });
+    };
+
+    form.addEventListener('submit', onSumbit);
     this.setupButtonHandlers(form); // 버튼 핸들러 설정
   }
 
@@ -280,7 +298,7 @@ export default class UserInfo {
     const validator = new Validator();
     this.validateInput('user-id', validator.idValidator, '.user-info__error');
     this.validateInput('user-password', validator.passwordValidator, '.user-info__error');
-    // this.validateInput('user-email', validator.emailValidator, '.user-info__error');
+    this.validateInput('user-email', validator.emailValidator, '.user-info__error');
     this.validateInput('user-phone', validator.phoneValidator, '.user-info__error');
   }
 

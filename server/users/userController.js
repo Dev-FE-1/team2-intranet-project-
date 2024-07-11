@@ -46,17 +46,19 @@ export class UserController {
     }
   }
 
-  // 계정 개인 정보 조회
+  // 계정 개인 정보 조회, ID 중복 확인
   // => req.body: { loginId }
   async getUserByLoginId(req, res) {
-    const { loginId } = req.body;
+    const { emplyeeId } = req.body;
 
-    const user = await this.userService.getUserByLoginId(loginId);
-
-    if (!loadish.isEmpty(user)) {
-      res.status(200).json(ResponseDTO.success(user));
-    } else {
-      return res.status(500).json(ResponseDTO.fail('Failed to get user info'));
+    try {
+      const user = await this.userService.getUserByLoginId(emplyeeId);
+      // 이미 있는 계정인지 확인 할 때 사용하는 변수
+      const isExist = loadish.isEmpty(user);
+      return res.status(200).json(ResponseDTO.success({ ...user, isExist }));
+    } catch (e) {
+      console.error(e);
+      return res.status(500).json(ResponseDTO.fail(''));
     }
   }
 
