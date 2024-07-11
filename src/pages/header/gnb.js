@@ -21,7 +21,7 @@ function AdminGnb() {
       </a>
       </li>
       <li>
-      <a href="/" data-link>
+      <a href="/" id="adminLogout">
       <span class="material-symbols-rounded">
       logout
       </span>
