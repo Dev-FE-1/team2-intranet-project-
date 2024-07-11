@@ -1,5 +1,6 @@
 import './ProfileImage.css';
 import { editIcon } from '/src/utils/icons';
+import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
 
 export default class ProfileImage {
   constructor(container, props = {}) {
@@ -8,6 +9,7 @@ export default class ProfileImage {
     console.log(this.props);
     this.MAX_WIDTH = 200;
     this.QUALITY = 0.9;
+    this.defaultProfileImg = avatarDefaultImg;
   }
   setAddEventListener() {
     const input = document.getElementById('fileField');
@@ -46,7 +48,7 @@ export default class ProfileImage {
   render() {
     this.container.innerHTML = /* HTML */ `
       <div class="profile">
-        <img src="https://imgur.com/qr7cBFt.jpg" alt="avatar" class="profile__image" id="img1" />
+        <img src="${this.defaultProfileImg}" alt="avatar" class="profile__image" id="img1" />
         <button class="profile__btn-edit">${editIcon()} 사진변경</button>
 
         <ul class="profile__submenu">

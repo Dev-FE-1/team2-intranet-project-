@@ -1,10 +1,11 @@
 import './AttendanceList.css';
 import { AttendanceListItems } from './AttendanceListItems.js';
+import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
 
 export class AttendanceList {
   constructor(container, props) {
     this.container = container;
-    this.defaultProfileImg = 'https://i.imgur.com/JJEqrWE.png';
+    this.defaultProfileImg = avatarDefaultImg;
     this.props = props;
     this.attendanceListItems = new AttendanceListItems();
   }

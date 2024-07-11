@@ -2,6 +2,7 @@ import './LeaveApplicationForm.css';
 import './LeaveApplicationList.css';
 import { FormDataDTO } from './FormDataDTO';
 import lodash from 'lodash';
+import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
 
 export default class LeaveApplicationForm {
   constructor(container, currentUser) {
@@ -111,7 +112,7 @@ export default class LeaveApplicationForm {
         <div class="applicaion-form" data-id="${id ?? ''}">
           <h1 class="applicaion-form__heading">근태/휴가 신청서</h1>
           <div class="applicaion-form__profile">
-            <img src="https://imgur.com/qr7cBFt.jpg" alt="profile image" class="profile-image" />
+            <img src="${avatarDefaultImg}" alt="profile image" class="profile-image" />
             <span class="applicaion-form__username">${this.currentUser.name}</span>
           </div>
           <form class="form">

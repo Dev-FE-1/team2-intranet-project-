@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // 기본 프로필 이미지, 이미지가 등록되어 있지 얂은 경우 사용함.
-const defaultProfileImg = 'https://i.imgur.com/JJEqrWE.png';
+import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
 
 // 근태 타입 색깔을 지정하는 css 클래스
 const attendanceTypeStyleClass = {
@@ -26,6 +26,7 @@ export class AttendanceListItems {
   constructor(container) {
     this.container = container;
     this.listItemsNumbersLimit = 100;
+    this.defaultProfileImg = avatarDefaultImg;
   }
 
   // 화면 렌더링, 데이터 가져오기
@@ -61,7 +62,7 @@ export class AttendanceListItems {
       return console.error('근태타입(type), 직원이름(name)이 등록이 안되어 있습니다.');
     return /* HTML */ `
       <li class="attendance-item">
-        <img src="${profileImg || defaultProfileImg}" alt="profile image" srcset="" />
+        <img src="${profileImg || this.defaultProfileImg}" alt="profile image" srcset="" />
         <div class="l-attendance-item">
           <div class="attendance-item__status">
             <h2
