@@ -1,7 +1,9 @@
 # 사내 인트라넷 서비스
 <div align=center>
   
-![메인페이지](https://i.imgur.com/1rIu9op.jpg)
+<img src="https://github.com/Dev-FE-1/team2-intranet-project-/assets/70564622/43b18c21-07c8-4336-a748-15cddf7e3a56" alt="메인페이지" width="600"/>
+
+[**🖥️인트라넷 서비스 demo (Render)**](https://intranet-solution.onrender.com/) / [**👩‍💼demo 2(Koyeb)**](https://profitable-daria-toyproject-group2-intranet-solution-7cbe0e98.koyeb.app/mypage)/ [**🔥개발 리포지토리**](https://github.com/Dev-FE-1/team2-intranet-project-) / [**😼배포 리포지토리**](https://github.com/DFE-1st-toy-project-group-2/intranet-solution)
 
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FDev-FE-1%2Fteam2-intranet-project-&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/Dev-FE-1/team2-intranet-project-)
@@ -12,7 +14,7 @@
 ## 👋 Team 👋
 |[<img src="https://avatars.githubusercontent.com/u/89085298?v=4" width="150" height="150"/>](https://github.com/LfromTheE)|[<img src="https://avatars.githubusercontent.com/u/158833693?v=4" width="150" height="150"/>](https://github.com/mirang1024)|[<img src="https://avatars.githubusercontent.com/u/70564622?v=4" width="150" height="150"/>](https://github.com/sbs1253)|[<img src="https://avatars.githubusercontent.com/u/27764950?v=4" width="150" height="150"/>](https://github.com/clara-shin)|[<img src="https://avatars.githubusercontent.com/u/59277499?v=4" width="150" height="150"/>](https://github.com/nakyeonko3)|
 |:-:|:-:|:-:|:-:|:-:|
-|**개발** 😎이동혁<br/>[@LfromTheE](https://github.com/LfromTheE)|**개발** 😎최미랑<br/>[@mirang1024](https://github.com/mirang1024)|**개발** 😎송병훈<br/>[@sbs1253](https://github.com/sbs1253)|**개발** 😎신혜진<br/>[@clara-shin](https://github.com/clara-shin)|**개발** 😎고낙연<br/>[@nakyeonko3](https://github.com/nakyeonko3)|
+|**개발** 🐶이동혁<br/>[@LfromTheE](https://github.com/LfromTheE)|**개발** 🐬최미랑<br/>[@mirang1024](https://github.com/mirang1024)|**개발** 🐳송병훈<br/>[@sbs1253](https://github.com/sbs1253)|**개발** 🦈신혜진<br/>[@clara-shin](https://github.com/clara-shin)|**개발** 🐺고낙연<br/>[@nakyeonko3](https://github.com/nakyeonko3)|
 </div>
 
 <details>

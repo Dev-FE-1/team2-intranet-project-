@@ -1,6 +1,4 @@
 import './Footer.css';
-import faviconImg from '/src/assets/images/favicon/android-chrome-192x192.png';
-import githubMarkImg from '/src/assets/images/github-mark.png';
 
 export class Footer {
   constructor(container, props) {
@@ -12,8 +10,8 @@ export class Footer {
       <footer class="footer">
         <div class="footer__container">
           <h1 class="footer__title">
-            <img src="${faviconImg}" alt="logo" />
-            <span>Intranet</span>
+            <img src="https://imgur.com/5VpcSa9.png" alt="logo" />
+            <span>corenet</span>
           </h1>
           <div class="footer__contents">
             <p class="footer__copyright">
@@ -23,7 +21,7 @@ export class Footer {
               <a href="https://github.com/Dev-FE-1/team2-intranet-project-">
                 <img
                   class="github__link"
-                  src="${githubMarkImg}"
+                  src="https://imgur.com/jDuEAXq.jpg"
                   alt="Repository Logo"
                   target="_blank"
                 />

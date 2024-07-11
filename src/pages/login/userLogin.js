@@ -1,5 +1,7 @@
 import './login.css';
-import { admin } from '../../../server/data/11b2ac8a015c5afca5db507d6587a42b';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import axios from 'axios';
+
 export default class Login {
   constructor(container) {
     this.container = container;
@@ -8,62 +10,90 @@ export default class Login {
 
   render() {
     this.container.innerHTML = /* HTML */ `
-      <div class="user">
-        <h1 class="user__title">INTRANET</h1>
-      </div>
-      <div class="login">
-        <form class="login__form" id="loginForm" action="/login" method="POST" novalidate>
-          <h1 class="login__title">Log In</h1>
-          <p class="login__description">Enter your email to sign up for this app</p>
-          <div class="login__group">
-            <label class="login__label" for="username">아이디</label>
-            <input
-              class="login__input"
-              type="text"
-              id="username"
-              name="username"
-              placeholder="ID"
-              required
-            />
-            <span class="usernameError"></span>
-          </div>
-          <div class="login__group">
-            <label class="login__label" for="password">비밀번호</label>
-            <div class="login__password-wrapper">
-              <input
-                class="login__input"
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Password"
-                required
-              />
-              <button
-                type="button"
-                class="login__toggle-password"
-                aria-label="비밀번호 보기"
-                data-shown="false"
-              >
-                <i class="fas fa-eye"></i>
-              </button>
+      <div class="container">
+        <div class="wrapper">
+          <div class="login-background"></div>
+          <div class="login__wrap">
+            <div class="logo">
+              <h1>Corenet</h1>
             </div>
-            <span class="passwordError"></span>
+            <div class="login">
+              <form class="login__form" id="loginForm" action="/login" method="POST" novalidate>
+                <h1 class="readable-hidden">Log In</h1>
+                <div class="login__description">
+                  <p>
+                    <span>안녕하세요! 👋</span>
+                  </p>
+                  <p>
+                    <span
+                      >사내 인트라넷 솔루션
+                      <strong class="product-name">코어넷</strong>입니다.</span
+                    >
+                  </p>
+                </div>
+                <div class="login__group">
+                  <label class="login__label" for="username">아이디</label>
+                  <input
+                    class="login__input"
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="ID"
+                    value="H2410001"
+                    required
+                  />
+                  <span class="usernameError"></span>
+                </div>
+                <div class="login__group">
+                  <label class="login__label" for="password">비밀번호</label>
+                  <div class="login__password-wrapper">
+                    <input
+                      class="login__input"
+                      type="password"
+                      id="password"
+                      name="password"
+                      placeholder="Password"
+                      value="P@ssw0rd!"
+                      required
+                    />
+                    <button
+                      type="button"
+                      class="login__toggle-password"
+                      aria-label="비밀번호 보기"
+                      data-shown="false"
+                    >
+                      <i class="fas fa-eye"></i>
+                    </button>
+                  </div>
+                  <span class="passwordError"></span>
+                </div>
+                <div class="login__checkboxgroup">
+                  <p>
+                    <input class="admin__checkbox" type="checkbox" id="admin" name="remember" />
+                    <label class="admin__checkbox-label" for="admin">관리자 접속</label>
+                  </p>
+                  <p>
+                    <input class="login__checkbox" type="checkbox" id="remember" name="remember" />
+                    <label class="login__checkbox-label" for="remember">아이디 기억하기</label>
+                  </p>
+                </div>
+                <button class="login__button" type="submit">로그인 하기</button>
+                <div class="login__footer">
+                  <p class="login__continue">or continue with</p>
+                  <!--<a class="login__forgot-pw" href="/forgot-password">비밀번호를 잊으셨나요?</a>-->
+                  <p class="forgotpass-info">
+                    <span>비밀번호를 분실하셨나요?</span
+                    ><span>관리자에게 문의하여 비밀번호를 재설정하세요.</span>
+                  </p>
+                </div>
+              </form>
+            </div>
           </div>
-          <div class="login__checkboxgroup">
-            <input class="admin__checkbox" type="checkbox" id="admin" name="remember" />
-            <label class="admin__checkbox-label" for="admin">관리자접속</label>
-            <input class="login__checkbox" type="checkbox" id="remember" name="remember" />
-            <label class="login__checkbox-label" for="remember">이 아이디를 기억하기</label>
-          </div>
-          <button class="login__button" type="submit">로그인 하기</button>
-          <div class="login__footer">
-            <p class="login__continue">or continue with</p>
-            <a class="login__forgot-pw" href="/forgot-password">비밀번호를 잊으셨나요?</a>
-          </div>
-        </form>
+        </div>
       </div>
     `;
     this.initializeElements();
+    this.changeLabelStyle();
     this.adminChecker();
   }
 
@@ -80,6 +110,10 @@ export default class Login {
     // 이벤트 리스너 추가
     this.adminCheck.addEventListener('change', this.adminChecker.bind(this));
     this.togglePasswordButton.addEventListener('click', this.togglePasswordVisibility.bind(this));
+    this.form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      sessionStorage.getItem('admin') === '' ? this.adminSubmit(e) : this.userSubmit(e);
+    });
   }
 
   togglePasswordVisibility() {
@@ -98,29 +132,67 @@ export default class Login {
   }
 
   adminChecker() {
-    this.form.removeEventListener('submit', this.userSubmit);
-    this.form.removeEventListener('submit', this.adminSubmit);
-
     if (this.adminCheck.checked) {
-      console.log('관리자 모드 활성화');
-      this.form.addEventListener('submit', this.adminSubmit.bind(this));
+      sessionStorage.setItem('admin', true);
     } else {
-      console.log('일반 사용자 모드 활성화');
-      this.form.addEventListener('submit', this.userSubmit.bind(this));
+      sessionStorage.setItem('admin', false);
     }
   }
 
   adminSubmit(e) {
     e.preventDefault();
-    this.clearErrors();
-    this.attemptAdminLogin();
+    console.log('관리자 로그인시도');
+    if (this.validateInputs()) {
+      console.log('타당성 검사 완료, 로그인 시도');
+      this.clearErrors();
+      //employee-list
+      sessionStorage.setItem('id', 'admin');
+      window.location.reload();
+      // history.replaceState('', '', '/employee-list');
+    }
   }
 
-  userSubmit = (e) => {
+  userSubmit = async (e) => {
     e.preventDefault();
-    this.clearErrors();
+    console.log('사용자 로그인 시도');
     if (this.validateInputs() && this.validateId() && this.validatePassword()) {
-      this.attemptLogin();
+      this.clearErrors();
+      console.log('타당성 검사 완료, 로그인 시도');
+      const requestData = {
+        username: this.usernameInput.value,
+        password: this.passwordInput.value,
+      };
+
+      try {
+        const response = await axios.post(`/api/employees/loginCheck`, requestData);
+        // 서버 응답에서 데이터 부분을 추출합니다.
+        const employeeData = response.data;
+        console.log('직원 데이터:', employeeData.data);
+        const { email, employeeId, name, phone, position } = employeeData.data;
+
+        sessionStorage.setItem('id', employeeId);
+        sessionStorage.setItem('name', name);
+        sessionStorage.setItem('email', email);
+        sessionStorage.setItem('phone', phone);
+        sessionStorage.setItem('position', position);
+      } catch (error) {
+        console.error('로그인 정보 불일치', error);
+        //모달창 확인후 입력값 전부 clear
+        this.usernameInput.value = '';
+        this.passwordInput.value = '';
+      }
+
+      if (sessionStorage.getItem('id')) {
+        const timeResponse = await axios.get(`/api/employees/getTime/${requestData.username}`);
+        const timeData = timeResponse.data;
+        console.log('시간 데이터:', timeData.data);
+        const { employeeId, INtime, OUTtime, status } = timeData.data;
+        console.log(employeeId + '시간값 확인');
+        sessionStorage.setItem('INtime', INtime);
+        sessionStorage.setItem('OUTtime', OUTtime);
+        sessionStorage.setItem('status', status);
+        window.location.reload();
+      }
     }
   };
 
@@ -143,8 +215,8 @@ export default class Login {
   validateId() {
     // 첫 문자는 H 또는 C, 그 뒤에 7자리 숫자
     const idPattern = /^(H|C)\d{7}$/;
-
     const isValid = idPattern.test(this.usernameInput.value.trim());
+    console.log(`id = ${isValid}`);
 
     if (!isValid) {
       this.showError(this.usernameError, '등록되지 않았거나 잘못된 형식의 아이디 입니다');
@@ -158,7 +230,11 @@ export default class Login {
     const pattern8 = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).{8}$/;
     const pattern10 = /^(?=.*[a-zA-Z])(?=.*\d)|(?=.*[a-zA-Z])(?=.*[\W_])|(?=.*\d)(?=.*[\W_]).{10}$/;
     const isValid8 = pattern8.test(this.passwordInput.value.trim());
+    console.log(isValid8);
     const isValid10 = pattern10.test(this.passwordInput.value.trim());
+
+    console.log(isValid10);
+
     const isValid = isValid8 || isValid10;
     if (!isValid) {
       this.showError(this.passwordError, '등록되지 않았거나 잘못된 형식의 비밀번호 입니다');
@@ -168,74 +244,6 @@ export default class Login {
     return isValid;
   }
 
-  // 일반 사용자 로그인의 경우, 동일하게 아이디와 비밀번호 값 비교 후 로그인을 처리
-  // 세션 스토리지의 admin 플래그를 제거한 후, 대시보드(/)로 리다이렉트
-  async attemptLogin() {
-    console.log('attemptLogin');
-    const data = await fetch('/server/data/users.json')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        return data;
-      })
-      .catch((error) => {
-        console.error('There has been a problem with your fetch operation:', error);
-      });
-    if (this.validateInputs() && this.validateId() && this.validatePassword()) {
-      const inputUserName = this.usernameInput.value.trim();
-      const inputUserPass = this.passwordInput.value.trim();
-      const result = data.users.map(({ userId, userPass }) => ({ userId, userPass }));
-
-      const index = result.findIndex((user) => {
-        return user.userId === inputUserName && user.userPass === inputUserPass;
-      });
-
-      if (index !== -1) {
-        console.log('사용자가 있습니다.');
-        sessionStorage.setItem('admin', false);
-        this.redirectToUserDashboard();
-      } else {
-        console.log('사용자가 없습니다.');
-        this.showError(this.usernameError, '아이디 또는 비밀번호가 올바르지 않습니다.');
-      }
-    }
-    // 백단 로그인 로직
-    console.log('attemptLogin');
-  }
-
-  // 입력된 아이디와 비밀번호가 import된 관리자 아이디와 비밀번호와 일치하는지 확인하고,
-  // 일치할 경우 세션 스토리지에 admin 플래그를 설정한 후 직원관리(/employee-list)로 리다이렉트
-  attemptAdminLogin() {
-    if (this.validateInputs()) {
-      const inputUserName = this.usernameInput.value.trim();
-      const inputUserPass = this.passwordInput.value.trim();
-
-      if (inputUserName === admin.adminId && inputUserPass === admin.adminPass) {
-        console.log('attemptAdminLogin');
-
-        sessionStorage.setItem('admin', true);
-        this.redirectToAdminDashboard();
-      } else {
-        this.showError(this.usernameError, '아이디 또는 비밀번호가 올바르지 않습니다.');
-      }
-    }
-    ///백단 로그인 로직(관리자)
-    console.log('attemptAdminLogin');
-  }
-  // 사용자 대시보드로 리다이렉트 후 다시 로딩
-  redirectToUserDashboard() {
-    history.replaceState('', '', '/');
-    location.reload();
-  }
-  // 관리자 직원관리로 리다이렐트 후 다시 로딩
-  redirectToAdminDashboard() {
-    history.replaceState('', '', '/employee-list');
-    location.reload();
-  }
   showError(element, message) {
     element.textContent = message;
   }
@@ -243,5 +251,24 @@ export default class Login {
   clearErrors() {
     this.usernameError.textContent = '';
     this.passwordError.textContent = '';
+  }
+  changeLabelStyle() {
+    const fields = [
+      { inputId: 'username', labelFor: 'username' },
+      { inputId: 'password', labelFor: 'password' },
+    ];
+
+    fields.forEach((field) => {
+      const input = document.querySelector(`#${field.inputId}`);
+      const label = document.querySelector(`.login__label[for="${field.labelFor}"]`);
+
+      input.addEventListener('focus', () => {
+        label.style.color = 'var(--color-ocean-blue)';
+      });
+
+      input.addEventListener('blur', () => {
+        label.style.color = '';
+      });
+    });
   }
 }

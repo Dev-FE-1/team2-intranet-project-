@@ -4,8 +4,11 @@ import './LeaveApplicationForm.css';
 import './LeaveApplicationList.css';
 import lodash from 'lodash';
 
-import { attendancesUserData, currentUser } from './dummyData';
+import { attendancesUserData, currentUser, attendanceType } from './dummyData';
 import { FormDataDTO } from './FormDataDTO';
+import { LeaveAppplicationFetch } from './LeaveApplicationFetch';
+
+import './LeaveAppplicationToggle.css';
 
 export default class LeaveApplicationList {
   constructor(container, props) {
@@ -15,6 +18,7 @@ export default class LeaveApplicationList {
     this.currentUser = { ...currentUser }; // 현재 사용자 정보를 클래스 변수에 저장
     this.leaveApplicationForm = new LeaveApplicationForm('div', this.currentUser); // 모달창에 렌더링할 폼 컴포넌트
     this.isMyFiltered = false;
+    this.leaveApplicationFetch = new LeaveAppplicationFetch({});
   }
 
   render() {
@@ -24,19 +28,40 @@ export default class LeaveApplicationList {
           <h1 class="leave-application__heading">근태신청</h1>
         </header>
         <div class="heading-events">
+          <div class="w-heading-events">
+            <div class="myApplication-toggle" id="myApplicationList-container">
+              <div class="myApplicationList-inner-container">
+                <div class="myApplicationList-toggle btn-show-onlyMe">
+                  <p>내 신청 목록</p>
+                </div>
+                <div class="myApplicationList-toggle btn-show-all">
+                  <p>전체 신청 목록</p>
+                </div>
+              </div>
+              <div
+                class="myApplicationList-inner-container"
+                id="myApplicationList-toggle-container"
+              >
+                <div class="myApplicationList-toggle btn-show-onlyMe">
+                  <p>내 신청 목록</p>
+                </div>
+                <div class="myApplicationList-toggle btn-show-all">
+                  <p>전체 신청 목록</p>
+                </div>
+              </div>
+            </div>
+          </div>
           <div>
             <button class="btn-apply">휴가 신청하기</button>
-            <button class="btn-show-onlyMe">내 신청서만 보기</button>
-            <button class="btn-show-all">전체 신청서 보기</button>
-          </div>
-          <div class="leave-type">
-            <select>
-              <option value="" selected disabled hidden>휴가 신청타입</option>
-              <option value="annual-leave">연차</option>
-              <option value="half-dayoff">반차</option>
-              <option value="sick-leave">조퇴</option>
-              <option value="others">기타</option>
-            </select>
+            <div class="leave-type">
+              <select>
+                <option value="" selected disabled hidden>휴가 신청타입</option>
+                <option value="annual-leave">연차</option>
+                <option value="half-dayoff">반차</option>
+                <option value="sick-leave">조퇴</option>
+                <option value="others">기타</option>
+              </select>
+            </div>
           </div>
         </div>
         <div class="leave-application-list"><ul class="leave-application-items"></ul></div>
@@ -46,9 +71,43 @@ export default class LeaveApplicationList {
         <div class="modal"></div>
       </div>
     `;
-    this.renderLeaveItems(this.attendancesUserData);
+    // this.renderLeaveItems(this.attendancesUserData);
+    this.updateLeaveItemsByGetFetch();
     this.attachEventListeners();
     this.initializeModal();
+    this.buttonToggle();
+  }
+
+  // 근태신청 목록을 서버에서 가져와서 렌더링하는 메서드
+  async updateLeaveItemsByGetFetch() {
+    this.attendancesUserData = await this.leaveApplicationFetch.getLeaveApplication();
+    this.renderLeaveItems(this.attendancesUserData);
+  }
+
+  buttonToggle() {
+    const myApplicationListToggle = document.getElementById('myApplicationList-container');
+    const myApplicationListToggleContainer = document.getElementById(
+      'myApplicationList-toggle-container',
+    );
+    let toggleState = false;
+
+    const onToggle = (e) => {
+      toggleState = !toggleState;
+      e.preventDefault();
+      if (toggleState) {
+        myApplicationListToggleContainer.style.clipPath = 'inset(0 0 0 50%)';
+        myApplicationListToggleContainer.style.backgroundColor = 'var(--color-coral-light)';
+        this.isMyFiltered = true;
+        this.renderfilteredMyApplications(this.attendancesUserData);
+      } else {
+        myApplicationListToggleContainer.style.clipPath = 'inset(0 50% 0 0)';
+        myApplicationListToggleContainer.style.backgroundColor = 'var(--color-slate-blue)';
+        this.isMyFiltered = false;
+        this.renderLeaveItems(this.attendancesUserData);
+      }
+      console.log(toggleState);
+    };
+    myApplicationListToggle.addEventListener('click', onToggle);
   }
 
   // 근태신청 목록을 렌더링하는 메서드
@@ -88,27 +147,16 @@ export default class LeaveApplicationList {
 
   // '내 신청서만 보기'버튼 클릭 헨들러, 내 신청서들만 보여주게함.
   handleClickMyFillterButton() {
-    const btnShowOnlyMe = document.querySelector('.btn-show-onlyMe');
-
     const onClickMyFillterButton = (e) => {
-      e.preventDefault();
-      this.isMyFiltered = true;
-      this.renderfilteredMyApplications(this.attendancesUserData);
+      const myButton = e.target.closest('div');
+      if (myButton.classList.contains('btn-show-onlyMe')) {
+        // e.preventDefault();
+        this.isMyFiltered = true;
+        this.renderfilteredMyApplications(this.attendancesUserData);
+      }
     };
 
-    btnShowOnlyMe.addEventListener('click', onClickMyFillterButton);
-  }
-
-  // '전체 신청서'버튼 클릭 헨들러, 전체 신청서 목록이 보여주게함.
-  handleClickShowAllButton() {
-    const btnShowAll = document.querySelector('.btn-show-all');
-    const onClickShowAllButton = (e) => {
-      e.preventDefault();
-      this.isMyFiltered = false;
-      this.renderLeaveItems(this.attendancesUserData);
-    };
-
-    btnShowAll.addEventListener('click', onClickShowAllButton);
+    this.container.addEventListener('click', onClickMyFillterButton);
   }
 
   // 신청 버튼 클릭 이벤트 헨들러, 폼 데이터를 받아서 신청서 목록에 추가하는 메서드
@@ -125,6 +173,7 @@ export default class LeaveApplicationList {
     const onSubmit = (formData) => {
       if (!lodash.isEmpty(formData)) {
         this.handleFormSubmit(formData);
+        this.leaveApplicationFetch.fetchCreateLeaveApplication(formData);
       }
       modalBackground.style.display = 'none';
     };
@@ -189,14 +238,19 @@ export default class LeaveApplicationList {
     const onClickDeleteButton = (e) => {
       if (e.target.classList.contains('btn-delete')) {
         const itemId = e.target.dataset.id;
+        this.leaveApplicationFetch.fetchDeleteLeaveApplication(itemId);
         const attendancesUserData = this.filterDeletedItem(this.attendancesUserData, itemId);
         this.attendancesUserData = [...attendancesUserData];
+        e.target.parentElement.parentElement.classList.add('deletingLeave');
+        setTimeout(() => {
+          e.target.parentElement.parentElement.style.display = 'none';
+        }, 500);
 
-        if (this.isMyFiltered) {
-          this.renderfilteredMyApplications(attendancesUserData);
-        } else {
-          this.renderLeaveItems(attendancesUserData);
-        }
+        // if (this.isMyFiltered) {
+        //   this.renderfilteredMyApplications(attendancesUserData);
+        // } else {
+        //   this.renderLeaveItems(attendancesUserData);
+        // }
       }
     };
     const leaveApplicationItems = document.querySelector('.leave-application-items');
@@ -221,6 +275,7 @@ export default class LeaveApplicationList {
 
   // 수정 모달창 submit  이벤트 헨들러, 폼 데이터를 반아서 신청 목록을 수정하는 메서드
   handleFormEditSubmit(formDataDTO) {
+    this.leaveApplicationFetch.fetchUpdateLeaveApplication(formDataDTO);
     // this.attendancesUserData = [formDataDTO, ...this.attendancesUserData];
     this.attendancesUserData = this.attendancesUserData.map((item) => {
       if (parseInt(item.id) === parseInt(formDataDTO.id)) {
@@ -239,12 +294,36 @@ export default class LeaveApplicationList {
     }
   }
 
+  handleClickLeaveTypeFilterButton() {
+    const leaveTypeFilter = document.querySelector('.leave-type select');
+
+    const onChange = (e) => {
+      const selectedAttendanceType = attendanceType[e.target.value];
+
+      const filteredAttendancesUserData = this.filterAttendanceType(
+        this.attendancesUserData,
+        selectedAttendanceType,
+      );
+
+      if (this.isMyFiltered) {
+        this.renderfilteredMyApplications(filteredAttendancesUserData);
+      } else {
+        this.renderLeaveItems(filteredAttendancesUserData);
+      }
+    };
+    leaveTypeFilter.addEventListener('change', onChange);
+  }
+
+  filterAttendanceType(attendancesUserData, selectedAttendanceType) {
+    return attendancesUserData.filter((item) => item.attendanceType === selectedAttendanceType);
+  }
+
   // 이벤트 리스너를 추가하는 메서드
   attachEventListeners() {
     this.handleClickEditButton();
     this.handleDeleteButton();
     this.handleClickApplyButton();
-    this.handleClickMyFillterButton();
-    this.handleClickShowAllButton();
+    this.handleClickLeaveTypeFilterButton();
+    // this.handleClickMyFillterButton();
   }
 }

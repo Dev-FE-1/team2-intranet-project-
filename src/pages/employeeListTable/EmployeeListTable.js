@@ -1,14 +1,15 @@
-import axios from 'axios';
 import './EmployeeListTable.css';
 import { EmployeeListTableRows } from './EmployeeListTableRows.js';
 import './PageNation.css';
 import Modal from '../../components/modal/ModalInofo.js';
 import { Route } from '../router/route.js';
 import UserInfo from '../userinfo/UserInfo.js';
+import { EmployeeListFetch } from './EmployeeListFetch.js';
 export class EmployeeListTable {
   constructor(cotainer, props) {
     this.container = cotainer;
     this.props = props;
+    this.employeeListFetch = new EmployeeListFetch();
   }
 
   render() {
@@ -175,8 +176,7 @@ export class EmployeeListTable {
 
   fetchEmployees = async () => {
     try {
-      const response = await axios.get('/api/employees');
-      return [...response.data.data];
+      return await this.employeeListFetch.getEmployeeList();
     } catch (error) {
       console.error('Error get employees', error);
       return [];

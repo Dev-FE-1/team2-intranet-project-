@@ -1,21 +1,21 @@
-import './HomeUpper.css';
+import './Home.css';
 import { AttendanceList } from '../attendancePreview/AttendanceList';
 import { phoneIcon, jobIcon, emailIcon } from '../../utils/icons';
-import avatarDefaultImg from '/src/assets/images/avatar-default.jpg';
-export class HomeUpper {
-  constructor(container, props = {}) {
-    const {
-      userName = '이동혁',
-      rank = '신입',
-      atWork = 0,
-      ph = '01028263158',
-      email = 'asd1234',
-    } = props;
 
-    this.userName = userName;
-    this.rank = rank;
+export class Home {
+  constructor(container) {
+    const {
+      name = '이동혁',
+      position = '신입',
+      atWork = 0,
+      phone = '010-2826-3158',
+      email = 'asd1234',
+    } = sessionStorage;
+
+    this.userName = name;
+    this.rank = position;
     this.atWork = atWork;
-    this.ph = ph;
+    this.ph = phone;
     this.email = email;
 
     this.container = container;
@@ -31,12 +31,12 @@ export class HomeUpper {
   render() {
     this.container.innerHTML = /* HTML */ `
       <section class="user-dashboard__wrap">
-      <h1 class="user-dashboard__title">홈 대시보드</h1>
+      <h1 class="user-dashboard__heading">홈 대시보드</h1>
         <div>
           <div class="working-timer-page">
             <div class="work">
               <div class="summary">
-                <img src="${avatarDefaultImg}" alt="" />
+                <img src="https://imgur.com/qr7cBFt.jpg" alt="" />
                 <div class="worker-name">${this.userName}</div>
                 <div class="worker-rank">${this.rank}</div>
               </div>
@@ -50,7 +50,7 @@ export class HomeUpper {
                   <p class="current-displayer">${this.atWork == 1 ? '근무중' : '퇴근'}</p>
                 </div>
               </div>
-              <button class="puncher">근무종료</button>
+              <button class="puncher">근무시작</button>
             </div>
             <div class="profil-mini">
               <div class="profile-title">PROFILE</div>
@@ -78,30 +78,29 @@ export class HomeUpper {
       </section>
     `;
     const attendenList = new AttendanceList(document.querySelector('.attendanceList'), {});
-    attendenList.setListItemsNumbers(7);
     attendenList.render();
-    this.addEventListeners();
+    this.timepuchListener();
     this.startClock();
   }
 
   startClock() {
     this.updateCurrentTime();
-    setInterval(this.updateCurrentTime.bind(this), 1000);
+    setInterval(this.updateCurrentTime, 1000);
   }
 
-  updateCurrentTime() {
+  updateCurrentTime = () => {
     const timeString = this.timeFormatter.format(new Date());
     const timeDisplay = this.container.querySelector('.timer .current-displayer');
     if (timeDisplay) {
       timeDisplay.textContent = timeString;
     }
-    timeDisplay;
-  }
+  };
 
-  addEventListeners() {
+  timepuchListener() {
     const puncherButton = this.container.querySelector('.puncher');
-    puncherButton.addEventListener('click', () => {
+    puncherButton.addEventListener('click', async () => {
       this.atWork = 1 - this.atWork; // 0과 1 사이를 토글
+
       this.updateWorkStatus();
     });
   }

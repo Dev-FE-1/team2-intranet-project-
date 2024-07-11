@@ -15,7 +15,7 @@ export class AttendanceList {
       <section class="attendance-list">
         <header class="attendance-list__header">
           <h1>근태현황</h1>
-          <button><span>근태현황</span></span>바로가기</span></button>
+          <a href='/leave-application-list' data-link><span>근태현황</span></span>바로가기</span></a>
         </header>
         <ul class="attendance-items"></ul>
       </section>

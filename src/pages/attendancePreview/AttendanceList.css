@@ -43,7 +43,7 @@
   bottom: 0;
   background-color: var(--color-pale-gray);
 }
-.attendance-list header button {
+.attendance-list header a {
   position: absolute;
   top: 1rem;
   right: 2rem;
@@ -54,16 +54,16 @@
   height: var(--size-button-height);
   border: none;
   border-radius: 5px;
-  background-color: var(--color-jordy-blue);
+  background-color: var(--color-slate-blue);
   font-size: var(--font-small);
   color: var(--color-white);
   cursor: pointer;
 }
-.attendance-list__header button span:first-child {
+.attendance-list__header a span:first-child {
   margin-right: 5px;
 }
 /* 근태신청 바로가기 안의 화살표 아이콘 */
-.attendance-list button::after {
+.attendance-list a::after {
   display: inline-block;
   width: 1.5rem;
   height: 1.5rem;
@@ -109,7 +109,7 @@
 }
 .attendance-item__status > p {
   margin-left: 20px;
-  width: 40vw;
+  width: 28vw;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -135,19 +135,19 @@
   padding-left: 10px;
 }
 
-.attendance-item .-attendance-annual-leave {
+.-attendance-annual-leave {
   color: var(--color-slate-blue);
 }
 
-.attendance-item .-attendance-half-day {
+.-attendance-half-day {
   color: var(--color-teal-grean);
 }
 
-.attendance-item .-attendance-early-out {
+.-attendance-early-out {
   color: var(--color-coral-light);
 }
 
-.attendance-item .-attendance-etc {
+.-attendance-etc {
   color: var(--color-simple-gray);
 }
 
@@ -183,12 +183,12 @@
     width: auto;
   }
 
-  .attendance-list header button {
+  .attendance-list header a {
     width: var(--size-button-small);
     top: 0.5rem;
     right: 1rem;
   }
-  .attendance-list header button span:last-child {
+  .attendance-list header a span:last-child {
     display: none;
   }
   .attendance-item__status > p {
@@ -196,7 +196,7 @@
   }
 }
 @media all and (max-width: 520px) {
-  .attendance-list header button {
+  .attendance-list header a {
     top: 0.5rem;
     right: 1rem;
   }

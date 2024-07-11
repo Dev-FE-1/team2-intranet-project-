@@ -61,8 +61,7 @@
   font-weight: 300;
 }
 
-.mypage__state,
-.mypage__state-end {
+.mypage__state {
   padding: 4px 8px;
   border-radius: 6px;
   color: var(--color-white);
@@ -84,9 +83,13 @@
   gap: 10px;
   transform: translateY(-100px);
 }
+.mypage__profile .mypage__profile-image .profile__submenu--active {
+  transform: translate(30px, 95px);
+}
 .mypage__profile-image {
   position: relative;
   height: 150px;
+  transform: translateY(32%);
 }
 .mypage__profile-image .profile__image {
   width: 100px;

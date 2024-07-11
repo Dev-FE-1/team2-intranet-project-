@@ -3,6 +3,13 @@ const currentUser = {
   name: '신혜진',
 };
 
+const attendanceType = Object.freeze({
+  'annual-leave': '연차',
+  'half-dayoff': '반차',
+  'sick-leave': '조퇴',
+  others: '기타',
+});
+
 const attendancesUserData = [
   {
     id: 1,
@@ -61,4 +68,4 @@ const attendancesUserData = [
   },
 ];
 
-export { currentUser, attendancesUserData };
+export { currentUser, attendancesUserData, attendanceType };
