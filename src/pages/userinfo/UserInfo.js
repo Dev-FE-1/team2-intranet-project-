@@ -324,8 +324,8 @@ export default class UserInfo {
     this.validateInput('user-phone', validator.phoneValidator, '.user-info__error');
   }
 
-  validatorIdDuplicate(employeeId) {
-    return this.employeeListFetch.getEmployeeListById(employeeId);
+  async validatorIdDuplicate(employeeId) {
+    return await this.employeeListFetch.getEmployeeListById(employeeId);
   }
 
   btnType() {
@@ -341,7 +341,7 @@ export default class UserInfo {
       }
       const isIdDuplicated = await this.validatorIdDuplicate(employeeId);
 
-      if (!isIdDuplicated) this.btnState = false;
+      if (isIdDuplicated) this.btnState = false;
       else this.btnState = true;
 
       // this.btnState = true;
