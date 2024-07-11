@@ -1,9 +1,11 @@
+import { EmployeeListTable } from '../employeeListTable/EmployeeListTable';
 import './UserInfo.css';
 import ProfileImage from '../../components/profileImage/ProfileImage';
 import { Validator } from './Validator';
 
 import { UserInfoDTO } from './userInfoDTO';
 import { EmployeeListFetch } from '../employeeListTable/EmployeeListFetch';
+import { Route } from '../router/route';
 
 export default class UserInfo {
   constructor(cotainer, props = {}) {
@@ -157,6 +159,9 @@ export default class UserInfo {
 
     // 프로필 이미지 컴포넌트 불러오기
     this.renderProfileImage();
+
+    // 수정 버튼 클릭 헨들러
+    this.handleEditButton();
   }
 
   // 서브밋 헨들러, 백엔드로 데이터 수정 요청 API 호출
@@ -170,7 +175,12 @@ export default class UserInfo {
       const employeeListFetch = new EmployeeListFetch();
       userInfotr['data-id'] = trdataId.dataset.dataId; // 데이터 아이디 설정
       employeeListFetch.updateEmployee(new UserInfoDTO(userInfotr));
-      console.log(userInfotr);
+      const pathMappings = {
+        '/employee-list': { title: 'Employee List', ComponentClass: EmployeeListTable },
+      };
+      const routeView = document.querySelector('route-view');
+      const route = new Route({ pathMappings, routeView });
+      route.router({}, '/employee-list');
     });
     this.setupButtonHandlers(form); // 버튼 핸들러 설정
   }
