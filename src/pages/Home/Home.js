@@ -3,7 +3,6 @@ import { AttendanceList } from '../attendancePreview/AttendanceList';
 import { phoneIcon, jobIcon, emailIcon } from '../../utils/icons';
 import axios from 'axios';
 import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
-
 export class Home {
   constructor(container) {
     // sessionStorage에서 값을 가져와 객체를 구성합니다.
