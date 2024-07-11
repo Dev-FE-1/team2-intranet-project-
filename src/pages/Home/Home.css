@@ -115,6 +115,12 @@
   margin-top: 0.5rem;
 }
 
+.puncher:disabled {
+  background-color: gray;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
 .profile-title {
   position: relative;
   width: 100%;
