@@ -3,82 +3,82 @@ const indb = new InMemoDatabase();
 
 const galleryData = [
   {
-    image: 'https://imgur.com/3rOWrA2.jpg',
+    image: 'https://imgur.com/f2oYh3A.jpg',
     title: '2016년 하반기 워크샵',
     date: '2016.10.01',
   },
   {
-    image: 'https://imgur.com/oD8dkyh.jpg',
+    image: 'https://imgur.com/Cikg2Ra.jpg',
     title: '2017년 상반기 워크샵',
     date: '2017.03.01',
   },
   {
-    image: 'https://imgur.com/n3VkPhS.jpg',
+    image: 'https://imgur.com/qWNskAP.jpg',
     title: '2017년 하반기 워크샵',
     date: '2017.10.01',
   },
   {
-    image: 'https://imgur.com/yukZSdf.jpg',
+    image: 'https://imgur.com/W94F4Zh.jpg',
     title: '2018년 상반기 워크샵',
     date: '2018.03.01',
   },
   {
-    image: 'https://imgur.com/OSPNJUq.jpg',
+    image: 'https://imgur.com/Qg7HnyQ.jpg',
     title: '2018년 하반기 워크샵',
     date: '2018.10.01',
   },
   {
-    image: 'https://imgur.com/K3E8WAW.jpg',
+    image: 'https://imgur.com/PtID6pD.jpg',
     title: '2019년 상반기 워크샵',
     date: '2019.03.01',
   },
   {
-    image: 'https://imgur.com/rD0qRDW.jpg',
+    image: 'https://imgur.com/HacHnZ5.jpg',
     title: '2019년 하반기 워크샵',
     date: '2019.10.01',
   },
   {
-    image: 'https://imgur.com/4YwmjIf.jpg',
+    image: 'https://imgur.com/hEtaSWs.jpg',
     title: '2020년 상반기 워크샵',
     date: '2020.03.01',
   },
   {
-    image: 'https://imgur.com/p4hiVex.jpg',
+    image: 'https://imgur.com/pNbapED.jpg',
     title: '2020년 하반기 워크샵',
     date: '2020.10.01',
   },
   {
-    image: 'https://imgur.com/653VaEa.jpg',
+    image: 'https://imgur.com/ZnkIS3B.jpg',
     title: '2021년 상반기 워크샵',
     date: '2021.03.01',
   },
   {
-    image: 'https://imgur.com/CES7kHA.jpg',
+    image: 'https://imgur.com/7f3kJzZ.jpg',
     title: '2021년 하반기 워크샵',
     date: '2021.10.01',
   },
   {
-    image: 'https://imgur.com/jsx31Em.jpg',
+    image: 'https://imgur.com/9yWnNts.jpg',
     title: '2022년 상반기 워크샵',
     date: '2022.03.01',
   },
   {
-    image: 'https://imgur.com/B6eFF4G.jpg',
+    image: 'https://imgur.com/5RAZByo.jpg',
     title: '2022년 하반기 워크샵',
     date: '2022.10.01',
   },
   {
-    image: 'https://imgur.com/P4W1Xqt.jpg',
+    image: 'https://imgur.com/iLbCcv9.jpg',
     title: '2023년 상반기 워크샵',
     date: '2023.03.01',
   },
   {
-    image: 'https://imgur.com/RBPRzen.jpg',
+    image: 'https://imgur.com/qpzH5HB.jpg',
     title: '2023년 하반기 워크샵',
     date: '2023.10.01',
   },
   {
-    image: 'https://imgur.com/PAH69kK.jpg',
+    image: 'https://imgur.com/3AgLMFE.jpg',
     title: '2024년 상반기 워크샵',
     date: '2024.03.01',
   },
@@ -412,63 +412,62 @@ const employees = [
   },
 ];
 const workTimeData = [
-{
-  employeeId: 'H2410001',
-  INtime: '2024-07-06 09:30:00',
-  OUTtime: '2024-07-06 17:30:00',
-  status: 2,
-},
-{
-  employeeId: 'H2410001',
-  INtime: '2024-07-07 09:30:00',
-  OUTtime: '2024-07-07 17:30:00',
-  status: 2,
-},
-{
-  employeeId: 'H2410001',
-  INtime: '2024-07-08 09:30:00',
-  OUTtime: '2024-07-08 17:30:00',
-  status: 2,
-},
-{
-  employeeId: 'H2410001',
-  INtime: '2024-07-09 09:30:00',
-  OUTtime: '2024-07-09 17:30:00',
-  status: 2,
-},
-//2024-07-10 09:30:00
-{
-  employeeId: 'H2410001',
-  INtime: '',
-  OUTtime: '',
-  status: 0,
-},
-{
-  employeeId: 'H2310002',
-  INtime: '2024-07-09 09:30:00',
-  OUTtime: '2024-07-09 17:30:00',
-  status: 2,
-},
-{
-  employeeId: 'H2210003',
-  INtime: '2024-07-09 09:30:00',
-  OUTtime: '2024-07-09 17:30:00',
-  status: 2,
-},
-{
-  employeeId: 'H2110004',
-  INtime: '2024-07-09 09:30:00',
-  OUTtime: '2024-07-09 17:30:00',
-  status: 2,
-},
-{
-  employeeId: 'C2410005',
-  INtime: '2024-07-09 09:30:00',
-  OUTtime: '2024-07-09 17:30:00',
-  status: 2,
-},
+  {
+    employeeId: 'H2410001',
+    INtime: '2024-07-06 09:30:00',
+    OUTtime: '2024-07-06 17:30:00',
+    status: 2,
+  },
+  {
+    employeeId: 'H2410001',
+    INtime: '2024-07-07 09:30:00',
+    OUTtime: '2024-07-07 17:30:00',
+    status: 2,
+  },
+  {
+    employeeId: 'H2410001',
+    INtime: '2024-07-08 09:30:00',
+    OUTtime: '2024-07-08 17:30:00',
+    status: 2,
+  },
+  {
+    employeeId: 'H2410001',
+    INtime: '2024-07-09 09:30:00',
+    OUTtime: '2024-07-09 17:30:00',
+    status: 2,
+  },
+  //2024-07-10 09:30:00
+  {
+    employeeId: 'H2410001',
+    INtime: '',
+    OUTtime: '',
+    status: 0,
+  },
+  {
+    employeeId: 'H2310002',
+    INtime: '2024-07-09 09:30:00',
+    OUTtime: '2024-07-09 17:30:00',
+    status: 2,
+  },
+  {
+    employeeId: 'H2210003',
+    INtime: '2024-07-09 09:30:00',
+    OUTtime: '2024-07-09 17:30:00',
+    status: 2,
+  },
+  {
+    employeeId: 'H2110004',
+    INtime: '2024-07-09 09:30:00',
+    OUTtime: '2024-07-09 17:30:00',
+    status: 2,
+  },
+  {
+    employeeId: 'C2410005',
+    INtime: '2024-07-09 09:30:00',
+    OUTtime: '2024-07-09 17:30:00',
+    status: 2,
+  },
 ];
-
 
 // console.log('총 직원 수:', employees.length);
 
