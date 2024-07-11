@@ -119,100 +119,89 @@ app.get('/api/attendances', (req, res) => {
 });
 
 //시간값 넣기
-app.post('/api/employees/setTime', async(req, res) => {
-  
-
+app.post('/api/employees/setTime', async (req, res) => {
   //초기에 필요한 변수 세팅
-  const dayPattern = 'YYYY-MM-DD';
   const insertingPattern = 'YYYY-MM-DD HH:mm:ss';
 
   //요청값에서 파생되는 변수
-  const requestset=req.body
-
-  const requestTime = requestset.INtime
-  const requestId = requestset.employeeId
-  const requestIntime =requestset.INtime
-  const requestOuttime = requestset.OUTtime
-  let requestStatus = Number(requestset.status)
+  const requestset = req.body;
+  const requestId = requestset.employeeId;
+  let requestStatus = Number(requestset.status);
 
   //db에서 꺼내온 값에서 파생된 변수
-  const latesTimeset = await indb.getTime(requestset.employeeId)
-  const latestStatus = latesTimeset.status
-  const latestIntime = latesTimeset.INtime
-  const latestParsedOutDay = date.parse(latesTimeset.OUTtime,dayPattern)
+  const latesTimeset = await indb.getTime(requestset.employeeId);
+  const latestIntime = latesTimeset.INtime;
 
-  const now = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Seoul"}));
-  const formattedNow = date.format(now, insertingPattern)
-  const parsedNow = date.parse(formattedNow,dayPattern)
+  const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+  const formattedNow = date.format(now, insertingPattern);
 
+  switch (requestStatus) {
+    case 0:
+      try {
+        requestStatus += 1;
+        const result = await indb.updateTime(requestId, formattedNow, '', requestStatus);
+        const checkData = await indb.getTime(requestId);
+        console.log(checkData);
+        console.log('상태 0 - 업무 시작 시간 입력 완료');
+        res.status(200).json(result);
+      } catch (error) {
+        console.error('Error setting time:', error);
+        res.status(500).json({
+          message: '업무 시작 시간 입력 중 오류 발생',
+          error: error.message,
+        });
+      }
+      break;
 
-
-
-  if (requestStatus == latestStatus) {
-    switch (requestStatus) {
-      case 0:
-        try {
-          requestStatus += 1;
-          const result = await indb.updateTime(requestId, formattedNow,"" , requestStatus);
-          const checkData = await indb.getTime(requestId)
-          console.log(checkData)
-          console.log("상태 0 - 업무 시작 시간 입력 완료");
-          res.status(200).json(result)
-        } catch (error) {
-          console.error("Error setting time:", error);
-          res.status(500).json({
-            message: "업무 시작 시간 입력 중 오류 발생",
-            error: error.message
-          });
-        }
-        break;
-  
-      case 1:
-        try {
-          requestStatus += 1;
-          const result = await indb.updateTime(requestId, latestIntime, formattedNow, requestStatus);
-          const checkData = await indb.getTime(requestId)
-          console.log(`체크 데이터 ${checkData}`)
-          console.log("상태 1 - 업무 종료 시간 입력 완료");
-          res.status(200).json(result)
-        } catch (error) {
-          console.error("Error setting time:", error);
-          res.status(500).json({
-            message: "업무 종료 시간 입력 중 오류 발생",
-            error: error.message
-          });
-        }
-        break;
-
-      case 2:
-        console.log('현재시간')
-        console.log(formattedNow)
-        console.log('현재날짜')
-        console.log(parsedNow)
-        console.log('최근기록시간')
-        console.log(latesTimeset.OUTtime)
-        console.log('최근기록날짜')
-        console.log(latestParsedOutDay)
-        if(parsedNow>latestParsedOutDay){
-          console.log("로직 통과 새 데이터 row를 삽입합니다")
-        }else(
-          console.log("로직 통과 실패")
-        )
-        //createTime
-        break;
-    }
-  } else {
-    console.error('데이터 값 이상 -status값이 다름');
+    case 1:
+      try {
+        requestStatus += 1;
+        const result = await indb.updateTime(requestId, latestIntime, formattedNow, requestStatus);
+        const checkData = await indb.getTime(requestId);
+        console.log(`체크 데이터 ${checkData}`);
+        console.log('상태 1 - 업무 종료 시간 입력 완료');
+        res.status(200).json(result);
+      } catch (error) {
+        console.error('Error setting time:', error);
+        res.status(500).json({
+          message: '업무 종료 시간 입력 중 오류 발생',
+          error: error.message,
+        });
+      }
+      break;
   }
-
-})
+});
 
 //시간값 꺼내기
-app.get('/api/employees/getTime/:id', async(req, res) => {
+app.get('/api/employees/getTime/:id', async (req, res) => {
   const id = req.params.id;
+  const timePattern = 'YYYY-MM-DD HH:mm:ss';
+  const datePattern = 'YYYY-MM-DD';
+
   console.log(`/api/employees/getTime/${id} 라우팅 확인`);
-  const result = await indb.getTime(id);
-  res.status(200).json(result)
+  const latesTimeset = await indb.getTime(id);
+  const latestStatus = latesTimeset.status;
+  const latestTime = latesTimeset.INtime;
+
+  console.log('INtime 형식:', latestTime);
+
+  // DB에서 가져온 날짜를 파싱하고 날짜만 추출
+  const latestDate = date.parse(latestTime, timePattern);
+  const latestDateOnly = date.parse(date.format(latestDate, datePattern), datePattern);
+
+  // 현재 시간을 가져오고 날짜만 추출
+  const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+  const nowDateOnly = date.parse(date.format(now, datePattern), datePattern);
+
+  console.log('Latest date from DB:', latestDateOnly);
+  console.log("Today's date:", nowDateOnly);
+
+  // 날짜 비교
+  if (latestStatus == 2 && date.subtract(nowDateOnly, latestDateOnly).toDays() > 0) {
+    console.log('오늘은 DB의 날짜보다 이후입니다.');
+    const result = await indb.createRow(id);
+    res.status(200).json(result);
+  }
 });
 
 //아이디 비밀번호 체크
@@ -228,7 +217,6 @@ app.post('/api/employees/loginCheck', (req, res) => {
 });
 
 app.get('/api/v2/users', (req, res) => {
-  
   res.json({
     user: {
       1234: {

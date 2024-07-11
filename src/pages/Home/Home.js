@@ -11,7 +11,7 @@ export class Home {
       position: sessionStorage.getItem('position') || '신입',
       phone: sessionStorage.getItem('phone') || '010-2826-3158',
       email: sessionStorage.getItem('email') || 'asd1234',
-      status: sessionStorage.getItem('status') || '0'
+      status: sessionStorage.getItem('status') || '0',
     };
 
     this.userName = user.name;
@@ -81,12 +81,12 @@ export class Home {
         
         
       </section>
-    ` ;
+    `;
     const attendanceList = new AttendanceList(document.querySelector('.attendanceList'), {});
     attendanceList.render();
     this.timepunchListener();
     this.startClock();
-    console.log(new Date())
+    console.log(new Date());
   }
 
   startClock() {
@@ -102,10 +102,10 @@ export class Home {
     }
   };
 
-  timepunchListener() {
+  timepunchListener = () => {
     const puncherButton = this.container.querySelector('.puncher');
     puncherButton.addEventListener('click', async () => {
-      try{
+      try {
         this.status += 1;
         const requestData = {
           employeeId: sessionStorage.getItem('id'),
@@ -113,21 +113,21 @@ export class Home {
           OUTtime: sessionStorage.getItem('OUTtime'),
           status: sessionStorage.getItem('status'),
         };
-        console.log(requestData)
-        const response = await axios.post('/api/employees/setTime', requestData)
-        if(response){
-          const responseData = response.data
-          console.log(responseData)
+        console.log(requestData);
+        const response = await axios.post('/api/employees/setTime', requestData);
+        if (response) {
+          const responseData = response.data;
+          console.log(responseData);
           sessionStorage.setItem('status', responseData.status);
-          sessionStorage.setItem('OUTtime', responseData.OUTtime)
-          sessionStorage.setItem('INtime', responseData.INtime)
+          sessionStorage.setItem('OUTtime', responseData.OUTtime);
+          sessionStorage.setItem('INtime', responseData.INtime);
           this.updateWorkStatus();
         }
-      }catch(e){
-        console.error('출퇴근 시간 등록 실패', error);
+      } catch (e) {
+        console.error('출퇴근 시간 등록 실패', e);
       }
     });
-  }
+  };
 
   updateWorkStatus() {
     const statusDisplay = this.container.querySelector('.working-status .current-displayer');

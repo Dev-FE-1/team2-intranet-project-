@@ -141,11 +141,6 @@ export default class InMemoDatabase {
     });
   }
 
-
-
-
-
-
   //로그인 검증 메소드
   getEmployeeByIdPw(id, pw, callback) {
     const sql =
@@ -159,10 +154,10 @@ export default class InMemoDatabase {
     });
   }
 
-//row 업데이트 메소드
+  //row 업데이트 메소드
   async updateTime(employeeId, INtime, OUTtime, status) {
-    console.log('업데이트 메소드')
-    console.log(status)
+    console.log('업데이트 메소드');
+    console.log(status);
     const sql = `
       UPDATE WorkTimes 
       SET INtime = CASE WHEN INtime IS NULL THEN ? ELSE INtime END,
@@ -172,37 +167,35 @@ export default class InMemoDatabase {
         AND id = (SELECT id FROM WorkTimes WHERE employeeId = ? ORDER BY INtime DESC LIMIT 1)
     `;
     return new Promise((resolve, reject) => {
-      this.db.run(sql, [INtime, OUTtime, status, employeeId, employeeId], function(err) {
+      this.db.run(sql, [INtime, OUTtime, status, employeeId, employeeId], function (err) {
         if (err) {
           console.error('Error updating timer:', err);
+          reject(err);
         } else {
           resolve({
             changes: this.changes,
             employeeId,
             INtime,
             OUTtime,
-            status
+            status,
           });
         }
       });
     });
   }
-//테이블 초기화 메소드
+  //테이블 초기화 메소드
   async setTime(employeeId, status) {
     const sql = `INSERT INTO WorkTimes (employeeId, status) VALUES (?, ?)`;
     return new Promise((resolve, reject) => {
-      this.db.run(sql, [employeeId, status], function(err) {
+      this.db.run(sql, [employeeId, status], function (err) {
         if (err) {
           console.error('Error inserting timer:', err);
           reject(err);
         } else {
-          // 삽입된 행의 ID를 포함한 객체를 반환
           resolve({
             id: this.lastID,
             employeeId,
-            INtime,
-            OUTtime,
-            status
+            status,
           });
         }
       });
@@ -211,8 +204,8 @@ export default class InMemoDatabase {
 
   //DB 데이터 입력 루프
   async settingTimeTable({ employeeId, INtime, OUTtime, status }) {
-     const sql = `INSERT INTO WorkTimes (employeeId, INtime, OUTtime, status) VALUES (?, ?, ?, ?)`;
-     await this.db.run(sql, [employeeId, INtime, OUTtime, status], (err) => {
+    const sql = `INSERT INTO WorkTimes (employeeId, INtime, OUTtime, status) VALUES (?, ?, ?, ?)`;
+    await this.db.run(sql, [employeeId, INtime, OUTtime, status], (err) => {
       if (err) {
         console.error('Error inserting timer:', err);
       }
@@ -226,28 +219,41 @@ export default class InMemoDatabase {
   }
 
   async getTime(id) {
-    try {
-      const row = await new Promise((resolve, reject) => {
-        this.db.get('SELECT * FROM WorkTimes WHERE employeeId = ? ORDER BY INtime DESC LIMIT 1', [id], (err, row) => {
+    return new Promise((resolve, reject) => {
+      this.db.get(
+        'SELECT * FROM WorkTimes WHERE employeeId = ? ORDER BY INtime DESC LIMIT 1',
+        [id],
+        (err, row) => {
           if (err) reject(err);
           else resolve(row);
-        });
-      });
-      return row;
-    } catch (error) {
-      throw error;
-    }
+        },
+      );
+    });
   }
 
-  // getTime(id, callback) {
-  //   const sql = 'SELECT * FROM WorkTimes WHERE employeeId = ? ORDER BY INtime DESC LIMIT 1';
-  //   this.db.get(sql, [id], (err, row) => {
-  //     console.log(id);
-  //     if (err) {
-  //       console.error('Error selecting Employee by id to getTime', err);
-  //     }
-  //     console.log(`${id}에 맞는 데이터 찾기 성공 getTime`);
-  //     callback(row);
-  //   });
-  // }
+  async createRow(id) {
+    // INSERT 쿼리 실행
+    await new Promise((resolve, reject) => {
+      this.db.run(
+        'INSERT INTO WorkTimes (employeeId, INtime, OUTtime, status) VALUES (?, "", "", 0)',
+        [id],
+        (err) => {
+          if (err) reject(err);
+          else resolve();
+        },
+      );
+    });
+
+    // SELECT 쿼리 실행
+    return new Promise((resolve, reject) => {
+      this.db.get(
+        'SELECT * FROM WorkTimes WHERE employeeId = ? AND STATUS = 0 LIMIT 1',
+        [id],
+        (err, row) => {
+          if (err) reject(err);
+          else resolve(row);
+        },
+      );
+    });
+  }
 }
