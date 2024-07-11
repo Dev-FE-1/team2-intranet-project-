@@ -21,11 +21,11 @@ function AdminGnb() {
       </a>
       </li>
       <li>
-      <a href="/NoticeManagement" data-link>
+      <a href="/" data-link>
       <span class="material-symbols-rounded">
-      campaign
+      logout
       </span>
-        <span>공지관리</span>
+        <span>로그아웃</span>
       </a>
       </li>
     </ul>
