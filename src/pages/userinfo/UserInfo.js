@@ -40,6 +40,14 @@ export default class UserInfo {
         },
       },
     };
+    this.fields = [
+      { id: 'user-id', key: 'id' },
+      { id: 'user-password', key: 'userPassword' },
+      { id: 'user-name', key: 'name' },
+      { id: 'user-email', key: 'email' },
+      { id: 'user-phone', key: 'phone' },
+      { id: 'user-position', key: 'position' },
+    ];
     this.el = cotainer;
     console.log(profileImg);
   }
@@ -64,7 +72,7 @@ export default class UserInfo {
                     placeholder="아이디를 입력해주세요"
                   />
                   <p class="user-info__error"></p>
-                  <button type="button">중복 확인</button>
+                  <button class="user-info__type">중복 확인</button>
                 </div>
               </li>
               <li class="user-info__list">
@@ -154,7 +162,7 @@ export default class UserInfo {
         history.back();
       });
     }
-
+    // 폼 제출 방지
     this.preventFormSubmission();
 
     // 수정, 조회 페이지 전환
@@ -170,15 +178,38 @@ export default class UserInfo {
     this.renderProfileImage();
 
     // 수정 버튼 클릭 헨들러
-    this.handleEditButton();
+    // this.handleEditButton();
+  }
+
+  // 폼 제출 방지
+  preventFormSubmission() {
+    const form = this.el.querySelector('.user-info');
+    form.addEventListener('submit', (event) => event.preventDefault());
+    if (this.permission !== 'user') {
+      this.anminSaveUserData(form);
+    }
+    this.setupButtonHandlers(form); // 버튼 핸들러 설정
+  }
+
+  // 버튼 핸들러
+  setupButtonHandlers(props) {
+    this.el.querySelectorAll('.user-info__btns > button').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        if (e.target.classList.contains('user-info__btn--edit')) {
+          this.switchToEditMode(); // 수정 모드로 전환
+        } else if (e.target.classList.contains('user-info__btn--cancel')) {
+          this.info === '등록' ? history.back() : this.switchToViewMode();
+          //조회 모드 전환
+        } else if (e.target.classList.contains('user-info__btn--save')) {
+          this.saveUserData(props);
+        }
+      });
+    });
   }
 
   // 서브밋 헨들러, 백엔드로 데이터 수정 요청 API 호출
-  preventFormSubmission() {
-    const form = this.el.querySelector('.user-info');
-
-    const onSumbit = async (event) => {
-      event.preventDefault();
+  anminSaveUserData(form) {
+    const onSumbit = async () => {
       const formData = new FormData(form);
       const userInfotr = Object.fromEntries(formData.entries());
       const trdataId = document.querySelector('.user-info__lists-wrap');
@@ -200,24 +231,22 @@ export default class UserInfo {
     };
 
     form.addEventListener('submit', onSumbit);
-    this.setupButtonHandlers(form); // 버튼 핸들러 설정
   }
 
-  // 버튼 핸들러
-  setupButtonHandlers(props) {
-    this.el.querySelectorAll('.user-info__btns > button').forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        if (e.target.classList.contains('user-info__btn--edit')) {
-          this.switchToEditMode(); // 수정 모드로 전환
-        } else if (e.target.classList.contains('user-info__btn--cancel')) {
-          this.info === '등록' ? history.back() : this.switchToViewMode();
-          //조회 모드 전환
-        } else if (e.target.classList.contains('user-info__btn--save')) {
-          this.saveUserData(props);
-        }
-      });
+  // 유저정보 수정
+  saveUserData(props) {
+    const formData = new FormData(props); // 폼 데이터 가져오기
+
+    this.fields.forEach(({ id, key }) => {
+      const value = formData.get(id); // 폼 데이터에서 값 가져오기
+      if (value !== null) {
+        sessionStorage.setItem(key, value);
+        // console.log(`${key}: ${value}`);
+      }
     });
+    history.back();
   }
+
   // 수정 모드와 조회 모드 전환
   toggleFormMode() {
     const sel = this.el.querySelector('#user-position');
@@ -237,41 +266,33 @@ export default class UserInfo {
   }
   // 유저 정보 불러오기
   loadUserData() {
-    const fields = [
-      { id: 'user-id', key: 'id' },
-      { id: 'user-password', key: 'userPassword' },
-      { id: 'user-name', key: 'name' },
-      { id: 'user-email', key: 'email' },
-      { id: 'user-phone', key: 'phone' },
-      { id: 'user-position', key: 'position' },
-    ];
     if (this.permission === 'user') {
-      this.loadUserFromSession(fields);
+      this.loadUserFromSession(this.fields);
     } else {
-      this.loadUserFromProps(fields);
+      this.loadUserFromProps(this.fields);
     }
   }
 
   // user일경우 세션스토리지에서 정보 가져오기
-  loadUserFromSession(fields) {
+  loadUserFromSession() {
     sessionStorage.setItem('userPassword', 'password');
     this.state = { ...sessionStorage };
     if (this.state) {
-      fields.forEach(({ id, key }) => {
+      this.fields.forEach(({ id, key }) => {
         this.el.querySelector(`#${id}`).value = this.state[key] || '';
       });
     }
   }
 
   // admin일경우 props에서 정보 가져오기
-  loadUserFromProps(fields) {
+  loadUserFromProps() {
     if (this.state.user && this.state.user[this.userid]) {
       const trdataId = document.querySelector('.user-info__lists-wrap');
       if (this.state.user[this.userid] === undefined) {
         console.error('dataId가 없습니다.');
       }
       trdataId.dataset.dataId = this.state.user[this.userid].dataId || '';
-      fields.forEach(({ id, key }) => {
+      this.fields.forEach(({ id, key }) => {
         this.el.querySelector(`#${id}`).value = this.state.user[this.userid][key] || '';
       });
     }
@@ -318,26 +339,6 @@ export default class UserInfo {
       } else {
         saveBtn.classList.remove('user-info__btn--disable');
         saveBtn.disabled = false;
-      }
-    });
-  }
-  // 유저정보 수정
-  saveUserData(props) {
-    const formData = new FormData(props); // 폼 데이터 가져오기
-    const fields = [
-      { id: 'user-id', key: 'id' },
-      { id: 'user-password', key: 'userPassword' },
-      { id: 'user-name', key: 'name' },
-      { id: 'user-email', key: 'email' },
-      { id: 'user-phone', key: 'phone' },
-      { id: 'user-position', key: 'position' },
-    ];
-
-    fields.forEach(({ id, key }) => {
-      const value = formData.get(id); // 폼 데이터에서 값 가져오기
-      if (value !== null) {
-        sessionStorage.setItem(key, value);
-        // console.log(`${key}: ${value}`);
       }
     });
   }
