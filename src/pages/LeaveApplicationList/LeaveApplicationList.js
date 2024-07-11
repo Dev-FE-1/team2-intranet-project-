@@ -134,7 +134,7 @@ export default class LeaveApplicationList {
     });
   }
 
-  // 내 신청서만 필터링함
+  // 신청 리스트 배열 안에서 내 신청서만 필터링함
   filterMyApplications(leaveItems) {
     return leaveItems.filter((item) => item.userId === this.currentUser.id);
   }
@@ -145,7 +145,7 @@ export default class LeaveApplicationList {
     this.renderLeaveItems(myApplications);
   }
 
-  // 신청서 목록을 클릭 헨들러, 내 신청서들만 보여주게함.
+  // '내 신청서만 보기'버튼 클릭 헨들러, 내 신청서들만 보여주게함.
   handleClickMyFillterButton() {
     const onClickMyFillterButton = (e) => {
       const myButton = e.target.closest('div');
