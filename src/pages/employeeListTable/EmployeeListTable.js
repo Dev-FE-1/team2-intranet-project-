@@ -5,6 +5,7 @@ import Modal from '../../components/modal/ModalInofo.js';
 import { Route } from '../router/route.js';
 import UserInfo from '../userinfo/UserInfo.js';
 import { EmployeeListFetch } from './EmployeeListFetch.js';
+
 export class EmployeeListTable {
   constructor(cotainer, props) {
     this.container = cotainer;

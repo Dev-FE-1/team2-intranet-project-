@@ -12,9 +12,10 @@ export class UserRepository extends BaseRepository {
     if (this.db == null) {
       await this.initialize();
     }
-
-    const keys = this.convertKeysToSnakeCase(Object.keys(entity));
-    const values = Object.values(entity);
+    const { id, ...createEntity } = entity;
+    console.log(id);
+    const keys = this.convertKeysToSnakeCase(Object.keys(createEntity));
+    const values = Object.values(createEntity);
 
     const placeholders = keys.map(() => '?').join(',');
 
@@ -23,7 +24,7 @@ export class UserRepository extends BaseRepository {
         `INSERT INTO ${this.tableName} (${keys.join(',')}) VALUES (${placeholders})`,
         values,
       );
-      return { id: lastID, ...entity };
+      return { id: lastID, ...createEntity };
     } catch (e) {
       console.error(e);
       return null;
@@ -66,16 +67,16 @@ export class UserRepository extends BaseRepository {
   }
 
   // 직원 조회: 아이디로 조회
-  async getByLoginId(loginId) {
+  async getByLoginId(emplyeeId) {
     if (this.db == null) {
       await this.initialize();
     }
     try {
       const result = await this.db.get(
         `SELECT id, employee_id, name, password, email, position, phone, profileImg
-      FROM ${this.tableName} WHERE login_id = ?
+      FROM ${this.tableName} WHERE employee_id = ?
       AND is_deleted = 0`,
-        loginId,
+        emplyeeId,
       );
       return this.snakeToCamelCaseKeys(result);
     } catch (e) {
@@ -128,8 +129,8 @@ export class UserRepository extends BaseRepository {
     }
   }
 
-  //  계정 삭제
-  async deleteByLoginId(loginId) {
+  // 여러개의 계정 삭제
+  async deleteByLoginIds(employeeIds) {
     if (this.db == null) {
       await this.initialize();
     }
@@ -137,11 +138,30 @@ export class UserRepository extends BaseRepository {
       await this.db.run(
         `UPDATE ${this.tableName} 
       SET is_deleted = 1
-      WHERE login_id = ?
+      WHERE employeeId IN (${employeeIds.join(',')})
       AND is_deleted = 0`,
-        loginId,
       );
-      return { loginId };
+      return { employeeIds };
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
+  }
+
+  //  계정 삭제
+  async deleteByLoginId(employeeId) {
+    if (this.db == null) {
+      await this.initialize();
+    }
+    try {
+      await this.db.run(
+        `UPDATE ${this.tableName} 
+      SET is_deleted = 1
+      WHERE employeeId = ?
+      AND is_deleted = 0`,
+        employeeId,
+      );
+      return { employeeId };
     } catch (e) {
       console.error(e);
       return null;

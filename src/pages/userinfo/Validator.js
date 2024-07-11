@@ -1,7 +1,11 @@
+// import { EmployeeListFetch } from '../employeeListTable/EmployeeListFetch';
 export class Validator {
   constructor() {}
 
   idValidator(id) {
+    // const employeeListFetch = new EmployeeListFetch();
+    // const isExist = await employeeListFetch.getEmployeeListById();
+    // if (isExist) return '이미 존재하는 아이디입니다.';
     let reg = new RegExp('^[A-Za-z0-9]+$');
     // g플래그로 하면 두번째부터는 이전위치 기억해서 false가 나옴
 

@@ -15,9 +15,23 @@ export class EmployeeListFetch {
     }
   }
 
+  //GET by id, check if employee exists
+  async getEmployeeListById(employeeId) {
+    try {
+      const response = await axios.get(`${this.urlPath}/show-info`, {
+        data: { employeeId: employeeId },
+      });
+      return response.data.data.isExist;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
   //POST
   async addEmployee(employee) {
     try {
+      const { id, ...employeedata } = employee;
+      console.log(`employeedata: ${employeedata}, id: ${id}`);
       const response = await axios.post(this.urlPath, {
         data: employee,
       });

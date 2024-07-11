@@ -40,8 +40,8 @@ export class UserService {
   }
 
   // 계정 개인 정보 조회
-  async getUserByLoginId(loginId) {
-    return await this.userRepository.getByLoginId(loginId);
+  async getUserByLoginId(emplyeeId) {
+    return await this.userRepository.getByLoginId(emplyeeId);
   }
 
   // 계정 삭제
