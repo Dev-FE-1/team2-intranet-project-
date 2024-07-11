@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { indb, initializeDatabase } from './initalizeData.js';
+import date from 'date-and-time';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -111,53 +112,100 @@ app.get('/api/attendances', (req, res) => {
 });
 
 //시간값 넣기
-// app.post('/api/employees/setTime', (req, res) => {
-//   const timeset = req.body;
-//   console.log(timeset);
-//   // indb.insertTime(employee.username, employee.password, (employee) => {
-//   //   res.json({
-//   //     status: 'OK',
-//   //     data: employee,
-//   //   });
-//   // });
-// })
-// //예시
-// app.get('/api/employees/:id', (req, res) => {
-//   const id = req.params.id;
-//   console.log(`/api/employees/${id} 라우팅 확인`)
-//   indb.getEmployeeById(id, (employee) => {
-//     res.json({
-//       status: 'OK',
-//       data: employee,
-//     });
-//   });
-// });
+app.post('/api/employees/setTime', async(req, res) => {
+  
+
+  //초기에 필요한 변수 세팅
+  const dayPattern = 'YYYY-MM-DD';
+  const insertingPattern = 'YYYY-MM-DD HH:mm:ss';
+
+  //요청값에서 파생되는 변수
+  const requestset=req.body
+
+  const requestTime = requestset.INtime
+  const requestId = requestset.employeeId
+  const requestIntime =requestset.INtime
+  const requestOuttime = requestset.OUTtime
+  let requestStatus = Number(requestset.status)
+
+  //db에서 꺼내온 값에서 파생된 변수
+  const latesTimeset = await indb.getTime(requestset.employeeId)
+  const latestStatus = latesTimeset.status
+  const latestIntime = latesTimeset.INtime
+  const latestParsedOutDay = date.parse(latesTimeset.OUTtime,dayPattern)
+
+  const now = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Seoul"}));
+  const formattedNow = date.format(now, insertingPattern)
+  const parsedNow = date.parse(formattedNow,dayPattern)
+
+
+
+
+  if (requestStatus == latestStatus) {
+    switch (requestStatus) {
+      case 0:
+        try {
+          requestStatus += 1;
+          const result = await indb.updateTime(requestId, formattedNow,"" , requestStatus);
+          const checkData = await indb.getTime(requestId)
+          console.log(checkData)
+          console.log("상태 0 - 업무 시작 시간 입력 완료");
+          res.status(200).json(result)
+        } catch (error) {
+          console.error("Error setting time:", error);
+          res.status(500).json({
+            message: "업무 시작 시간 입력 중 오류 발생",
+            error: error.message
+          });
+        }
+        break;
+  
+      case 1:
+        try {
+          requestStatus += 1;
+          const result = await indb.updateTime(requestId, latestIntime, formattedNow, requestStatus);
+          const checkData = await indb.getTime(requestId)
+          console.log(`체크 데이터 ${checkData}`)
+          console.log("상태 1 - 업무 종료 시간 입력 완료");
+          res.status(200).json(result)
+        } catch (error) {
+          console.error("Error setting time:", error);
+          res.status(500).json({
+            message: "업무 종료 시간 입력 중 오류 발생",
+            error: error.message
+          });
+        }
+        break;
+
+      case 2:
+        console.log('현재시간')
+        console.log(formattedNow)
+        console.log('현재날짜')
+        console.log(parsedNow)
+        console.log('최근기록시간')
+        console.log(latesTimeset.OUTtime)
+        console.log('최근기록날짜')
+        console.log(latestParsedOutDay)
+        if(parsedNow>latestParsedOutDay){
+          console.log("로직 통과 새 데이터 row를 삽입합니다")
+        }else(
+          console.log("로직 통과 실패")
+        )
+        //createTime
+        break;
+    }
+  } else {
+    console.error('데이터 값 이상 -status값이 다름');
+  }
+
+})
 
 //시간값 꺼내기
-app.get('/api/employees/getTime/:id', (req, res) => {
+app.get('/api/employees/getTime/:id', async(req, res) => {
   const id = req.params.id;
   console.log(`/api/employees/getTime/${id} 라우팅 확인`);
-  indb.getTime(id, (lastpunch) => {
-    res.json({
-      status: 'OK',
-      data: lastpunch,
-    });
-  });
-  /*상태값 
-    요청값에 현재 시간 보낸거 잘라서 쓰기(yyyy-mm-dd:hh12:mm)
-    오늘 날짜(년 -월 -일)를 잘라서 가져오기
-
-    0- 출근전 => 오늘 날짜의 출근 시간이 없다고 하면 setTime으로 데이터 생성
-    1- 근무중 => 오늘 날짜의 출근 시간이 있고 퇴근 시간이 없는 경우에는 setTime으로 퇴근 시간 생성
-    2- 퇴근 => 오늘 날짜의 퇴근 시간이 있으면 에러 리턴
-    */
-
-  // indb.getEmployeeByIdPw(employee.username, employee.password, (employee) => {
-  //   res.json({
-  //     status: 'OK',
-  //     data: employee,
-  //   });
-  // });
+  const result = await indb.getTime(id);
+  res.status(200).json(result)
 });
 
 //아이디 비밀번호 체크
@@ -173,6 +221,7 @@ app.post('/api/employees/loginCheck', (req, res) => {
 });
 
 app.get('/api/v2/users', (req, res) => {
+  
   res.json({
     user: {
       1234: {

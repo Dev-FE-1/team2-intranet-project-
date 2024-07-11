@@ -44,7 +44,6 @@ if (!sessionStorage.id) {
       Component: Home,
     },
 
-    // 관리자 페이지
     '/': {
       title: 'Employee List',
       Component: EmployeeListTable,

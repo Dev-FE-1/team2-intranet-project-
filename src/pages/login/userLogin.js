@@ -182,8 +182,8 @@ export default class Login {
       if (sessionStorage.getItem('id')) {
         const timeResponse = await axios.get(`/api/employees/getTime/${requestData.username}`);
         const timeData = timeResponse.data;
-        console.log('시간 데이터:', timeData.data);
-        const { employeeId, INtime, OUTtime, status } = timeData.data;
+        console.log('시간 데이터:', timeData);
+        const { employeeId, INtime, OUTtime, status } = timeData;
         console.log(employeeId + '시간값 확인');
         sessionStorage.setItem('INtime', INtime);
         sessionStorage.setItem('OUTtime', OUTtime);

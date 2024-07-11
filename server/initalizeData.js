@@ -224,7 +224,7 @@ const employees = [
     phone: '010-2345-6789',
     position: '과장',
     employeeId: 'H2310002',
-    password: '2222',
+    password: 'P@ssw0rd!',
   },
   {
     name: '박민준',
@@ -232,7 +232,7 @@ const employees = [
     phone: '010-3456-7890',
     position: '차장',
     employeeId: 'H2210003',
-    password: '3333',
+    password: 'P@ssw0rd!',
   },
   {
     name: '정수진',
@@ -240,7 +240,7 @@ const employees = [
     phone: '010-4567-8901',
     position: '부장',
     employeeId: 'H2110004',
-    password: '4444',
+    password: 'P@ssw0rd!',
   },
   {
     name: '홍길동',
@@ -248,7 +248,7 @@ const employees = [
     phone: '010-5678-9012',
     position: '대리',
     employeeId: 'C2410005',
-    password: '5555',
+    password: 'P@ssw0rd!',
   },
   {
     name: '송지원',
@@ -411,12 +411,64 @@ const employees = [
     password: '2626',
   },
 ];
-const workTimeData = {
+const workTimeData = [
+{
+  employeeId: 'H2410001',
+  INtime: '2024-07-06 09:30:00',
+  OUTtime: '2024-07-06 17:30:00',
+  status: 2,
+},
+{
+  employeeId: 'H2410001',
+  INtime: '2024-07-07 09:30:00',
+  OUTtime: '2024-07-07 17:30:00',
+  status: 2,
+},
+{
   employeeId: 'H2410001',
   INtime: '2024-07-08 09:30:00',
   OUTtime: '2024-07-08 17:30:00',
   status: 2,
-};
+},
+{
+  employeeId: 'H2410001',
+  INtime: '2024-07-09 09:30:00',
+  OUTtime: '2024-07-09 17:30:00',
+  status: 2,
+},
+//2024-07-10 09:30:00
+{
+  employeeId: 'H2410001',
+  INtime: '',
+  OUTtime: '',
+  status: 0,
+},
+{
+  employeeId: 'H2310002',
+  INtime: '2024-07-09 09:30:00',
+  OUTtime: '2024-07-09 17:30:00',
+  status: 2,
+},
+{
+  employeeId: 'H2210003',
+  INtime: '2024-07-09 09:30:00',
+  OUTtime: '2024-07-09 17:30:00',
+  status: 2,
+},
+{
+  employeeId: 'H2110004',
+  INtime: '2024-07-09 09:30:00',
+  OUTtime: '2024-07-09 17:30:00',
+  status: 2,
+},
+{
+  employeeId: 'C2410005',
+  INtime: '2024-07-09 09:30:00',
+  OUTtime: '2024-07-09 17:30:00',
+  status: 2,
+},
+];
+
 
 // console.log('총 직원 수:', employees.length);
 
@@ -424,7 +476,7 @@ const initializeDatabase = () => {
   try {
     indb.insertEmployees(employees);
     indb.insertAttendances(attendances);
-    indb.setTime(workTimeData);
+    indb.setTimes(workTimeData);
   } catch (error) {
     console.error('inMemoryDatabase 초기화 실패:', error);
   }
