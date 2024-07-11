@@ -324,21 +324,34 @@ export default class UserInfo {
     this.validateInput('user-email', validator.emailValidator, '.user-info__error');
     this.validateInput('user-phone', validator.phoneValidator, '.user-info__error');
   }
-  btnType(fn) {
+
+  validatorIdDuplicate(employeeId) {
+    return this.employeeListFetch.getEmployeeListById(employeeId);
+  }
+
+  btnType() {
     const saveBtnType = this.el.querySelector('.user-info__type');
     const saveBtn = this.el.querySelector('.user-info__btn--save');
 
-    saveBtnType.addEventListener('click', () => {
-      fn((id) => {
-        if (id.includes(this.el.document.querySelector(`#user-id`).value)) this.btnState = false;
-        else this.btnState = true;
-      });
+    saveBtnType.addEventListener('click', async () => {
+      const employeeId = document.querySelector('#user-id').value;
+
+      if (!employeeId) {
+        throw new Error('employeeId가 없습니다');
+      }
+      const isIdDuplicated = await this.validatorIdDuplicate(employeeId);
+
+      if (isIdDuplicated) this.btnState = false;
+      else this.btnState = true;
+
       // this.btnState = true;
       if (this.btnState) {
         console.log(this.btnState);
+        // ID 중복이 아닐 경우
         saveBtn.classList.remove('user-info__btn--disable');
         saveBtn.disabled = false;
       } else {
+        // ID 중복일 경우
         console.log(this.btnState);
         saveBtn.classList.add('user-info__btn--disable');
         saveBtn.disabled = true;
