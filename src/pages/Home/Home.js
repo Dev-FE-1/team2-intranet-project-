@@ -1,8 +1,7 @@
 import './Home.css';
 import { AttendanceList } from '../attendancePreview/AttendanceList';
 import { phoneIcon, jobIcon, emailIcon } from '../../utils/icons';
-
-import defaultAvatarUrl from '../../assets/images/avatar-default.jpg';
+import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
 
 export class Home {
   constructor(container) {
@@ -25,6 +24,7 @@ export class Home {
     this.timeFormatter = new Intl.DateTimeFormat('ko-KR', {
       hour: '2-digit',
       minute: '2-digit',
+      second: '2-digit',
       hour12: false,
     });
   }
@@ -38,7 +38,7 @@ export class Home {
           <div class="working-timer-page">
             <div class="work">
               <div class="summary">
-                <img src="${defaultAvatarUrl}" alt="" />
+                <img src="${avatarDefaultImg}" alt="" />
                 <div class="worker-name">${this.userName}</div>
                 <div class="worker-rank">${this.rank}</div>
               </div>

@@ -1,8 +1,9 @@
+import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
 export class EmployeeListTableRows {
   constructor({ cid = '.employee-list__rows', ...props }) {
     this.container = document.querySelector(`${cid}`);
     this.props = props;
-    this.defaultProfileImg = 'https://i.imgur.com/KM82VtW.png';
+    this.defaultProfileImg = avatarDefaultImg;
   }
 
   render = async (employees) => {
@@ -22,7 +23,11 @@ export class EmployeeListTableRows {
           </div>
         </td>
         <td class="employee-list__info">
-          <img src="${profileImg || this.defaultProfileImg}" alt="프로필 사진" />
+          <img
+            class="employee-default-img"
+            src="${profileImg || this.defaultProfileImg}"
+            alt="프로필 사진"
+          />
         </td>
         <td class="employee-list__info">${name}</td>
         <td class="employee-list__info">${email}</td>

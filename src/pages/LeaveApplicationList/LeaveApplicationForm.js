@@ -1,8 +1,8 @@
 import './LeaveApplicationForm.css';
 import './LeaveApplicationList.css';
 import { FormDataDTO } from './FormDataDTO';
-import avatarDefaultImg from '/src/assets/images/avatar-default.jpg';
 import lodash from 'lodash';
+import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
 
 export default class LeaveApplicationForm {
   constructor(container, currentUser) {
