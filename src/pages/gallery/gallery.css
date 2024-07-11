@@ -9,6 +9,7 @@
   gap: 1rem;
   margin: 0 auto;
   background-color: var(--color-white);
+  overflow-y: auto; /* 추가: 세로 스크롤 허용 */
 }
 
 .gallery__title {
