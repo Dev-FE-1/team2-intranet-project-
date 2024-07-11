@@ -3,6 +3,7 @@ import { Layout } from './layout/Layout.js';
 import { EmployeeListTable } from './employeeListTable/EmployeeListTable.js';
 // import { AttendanceList } from './attendanceList/AttendanceList.js';
 import UserInfo from './userinfo/UserInfo';
+import Setting from './Setting/Setting.js';
 
 import { AdminGallery } from './gallery/AdminGallery.js';
 import { Home } from './Home/Home.js';
@@ -56,6 +57,10 @@ if (!sessionStorage.id) {
     '/galleryManagement': {
       title: 'GalleryManagement',
       Component: AdminGallery,
+    },
+    '/logout': {
+      title: 'Logout',
+      Component: Setting,
     },
   };
 
