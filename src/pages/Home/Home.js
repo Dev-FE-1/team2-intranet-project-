@@ -1,6 +1,7 @@
 import './Home.css';
 import { AttendanceList } from '../attendancePreview/AttendanceList';
 import { phoneIcon, jobIcon, emailIcon } from '../../utils/icons';
+import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
 import axios from 'axios';
 import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
 import Modal from '../../components/modal/ModalInofo';
@@ -144,5 +145,14 @@ export class Home {
     puncherButton.textContent = this.status === 1 ? '근무종료' : '근무시작';
 
     puncherButton.disabled = this.status === 2;
+
+    switch (this.status) {
+      case 1:
+        puncherButton.style.backgroundColor = 'var(--color-vivid-red)';
+        break;
+      case 2:
+        puncherButton.style.backgroundColor = 'var(--color-dark-gray)';
+        break;
+    }
   }
 }
