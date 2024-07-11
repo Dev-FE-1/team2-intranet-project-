@@ -1,4 +1,5 @@
 # 사내 인트라넷 서비스
+
 <div align=center>
   
 <img src="https://i.imgur.com/4IPSVby.jpg" alt="메인페이지" width="1980"/>
@@ -12,6 +13,7 @@
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-pr-closed/Dev-FE-1/team2-intranet-project-?color=0088ff)
 
 ## 👋 Team 👋
+
 |[<img src="https://avatars.githubusercontent.com/u/89085298?v=4" width="150" height="150"/>](https://github.com/LfromTheE)|[<img src="https://avatars.githubusercontent.com/u/158833693?v=4" width="150" height="150"/>](https://github.com/mirang1024)|[<img src="https://avatars.githubusercontent.com/u/70564622?v=4" width="150" height="150"/>](https://github.com/sbs1253)|[<img src="https://avatars.githubusercontent.com/u/27764950?v=4" width="150" height="150"/>](https://github.com/clara-shin)|[<img src="https://avatars.githubusercontent.com/u/59277499?v=4" width="150" height="150"/>](https://github.com/nakyeonko3)|
 |:-:|:-:|:-:|:-:|:-:|
 |**개발** 🐶이동혁<br/>[@LfromTheE](https://github.com/LfromTheE)|**개발** 🐬최미랑<br/>[@mirang1024](https://github.com/mirang1024)|**개발** 🐳송병훈<br/>[@sbs1253](https://github.com/sbs1253)|**개발** 🦈신혜진<br/>[@clara-shin](https://github.com/clara-shin)|**개발** 🐺고낙연<br/>[@nakyeonko3](https://github.com/nakyeonko3)|
@@ -22,14 +24,14 @@
 
 <div align=center>
 
-### 🧑‍💻 Front-end 🧑‍💻
+### 🧑‍💻 Front-End 🧑‍💻
 
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white)
 
-### 🧑‍💻 Back-end 🧑‍💻
+### 🧑‍💻 Back-End 🧑‍💻
 
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
@@ -64,7 +66,13 @@
 <details>
 <summary> <h2>목차</h2></summary>
 
-- [<img src="https://i.imgur.com/nk7vp1m.png" width="30" height="30" align='center'/> Intranet](#Intranet)
+- [사내 인트라넷 서비스](#사내-인트라넷-서비스)
+  - [👋 Team 👋](#-team-)
+    - [🧑‍💻 Front-End 🧑‍💻](#-front-end-)
+    - [🧑‍💻 Back-End 🧑‍💻](#-back-end-)
+    - [💻 Database 💻](#-database-)
+      - [🛠 Tools 🛠](#-tools-)
+- [Intranet](#-intranet)
   - [❓ 프로젝트 소개](#-프로젝트-소개)
   - [목적](#목적)
   - [배경](#배경)
@@ -75,11 +83,9 @@
   - [실행](#실행)
     - [서버 실행](#서버-실행)
     - [클라이언트 실행](#클라이언트-실행)
-- [개발 문서](#개발-문서)
-- [역할 분담](#역할-분담)
-- [팀원 역량 확인](#팀원-역량-확인)
-
-  </details>
+  - [개발 문서](#개발-문서)
+  - [역할 분담](#역할-분담)
+  - [팀원 역량 확인](#팀원-역량-확인)
 
 # <img src="https://i.imgur.com/nk7vp1m.png" width="30" height="30" align='center'/> Intranet
 
