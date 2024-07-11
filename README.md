@@ -1,7 +1,7 @@
 # 사내 인트라넷 서비스
 <div align=center>
   
-<img src="https://github.com/Dev-FE-1/team2-intranet-project-/assets/70564622/43b18c21-07c8-4336-a748-15cddf7e3a56" alt="메인페이지" width="600"/>
+<img src="https://i.imgur.com/4IPSVby.jpg" alt="메인페이지" width="1980"/>
 
 [**🖥️인트라넷 서비스 demo (Render)**](https://intranet-solution.onrender.com/) / [**👩‍💼demo 2(Koyeb)**](https://profitable-daria-toyproject-group2-intranet-solution-7cbe0e98.koyeb.app/mypage)/ [**🔥개발 리포지토리**](https://github.com/Dev-FE-1/team2-intranet-project-) / [**😼배포 리포지토리**](https://github.com/DFE-1st-toy-project-group-2/intranet-solution)
 
