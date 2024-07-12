@@ -53,7 +53,7 @@ export class DatabaseConnection {
         employee_id TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL,
         phone TEXT,
-        profileImg TEXT,
+        profile_img TEXT,
         is_deleted INTEGER DEFAULT 0
       )
     `);

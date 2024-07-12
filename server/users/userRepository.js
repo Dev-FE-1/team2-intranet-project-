@@ -13,7 +13,6 @@ export class UserRepository extends BaseRepository {
       await this.initialize();
     }
     const { id, ...createEntity } = entity;
-    console.log(id);
     const keys = this.convertKeysToSnakeCase(Object.keys(createEntity));
     const values = Object.values(createEntity);
 
@@ -24,7 +23,7 @@ export class UserRepository extends BaseRepository {
         `INSERT INTO ${this.tableName} (${keys.join(',')}) VALUES (${placeholders})`,
         values,
       );
-      return { id: lastID, ...createEntity };
+      return { id: id || lastID, ...createEntity };
     } catch (e) {
       console.error(e);
       return null;
@@ -38,7 +37,7 @@ export class UserRepository extends BaseRepository {
     }
     try {
       const result = await this.db.all(
-        `SELECT id, employee_id, name, password, email, position, phone, profileImg FROM ${this.tableName} WHERE is_deleted = 0`,
+        `SELECT id, employee_id, name, password, email, position, phone, profile_img FROM ${this.tableName} WHERE is_deleted = 0`,
       );
       return this.convertFieldsToCamelCase(result);
     } catch (e) {
@@ -55,7 +54,7 @@ export class UserRepository extends BaseRepository {
 
     try {
       return await this.db.get(
-        `SELECT  id, employee_id, name, password, email, position, phone, profileImg FROM ${this.tableName} WHERE email = ?
+        `SELECT  id, employee_id, name, password, email, position, phone, profile_img FROM ${this.tableName} WHERE email = ?
       AND is_deleted = 0
       `,
         email,
@@ -73,7 +72,7 @@ export class UserRepository extends BaseRepository {
     }
     try {
       const result = await this.db.get(
-        `SELECT id, employee_id, name, password, email, position, phone, profileImg
+        `SELECT id, employee_id, name, password, email, position, phone, profile_img
       FROM ${this.tableName} WHERE employee_id = ?
       AND is_deleted = 0`,
         emplyeeId,
@@ -92,7 +91,7 @@ export class UserRepository extends BaseRepository {
     }
     try {
       const result = await this.db.get(
-        `SELECT id, employee_id, name, password, email, position, phone, profileImg 
+        `SELECT id, employee_id, name, password, email, position, phone, profile_img 
         FROM ${this.tableName} WHERE login_id = ? AND password = ?
         AND is_deleted = 0`,
         loginId,
@@ -117,12 +116,22 @@ export class UserRepository extends BaseRepository {
     const sets = keys.map((key) => `${key} = ?`).join(', ');
 
     try {
-      return await this.db.run(
-        `UPDATE ${this.tableName} SET ${sets} 
+      if (!id) {
+        const { employeeId } = updateEntity;
+        return await this.db.run(
+          `UPDATE ${this.tableName} SET ${sets} 
+        WHERE employee_id=?
+        `,
+          [...values, employeeId],
+        );
+      } else {
+        return await this.db.run(
+          `UPDATE ${this.tableName} SET ${sets} 
         WHERE id=?
         `,
-        [...values, id],
-      );
+          [...values, id],
+        );
+      }
     } catch (e) {
       console.error(e);
       return null;

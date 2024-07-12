@@ -1,11 +1,14 @@
-import { EmployeeListTable } from '../employeeListTable/EmployeeListTable';
 import './UserInfo.css';
 import ProfileImage from '../../components/profileImage/ProfileImage';
 import { Validator } from './Validator';
 
 import { UserInfoDTO } from './userInfoDTO';
 import { EmployeeListFetch } from '../employeeListTable/EmployeeListFetch';
-import { Route } from '../router/route';
+import defalutProfileImg from '../../assets/images/avatar-default.jpg';
+
+import { EmployeeListTable } from '../employeeListTable/EmployeeListTable';
+import Mypage from '../mypage/Mypage';
+// const routeView = document.querySelector('route-view');
 
 export default class UserInfo {
   constructor(cotainer, props = {}) {
@@ -26,6 +29,7 @@ export default class UserInfo {
     } = props;
 
     this.userid = userId;
+    this.profileImage = profileImg || defalutProfileImg;
     this.permission = permission;
     this.info = info;
     this.state = {
@@ -38,6 +42,7 @@ export default class UserInfo {
           email,
           phone,
           position,
+          profileImg,
         },
       },
     };
@@ -50,7 +55,6 @@ export default class UserInfo {
       { id: 'user-position', key: 'position' },
     ];
     this.el = cotainer;
-    console.log(profileImg);
   }
   render() {
     this.el.innerHTML = /* HTML */ `
@@ -72,8 +76,10 @@ export default class UserInfo {
                     name="user-id"
                     placeholder="아이디를 입력해주세요"
                   />
-                  <p class="user-info__error"></p>
-                  <button type="button" class="user-info__type">중복 확인</button>
+                  <p class="user-info__error user-info__error-id"></p>
+                  ${this.info === '수정'
+                    ? ''
+                    : '<button type="button" class="user-info__type">중복 확인</button>'}
                 </div>
               </li>
               <li class="user-info__list">
@@ -156,14 +162,10 @@ export default class UserInfo {
         </div>
       </form>
     `;
-    if (this.permission === 'user') {
-      this.el.querySelector('.user-info__type').classList.add('btnNone');
-      this.el.querySelector('#user-id').readOnly = true;
-      this.el.querySelector('.user-info__btn--cancel').addEventListener('click', (e) => {
-        e.preventDefault();
-        history.back();
-      });
-    }
+
+    // 해당 페이지가 관리자 권한을 가지고 접속한 관리자 페이지일경우 에만 아이디 입력화면을 렌더링한다.
+    this.renderIDInputWhenUserIsAdmin();
+
     // 폼 제출 방지
     this.preventFormSubmission();
 
@@ -177,20 +179,45 @@ export default class UserInfo {
     this.setupInputValidation();
 
     // 프로필 이미지 컴포넌트 불러오기
-    this.renderProfileImage();
+    const profileImg = this.profileImage;
+    this.renderProfileImage(profileImg);
 
-    this.btnType();
     // 수정 버튼 클릭 헨들러
     // this.handleEditButton();
+
+    // 페이지가 임직원 '조회' 페이지일 경우 이미지 변경 불가.
+    if (this.info === '조회') {
+      document.querySelector('.profile__btn-edit').style.display = 'none';
+    }
+  }
+
+  //  관리자가 아닌 유저가 아이디를 수정하거나 입력하는 것을 막음.
+  renderIDInputWhenUserIsAdmin() {
+    // 수정 페이지에서 아이디 수정을 막음.
+    // if (this.info === '수정') {
+    this.renderUserEditPageNotAllowIdEdit();
+    // } else {
+    // 수정 페이지가 아닐경우 아이디 중복 확인 작업을 넣음.
+    // this.btnType();
+    // }
+  }
+
+  // 관리자가 아닌 유저가 아이디를 수정하거나 입력하는 것을 막음.
+  renderUserEditPageNotAllowIdEdit() {
+    if (sessionStorage.getItem('admin') === 'false') {
+      const userId = this.el.querySelector('#user-id');
+      userId.readOnly = true;
+      userId.style.border = 'none';
+    }
   }
 
   // 폼 제출 방지
   preventFormSubmission() {
     const form = this.el.querySelector('.user-info');
     form.addEventListener('submit', (event) => event.preventDefault());
-    if (this.permission !== 'user') {
-      this.anminSaveUserData(form);
-    }
+    // if (this.permission !== 'user') {
+    this.anminSaveUserData(form);
+    // }
     this.setupButtonHandlers(form); // 버튼 핸들러 설정
   }
 
@@ -210,6 +237,22 @@ export default class UserInfo {
     });
   }
 
+  renderAnotherPage() {
+    const routeView = document.querySelector('route-view');
+    const employeeListTable = new EmployeeListTable(routeView, {});
+    const mypage = new Mypage(routeView, {});
+    // 관리자일 경우에만 employee-list로 이동
+    if (sessionStorage.getItem('admin') === 'true') {
+      history.pushState('', '', '/employee-list');
+      routeView.innerHTML = '';
+      employeeListTable.render();
+    } else {
+      history.pushState('', '', '/mypage');
+      routeView.innerHTML = '';
+      mypage.render();
+    }
+  }
+
   // 서브밋 헨들러, 백엔드로 데이터 수정 요청 API 호출
   anminSaveUserData(form) {
     const onSumbit = async () => {
@@ -218,19 +261,13 @@ export default class UserInfo {
       const trdataId = document.querySelector('.user-info__lists-wrap');
       const employeeListFetch = new EmployeeListFetch();
       userInfotr['data-id'] = trdataId.dataset.dataId; // 데이터 아이디 설정
-
+      userInfotr['data-profileImg'] = document.getElementById('img1').dataset.profileImage;
       if (this.info === '수정') {
         await employeeListFetch.updateEmployee(new UserInfoDTO(userInfotr));
       } else if (this.info === '등록') {
         await employeeListFetch.addEmployee(new UserInfoDTO(userInfotr));
       }
-
-      const pathMappings = {
-        '/employee-list': { title: 'Employee List', ComponentClass: EmployeeListTable },
-      };
-      const routeView = document.querySelector('route-view');
-      const route = new Route({ pathMappings, routeView });
-      route.router({}, '/employee-list');
+      this.renderAnotherPage();
     };
 
     form.addEventListener('submit', onSumbit);
@@ -311,15 +348,15 @@ export default class UserInfo {
   }
 
   // 프로필 이미지 컴포넌트 렌더링
-  renderProfileImage() {
+  renderProfileImage(profileImg) {
     const profileImage = this.el.querySelector('.user-info__profile');
-    new ProfileImage(profileImage).render();
+    new ProfileImage(profileImage).render(profileImg);
   }
 
   // 입력값 검증 설정
   setupInputValidation() {
     const validator = new Validator();
-    this.validateInput('user-id', validator.idValidator, '.user-info__error');
+    // this.validateInput('user-id', validator.idValidator, '.user-info__error');
     this.validateInput('user-password', validator.passwordValidator, '.user-info__error');
     this.validateInput('user-email', validator.emailValidator, '.user-info__error');
     this.validateInput('user-phone', validator.phoneValidator, '.user-info__error');
@@ -340,9 +377,10 @@ export default class UserInfo {
       if (!employeeId) {
         throw new Error('employeeId가 없습니다');
       }
-      const isIdDuplicated = await this.validatorIdDuplicate(employeeId);
+      // ID 중복이 존재하는지 확인함.
+      const isEmptyEmployeeId = await this.validatorIdDuplicate(employeeId);
 
-      if (isIdDuplicated) this.btnState = false;
+      if (isEmptyEmployeeId) this.btnState = false;
       else this.btnState = true;
 
       // this.btnState = true;
@@ -359,7 +397,15 @@ export default class UserInfo {
       }
     });
   }
-  // 입력값 검증
+
+  renderValidationID(employeeId) {
+    const validator = new Validator();
+    const waringId = document.querySelector('.user-info__error-id');
+    waringId.innerHTML = validator.idValidator(employeeId);
+  }
+
+  // 입력값 검증 함수
+  // 아이디를 제외한 (비밀번호, 이름, 이메일, 휴대폰 번호) 입력값 검증 로직
   validateInput(id, fn, err) {
     const idCheck = this.el.querySelector(`#${id}`);
     const errCheck = this.el.querySelector(`
@@ -373,14 +419,8 @@ export default class UserInfo {
         saveBtn.classList.add('user-info__btn--disable');
         saveBtn.disabled = true;
       } else {
-        if (!this.btnState) {
-          errCheck.textContent = '아이디 중복 확인 해주세요.';
-          saveBtn.classList.add('user-info__btn--disable');
-          saveBtn.disabled = true;
-        } else {
-          saveBtn.classList.remove('user-info__btn--disable');
-          saveBtn.disabled = false;
-        }
+        saveBtn.classList.add('user-info__btn--disable');
+        saveBtn.disabled = true;
       }
     });
   }

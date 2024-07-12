@@ -49,10 +49,11 @@ export class UserController {
   // 계정 개인 정보 조회, ID 중복 확인
   // => req.body: { loginId }
   async getUserByLoginId(req, res) {
-    const { emplyeeId } = req.body;
+    const { employeeId, tmp } = req.query;
 
+    console.log(` controller getUserByLoginId tmp: ${tmp}`);
     try {
-      const user = await this.userService.getUserByLoginId(emplyeeId);
+      const user = await this.userService.getUserByLoginId(employeeId);
       // 이미 있는 계정인지 확인 할 때 사용하는 변수
       const isExist = loadish.isEmpty(user);
       return res.status(200).json(ResponseDTO.success({ ...user, isExist }));

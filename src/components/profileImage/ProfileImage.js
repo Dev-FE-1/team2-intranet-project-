@@ -2,6 +2,8 @@ import './ProfileImage.css';
 import { editIcon } from '/src/utils/icons';
 import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
 import axios from 'axios';
+import { EmployeeListFetch } from '../../pages/employeeListTable/EmployeeListFetch';
+
 export default class ProfileImage {
   constructor(container, props = {}) {
     this.container = container;
@@ -10,9 +12,11 @@ export default class ProfileImage {
     this.MAX_WIDTH = 200;
     this.QUALITY = 0.9;
     this.defaultProfileImg = avatarDefaultImg;
+    this.employeeListFetch = new EmployeeListFetch();
+    this.updateProfileImage();
   }
   setAddEventListener() {
-    this.container.querySelector('form').addEventListener('submit', (e) => {
+    this.container.addEventListener('submit', (e) => {
       e.preventDefault();
       console.log('프로필 사진이 변경되었습니다.');
     });
@@ -24,10 +28,11 @@ export default class ProfileImage {
 
       let reader = new FileReader();
       reader.readAsDataURL(resizedPhoto); // converts the blob to base64 and calls onload
-
+      this.resizedPhoto = resizedPhoto;
       reader.onload = async () => {
         document.getElementById('img1').src = reader.result; // data url
-        await this.uploadToCloudinary(resizedPhoto); // 이미지 받기
+        const imgUrl = await this.uploadToCloudinary(resizedPhoto); // 이미지 받기
+        document.getElementById('img1').dataset.profileImage = imgUrl;
       };
     };
 
@@ -50,12 +55,37 @@ export default class ProfileImage {
       subMenu.classList.remove('profile__submenu--active');
     });
   }
-  render() {
+
+  async fetchProfileImage() {
+    const employeeId = sessionStorage.getItem('id');
+
+    if (!employeeId) {
+      console.error('Employee ID not found');
+      return null;
+    }
+
+    try {
+      const employee = await this.employeeListFetch.getEmployeeInFoListById(employeeId);
+      return employee.profileImg;
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
+  }
+
+  async updateProfileImage() {
+    const profileImage = await this.fetchProfileImage();
+    if (profileImage) {
+      this.render(profileImage);
+    }
+  }
+
+  async render(profileImg = this.defaultProfileImg) {
     this.container.innerHTML = /* HTML */ `
-      <form>
+      <form class="profile-form-">
         <div class="profile">
-          <img src="${this.defaultProfileImg}" alt="avatar" class="profile__image" id="img1" />
-          <button class="profile__btn-edit">${editIcon()} 사진변경</button>
+          <img src="${profileImg}" alt="avatar" class="profile__image" id="img1" />
+          <button type="button" class="profile__btn-edit">${editIcon()} 사진변경</button>
 
           <ul class="profile__submenu">
             <li>
@@ -69,7 +99,7 @@ export default class ProfileImage {
               <label for="fileField" class="profile__btn-upload"> Upload a photo </label>
             </li>
             <li>
-              <button class="profile__btn-remove">Remove photo</button>
+              <button type="button" class="profile__btn-remove">Remove photo</button>
             </li>
           </ul>
         </div>
@@ -77,6 +107,7 @@ export default class ProfileImage {
     `;
     this.setAddEventListener();
   }
+
   // 사진 불러오기
   readPhoto = async (photo) => {
     const canvas = document.createElement('canvas');
@@ -160,10 +191,11 @@ export default class ProfileImage {
 
       console.log('Image uploaded to Cloudinary:', cloudinaryResponse.data);
       const imageUrl = cloudinaryResponse.data.secure_url;
-      console.log(imageUrl);
+      // console.log(imageUrl);
       // 서버에 이미지 URL을 저장하도록 요청
-      const serverResponse = await axios.post('/api/save-image-url', { imageUrl });
-      console.log('Image URL saved to server:', serverResponse.data);
+      // const serverResponse = await axios.post('/api/save-image-url', { imageUrl });
+      return imageUrl;
+      // console.log('Image URL saved to server:', serverResponse.data);
     } catch (error) {
       console.error('Error uploading image:', error);
     }

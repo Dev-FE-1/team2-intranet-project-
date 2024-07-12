@@ -1,3 +1,6 @@
+.mypage .profile__btn-edit {
+  display: none;
+}
 .mypage {
   display: flex;
   flex-direction: column;
