@@ -9,6 +9,7 @@ export class EmployeeListTableRows {
   render = async (employees) => {
     this.container.innerHTML = employees
       .map((employee) => this.tableRowTemplate(employee))
+      .sort((a, b) => b.id - a.id)
       .join('');
   };
 

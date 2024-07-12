@@ -77,9 +77,8 @@ export default class UserInfo {
                     placeholder="아이디를 입력해주세요"
                   />
                   <p class="user-info__error user-info__error-id"></p>
-                  ${this.info === '수정'
-                    ? ''
-                    : '<button type="button" class="user-info__type">중복 확인</button>'}
+
+                  <button type="button" class="user-info__type">중복 확인</button>
                 </div>
               </li>
               <li class="user-info__list">
@@ -163,8 +162,9 @@ export default class UserInfo {
       </form>
     `;
 
-    // 해당 페이지가 관리자 권한을 가지고 접속한 관리자 페이지일경우 에만 아이디 입력화면을 렌더링한다.
-    this.renderIDInputWhenUserIsAdmin();
+    // 해당 페이지가 관리자 권한을 가지고 있을 경우 아이디를 입력할 수 있고
+    // 입력 페이지에서만 아이디를 수정 할 수 있음.
+    this.renderUserEditPageNotAllowIdEdit();
 
     // 폼 제출 방지
     this.preventFormSubmission();
@@ -195,7 +195,6 @@ export default class UserInfo {
   renderIDInputWhenUserIsAdmin() {
     // 수정 페이지에서 아이디 수정을 막음.
     // if (this.info === '수정') {
-    this.renderUserEditPageNotAllowIdEdit();
     // } else {
     // 수정 페이지가 아닐경우 아이디 중복 확인 작업을 넣음.
     // this.btnType();
@@ -204,7 +203,16 @@ export default class UserInfo {
 
   // 관리자가 아닌 유저가 아이디를 수정하거나 입력하는 것을 막음.
   renderUserEditPageNotAllowIdEdit() {
-    if (sessionStorage.getItem('admin') === 'false') {
+    // 관리자 페이지에서만 등록 버튼을 누를 경우 아이디 중복 확인을 함.
+    if (sessionStorage.getItem('admin') === 'true') {
+      // 직원 등록 페이지일 경우만 아이디 중복 확인을 함.
+      console.log(this.info);
+      if (this.info === '등록') {
+        this.btnType();
+      } else if (this.info === '수정') {
+        this.btnType();
+      }
+    } else if (sessionStorage.getItem('admin') === 'false') {
       const userId = this.el.querySelector('#user-id');
       userId.readOnly = true;
       userId.style.border = 'none';
@@ -214,6 +222,7 @@ export default class UserInfo {
   // 폼 제출 방지
   preventFormSubmission() {
     const form = this.el.querySelector('.user-info');
+
     form.addEventListener('submit', (event) => event.preventDefault());
     // if (this.permission !== 'user') {
     this.anminSaveUserData(form);
@@ -380,7 +389,7 @@ export default class UserInfo {
       // ID 중복이 존재하는지 확인함.
       const isEmptyEmployeeId = await this.validatorIdDuplicate(employeeId);
 
-      if (isEmptyEmployeeId) this.btnState = false;
+      if (!isEmptyEmployeeId) this.btnState = false;
       else this.btnState = true;
 
       // this.btnState = true;
@@ -419,8 +428,14 @@ export default class UserInfo {
         saveBtn.classList.add('user-info__btn--disable');
         saveBtn.disabled = true;
       } else {
-        saveBtn.classList.add('user-info__btn--disable');
-        saveBtn.disabled = true;
+        if (!this.btnState) {
+          errCheck.textContent = '아이디 중복 확인 해주세요.';
+          saveBtn.classList.add('user-info__btn--disable');
+          saveBtn.disabled = true;
+        } else {
+          saveBtn.classList.remove('user-info__btn--disable');
+          saveBtn.disabled = false;
+        }
       }
     });
   }
