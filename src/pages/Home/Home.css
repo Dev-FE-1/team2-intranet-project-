@@ -116,8 +116,6 @@
 }
 
 .puncher:disabled {
-  background-color: gray;
-  color: #ccc;
   cursor: not-allowed;
 }
 

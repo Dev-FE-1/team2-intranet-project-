@@ -78,15 +78,15 @@ export class Home {
         </div>
         </div>
           <div class='attendanceList'>
-          </div>
-        
-        
+          </div> 
       </section>
+
     `;
     const attendanceList = new AttendanceList(document.querySelector('.attendanceList'), {});
     attendanceList.render();
     this.timepunchListener();
     this.startClock();
+    this.updateWorkStatus();
     console.log(new Date());
   }
 
@@ -144,5 +144,17 @@ export class Home {
     puncherButton.textContent = this.status === 1 ? '근무종료' : '근무시작';
 
     puncherButton.disabled = this.status === 2;
+
+    switch (this.status) {
+      case 0:
+        puncherButton.style.backgroundColor = 'var(--color-ocean-blue)';
+        break;
+      case 1:
+        puncherButton.style.backgroundColor = 'var(--color-vivid-red)';
+        break;
+      case 2:
+        puncherButton.style.backgroundColor = 'var(--color-dark-gray)';
+        break;
+    }
   }
 }
