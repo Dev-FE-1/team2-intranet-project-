@@ -9,7 +9,6 @@
   gap: 1rem;
   margin: 0 auto;
   background-color: var(--color-white);
-  overflow-y: auto; /* 추가: 세로 스크롤 허용 */
 }
 
 .gallery__title {
@@ -25,6 +24,8 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+  padding: none;
+  overflow-y: auto; /* 추가: 세로 스크롤 허용 */
 }
 
 .gallery__container-card {
