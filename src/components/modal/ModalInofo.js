@@ -80,7 +80,7 @@ export default class Modal {
     modalText.querySelector('h1').textContent = text[this.state].title;
     modalbtn.textContent = text[this.state].content;
     if (this.state === '근무시작') {
-      modalbtn.className = 'modal__btn modal__btn--start';
+      modalbtn.className = 'modal__btn modal__btn--click modal__btn--start';
     }
   }
   onClickDeleteButton(fn) {
