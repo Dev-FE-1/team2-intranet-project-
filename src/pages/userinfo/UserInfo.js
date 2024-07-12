@@ -162,10 +162,6 @@ export default class UserInfo {
         </div>
       </form>
     `;
-    // if (this.permission === 'user') {
-    //   this.el.querySelector('.user-info__type').classList.add('btnNone');
-    //   this.el.querySelector('#user-id').readOnly = true;
-    // }
 
     // 해당 페이지가 관리자 권한을 가지고 접속한 관리자 페이지일경우 에만 아이디 입력화면을 렌더링한다.
     this.renderIDInputWhenUserIsAdmin();
@@ -198,19 +194,21 @@ export default class UserInfo {
   //  관리자가 아닌 유저가 아이디를 수정하거나 입력하는 것을 막음.
   renderIDInputWhenUserIsAdmin() {
     // 수정 페이지에서 아이디 수정을 막음.
-    if (this.info === '수정') {
-      this.renderUserEditPageNotAllowIdEdit();
-    } else {
-      // 수정 페이지가 아닐경우 아이디 중복 확인 작업을 넣음.
-      this.btnType();
-    }
+    // if (this.info === '수정') {
+    this.renderUserEditPageNotAllowIdEdit();
+    // } else {
+    // 수정 페이지가 아닐경우 아이디 중복 확인 작업을 넣음.
+    // this.btnType();
+    // }
   }
 
   // 관리자가 아닌 유저가 아이디를 수정하거나 입력하는 것을 막음.
   renderUserEditPageNotAllowIdEdit() {
-    const userId = this.el.querySelector('#user-id');
-    userId.readOnly = true;
-    userId.style.border = 'none';
+    if (sessionStorage.getItem('admin') === 'false') {
+      const userId = this.el.querySelector('#user-id');
+      userId.readOnly = true;
+      userId.style.border = 'none';
+    }
   }
 
   // 폼 제출 방지

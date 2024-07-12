@@ -2,6 +2,8 @@ import './ProfileImage.css';
 import { editIcon } from '/src/utils/icons';
 import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
 import axios from 'axios';
+import { EmployeeListFetch } from '../../pages/employeeListTable/EmployeeListFetch';
+
 export default class ProfileImage {
   constructor(container, props = {}) {
     this.container = container;
@@ -10,6 +12,8 @@ export default class ProfileImage {
     this.MAX_WIDTH = 200;
     this.QUALITY = 0.9;
     this.defaultProfileImg = avatarDefaultImg;
+    this.employeeListFetch = new EmployeeListFetch();
+    this.updateProfileImage();
   }
   setAddEventListener() {
     this.container.addEventListener('submit', (e) => {
@@ -51,7 +55,32 @@ export default class ProfileImage {
       subMenu.classList.remove('profile__submenu--active');
     });
   }
-  render(profileImg = this.defaultProfileImg) {
+
+  async fetchProfileImage() {
+    const employeeId = sessionStorage.getItem('id');
+
+    if (!employeeId) {
+      console.error('Employee ID not found');
+      return null;
+    }
+
+    try {
+      const employee = await this.employeeListFetch.getEmployeeInFoListById(employeeId);
+      return employee.profileImg;
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
+  }
+
+  async updateProfileImage() {
+    const profileImage = await this.fetchProfileImage();
+    if (profileImage) {
+      this.render(profileImage);
+    }
+  }
+
+  async render(profileImg = this.defaultProfileImg) {
     this.container.innerHTML = /* HTML */ `
       <form class="profile-form-">
         <div class="profile">
@@ -70,7 +99,7 @@ export default class ProfileImage {
               <label for="fileField" class="profile__btn-upload"> Upload a photo </label>
             </li>
             <li>
-              <button class="profile__btn-remove">Remove photo</button>
+              <button type="button" class="profile__btn-remove">Remove photo</button>
             </li>
           </ul>
         </div>
