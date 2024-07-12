@@ -241,9 +241,11 @@ export class EmployeeListTable {
         // 모달 팝업되면 body 스크롤링 금지
         document.body.style.overflow = 'hidden';
 
-        modal.onClickDeleteButton((value) => {
+        modal.onClickDeleteButton(async (value) => {
           if (value) {
-            console.log(value);
+            const checkedEmployeeIds = this.getCheckedEmployeeIds();
+            await this.employeeListFetch.deleteEmployee(checkedEmployeeIds);
+            this.updateEmployeeListRows();
           }
           document.body.style.overflow = 'auto';
         });
@@ -252,6 +254,14 @@ export class EmployeeListTable {
 
     this.container.addEventListener('click', deleteEmployee);
   }
+
+  getCheckedEmployeeIds() {
+    const checkboxInputs = document.querySelectorAll('.employee-list__rows .c-checkbox__input');
+    return [...checkboxInputs]
+      .filter((input) => input.checked)
+      .map((input) => input.closest('tr').dataset.dataId);
+  }
+
   getRowData(tr) {
     const td = tr.querySelectorAll('td');
     return {
