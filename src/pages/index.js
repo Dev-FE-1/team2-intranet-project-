@@ -48,20 +48,20 @@ if (!sessionStorage.id) {
 
   const adminRoutes = {
     '/adminHome': {
-      title: 'Home',
+      title: 'CORENET Admin - Home',
       Component: Home,
     },
 
     '/': {
-      title: 'Employee List',
+      title: 'CORENET Admin - 직원관리',
       Component: EmployeeListTable,
     },
     '/userinfo': {
-      title: 'userinfo',
+      title: 'CORENET Admin - 인트라넷 솔루션',
       Component: UserInfo,
     },
     '/galleryManagement': {
-      title: 'GalleryManagement',
+      title: 'CORENET Admin - 갤러리 관리',
       Component: AdminGallery,
     },
     '/logout': {
@@ -73,19 +73,19 @@ if (!sessionStorage.id) {
   const userRoutes = {
     // 직원 페이지
     '/': {
-      title: 'Home',
+      title: 'CORENET - Home',
       Component: Home,
     },
     '/gallery': {
-      title: 'Gallery',
+      title: 'CORENET - 갤러리',
       Component: EmployeeGallery,
     },
     '/leave-application-list': {
-      title: 'leaveApplicationList',
+      title: 'CORENET - 근태신청',
       Component: LeaveApplicationList,
     },
     '/mypage': {
-      title: 'mypage',
+      title: 'CORENET - 마이페이지',
       Component: Mypage,
     },
   };
