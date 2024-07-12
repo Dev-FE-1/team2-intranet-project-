@@ -3,8 +3,13 @@ import { AttendanceList } from '../attendancePreview/AttendanceList';
 import { phoneIcon, jobIcon, emailIcon } from '../../utils/icons';
 import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
 import axios from 'axios';
+<<<<<<< HEAD
 import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
 import Modal from '../../components/modal/ModalInofo';
+=======
+import Modal from '../../components/modal/ModalInofo';
+
+>>>>>>> c826541 (머지를 위한 커밋)
 export class Home {
   constructor(container) {
     // sessionStorage에서 값을 가져와 객체를 구성합니다.
@@ -107,6 +112,7 @@ export class Home {
   timepunchListener = () => {
     const puncherButton = this.container.querySelector('.puncher');
     puncherButton.addEventListener('click', async () => {
+<<<<<<< HEAD
       const modal = new Modal(this.status === 1 ? '근무종료' : '근무시작');
       this.container.appendChild(modal.el);
       modal.onClickDeleteButton(async (isConfirmed) => {
@@ -132,6 +138,30 @@ export class Home {
           } catch (e) {
             console.error('출퇴근 시간 등록 실패', e);
           }
+=======
+      try {
+        const workinModal = new Modal('근무시작');
+        const workinoutModal = new Modal('근무종료');
+        this.status == 0
+          ? this.container.appendChild(workinModal.el)
+          : this.container.appendChild(workinoutModal.el);
+        this.status += 1;
+        const requestData = {
+          employeeId: sessionStorage.getItem('id'),
+          INtime: sessionStorage.getItem('INtime'),
+          OUTtime: sessionStorage.getItem('OUTtime'),
+          status: sessionStorage.getItem('status'),
+        };
+        console.log(requestData);
+        const response = await axios.post('/api/employees/setTime', requestData);
+        if (response) {
+          const responseData = response.data;
+          console.log(responseData);
+          sessionStorage.setItem('status', responseData.status);
+          sessionStorage.setItem('OUTtime', responseData.OUTtime);
+          sessionStorage.setItem('INtime', responseData.INtime);
+          this.updateWorkStatus();
+>>>>>>> c826541 (머지를 위한 커밋)
         }
       });
     });
