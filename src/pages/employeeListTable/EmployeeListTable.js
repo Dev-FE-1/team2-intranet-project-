@@ -258,7 +258,7 @@ export class EmployeeListTable {
       dataId: tr.dataset.dataId,
       userId: tr.dataset.id,
       userPassword: tr.dataset.password,
-      profileImg: td[1].querySelector('img').src,
+      profileImg: tr.querySelector('img').src,
       name: td[2].textContent.trim(),
       email: td[3].textContent.trim(),
       phone: td[4].textContent.trim(),

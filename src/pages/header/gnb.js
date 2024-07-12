@@ -55,6 +55,7 @@ function EmployeeGnb() {
             <span>근태신청</span>
           </a>
         </li>
+
         <li>
           <a href="/mypage" data-link>
             <span class="material-symbols-rounded"> account_circle </span>
