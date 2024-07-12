@@ -132,7 +132,8 @@
 
 | 사용자 페이지 |
 |----------|
-|![사용자페이지](https://github.com/user-attachments/assets/2db5c038-15e2-4729-a56e-687598c4d238)|
+|![사용자 페이지](https://github.com/user-attachments/assets/7a164a41-d071-4114-b018-37d65d85cc58)
+|
 
 ---
 
