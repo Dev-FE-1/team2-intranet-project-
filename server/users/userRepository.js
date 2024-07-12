@@ -37,7 +37,8 @@ export class UserRepository extends BaseRepository {
     }
     try {
       const result = await this.db.all(
-        `SELECT id, employee_id, name, password, email, position, phone, profile_img FROM ${this.tableName} WHERE is_deleted = 0`,
+        `SELECT id, employee_id, name, password, email, position, phone, profile_img FROM ${this.tableName} WHERE is_deleted = 0
+        order by id desc`,
       );
       return this.convertFieldsToCamelCase(result);
     } catch (e) {
