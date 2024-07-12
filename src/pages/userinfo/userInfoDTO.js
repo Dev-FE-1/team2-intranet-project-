@@ -7,18 +7,8 @@ class UserInfoDTO {
     this.email = data['user-email'];
     this.position = data['user-position'];
     this.phone = data['user-phone'];
-    // this.profileImg = data['user-profileImg'];
+    this.profileImg = data['data-profileImg'];
   }
 }
 
 export { UserInfoDTO };
-// const data = {
-//   id: 1,
-//   employeeId: 'H2410001',
-//   name: '김철수',
-//   password: 'P@ssw0rd!',
-//   email: 'chulsoo.kim@company.com',
-//   position: '대리',
-//   phone: '010-1234-5678',
-//   profileImg: null,
-// };

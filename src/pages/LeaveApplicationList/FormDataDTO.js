@@ -23,5 +23,6 @@ export class FormDataDTO {
     this.attendanceApplyTime =
       data.attendanceApplyTime || date.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
     this.userId = data.userId || '';
+    this.profileImg = data.profileImg || '';
   }
 }

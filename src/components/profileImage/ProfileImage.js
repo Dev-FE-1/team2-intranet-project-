@@ -24,10 +24,11 @@ export default class ProfileImage {
 
       let reader = new FileReader();
       reader.readAsDataURL(resizedPhoto); // converts the blob to base64 and calls onload
-
+      this.resizedPhoto = resizedPhoto;
       reader.onload = async () => {
         document.getElementById('img1').src = reader.result; // data url
-        await this.uploadToCloudinary(resizedPhoto); // 이미지 받기
+        const imgUrl = await this.uploadToCloudinary(resizedPhoto); // 이미지 받기
+        document.getElementById('img1').dataset.profileImage = imgUrl;
       };
     };
 
@@ -50,12 +51,12 @@ export default class ProfileImage {
       subMenu.classList.remove('profile__submenu--active');
     });
   }
-  render() {
+  render(profileImg = this.defaultProfileImg) {
     this.container.innerHTML = /* HTML */ `
       <form class="profile-form-">
         <div class="profile">
-          <img src="${this.defaultProfileImg}" alt="avatar" class="profile__image" id="img1" />
-          <button class="profile__btn-edit">${editIcon()} 사진변경</button>
+          <img src="${profileImg}" alt="avatar" class="profile__image" id="img1" />
+          <button type="button" class="profile__btn-edit">${editIcon()} 사진변경</button>
 
           <ul class="profile__submenu">
             <li>
@@ -77,6 +78,7 @@ export default class ProfileImage {
     `;
     this.setAddEventListener();
   }
+
   // 사진 불러오기
   readPhoto = async (photo) => {
     const canvas = document.createElement('canvas');
@@ -160,10 +162,11 @@ export default class ProfileImage {
 
       console.log('Image uploaded to Cloudinary:', cloudinaryResponse.data);
       const imageUrl = cloudinaryResponse.data.secure_url;
-      console.log(imageUrl);
+      // console.log(imageUrl);
       // 서버에 이미지 URL을 저장하도록 요청
-      const serverResponse = await axios.post('/api/save-image-url', { imageUrl });
-      console.log('Image URL saved to server:', serverResponse.data);
+      // const serverResponse = await axios.post('/api/save-image-url', { imageUrl });
+      return imageUrl;
+      // console.log('Image URL saved to server:', serverResponse.data);
     } catch (error) {
       console.error('Error uploading image:', error);
     }

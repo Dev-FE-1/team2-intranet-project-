@@ -55,12 +55,7 @@ function EmployeeGnb() {
             <span>근태신청</span>
           </a>
         </li>
-        <li>
-          <a href="/leave-application-list" data-link>
-            <span class="material-symbols-rounded"> event_available </span>
-            <span>근태신청</span>
-          </a>
-        </li>
+
         <li>
           <a href="/mypage" data-link>
             <span class="material-symbols-rounded"> account_circle </span>
