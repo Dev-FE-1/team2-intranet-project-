@@ -268,7 +268,7 @@ export class EmployeeListTable {
 
   onClickTableRow() {
     const pathMappings = {
-      '/userinfo': { title: 'userinfo', ComponentClass: UserInfo },
+      '/userinfo': { title: 'CORENET - 인트라넷 솔루션', ComponentClass: UserInfo },
     };
     const routeView = document.querySelector('route-view');
     const href = '/userinfo';

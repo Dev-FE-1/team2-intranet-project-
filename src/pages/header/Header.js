@@ -13,7 +13,7 @@ export class Header {
 
   render() {
     // 대시보드 제목 및 링크 재설정
-    const dashboardTitle = this.isAdmin ? 'Admin Dashboard' : 'corenet';
+    const dashboardTitle = this.isAdmin ? 'Corenet Admin' : 'corenet';
     const dashboardLink = this.isAdmin ? '/employee-list' : '/';
 
     return /* HTML */ `
