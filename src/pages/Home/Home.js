@@ -3,6 +3,7 @@ import { AttendanceList } from '../attendancePreview/AttendanceList';
 import { phoneIcon, jobIcon, emailIcon } from '../../utils/icons';
 import axios from 'axios';
 import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
+import Modal from '../../components/modal/ModalInofo';
 export class Home {
   constructor(container) {
     // sessionStorage에서 값을 가져와 객체를 구성합니다.
@@ -105,27 +106,33 @@ export class Home {
   timepunchListener = () => {
     const puncherButton = this.container.querySelector('.puncher');
     puncherButton.addEventListener('click', async () => {
-      try {
-        this.status += 1;
-        const requestData = {
-          employeeId: sessionStorage.getItem('id'),
-          INtime: sessionStorage.getItem('INtime'),
-          OUTtime: sessionStorage.getItem('OUTtime'),
-          status: sessionStorage.getItem('status'),
-        };
-        console.log(requestData);
-        const response = await axios.post('/api/employees/setTime', requestData);
-        if (response) {
-          const responseData = response.data;
-          console.log(responseData);
-          sessionStorage.setItem('status', responseData.status);
-          sessionStorage.setItem('OUTtime', responseData.OUTtime);
-          sessionStorage.setItem('INtime', responseData.INtime);
-          this.updateWorkStatus();
+      const modal = new Modal(this.status === 1 ? '근무종료' : '근무시작');
+      this.container.appendChild(modal.el);
+      modal.onClickDeleteButton(async (isConfirmed) => {
+        if (isConfirmed) {
+          try {
+            this.status += 1;
+            const requestData = {
+              employeeId: sessionStorage.getItem('id'),
+              INtime: sessionStorage.getItem('INtime'),
+              OUTtime: sessionStorage.getItem('OUTtime'),
+              status: sessionStorage.getItem('status'),
+            };
+            console.log(requestData);
+            const response = await axios.post('/api/employees/setTime', requestData);
+            if (response) {
+              const responseData = response.data;
+              console.log(responseData);
+              sessionStorage.setItem('status', responseData.status);
+              sessionStorage.setItem('OUTtime', responseData.OUTtime);
+              sessionStorage.setItem('INtime', responseData.INtime);
+              this.updateWorkStatus();
+            }
+          } catch (e) {
+            console.error('출퇴근 시간 등록 실패', e);
+          }
         }
-      } catch (e) {
-        console.error('출퇴근 시간 등록 실패', e);
-      }
+      });
     });
   };
 
