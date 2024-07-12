@@ -52,29 +52,3 @@ export class BaseRepository {
     return { id };
   }
 }
-
-// export class UserRepository extends BaseRepository {
-//   constructor() {
-//     super("Users");
-//   }
-
-//   // 사용자 특정 메서드 추가
-// }
-
-// export class EmployeeRepository extends BaseRepository {
-//   constructor() {
-//     super("Employees");
-//   }
-
-//   // 직원 특정 메서드 추가
-// }
-
-// export class TeamRepository extends BaseRepository {
-//   constructor() {
-//     super("Teams");
-//   }
-
-//   // 팀 특정 메서드 추가
-// }
-
-// import { BaseRepository } from "./database2.js";

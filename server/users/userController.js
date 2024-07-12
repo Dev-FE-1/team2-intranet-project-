@@ -105,7 +105,7 @@ export class UserController {
   // loginIds: [loginId1, loginId2, ...]
   // => req.body: { loginIds: [loginId1, loginId2, ...] }
   async deleteByLoginIds(req, res) {
-    const { loginIds } = req.body;
+    const loginIds = req.body;
     try {
       const deletedIds = await this.userService.deleteByLoginIds(loginIds);
       res.status(200).json(ResponseDTO.success(deletedIds));

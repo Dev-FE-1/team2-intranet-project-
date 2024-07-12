@@ -148,7 +148,7 @@ export class UserRepository extends BaseRepository {
       await this.db.run(
         `UPDATE ${this.tableName} 
       SET is_deleted = 1
-      WHERE employeeId IN (${employeeIds.join(',')})
+      WHERE employee_id IN (${employeeIds.join(',')})
       AND is_deleted = 0`,
       );
       return { employeeIds };
@@ -167,7 +167,7 @@ export class UserRepository extends BaseRepository {
       await this.db.run(
         `UPDATE ${this.tableName} 
       SET is_deleted = 1
-      WHERE employeeId = ?
+      WHERE id = ?
       AND is_deleted = 0`,
         employeeId,
       );
@@ -187,7 +187,7 @@ export class UserRepository extends BaseRepository {
       await this.db.run(
         `UPDATE ${this.tableName} 
       SET is_deleted = 0
-      WHERE login_id = ?
+      WHERE id = ?
       AND is_deleted = 1`,
         loginId,
       );

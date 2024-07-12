@@ -51,7 +51,7 @@ export class UserService {
 
   // 계정 여러개 삭제
   async deleteByLoginIds(loginIds) {
-    const promiseIds = loginIds.map(
+    const promiseIds = [...loginIds].map(
       async (loginId) => await this.userRepository.deleteByLoginId(loginId),
     );
     return await Promise.all(promiseIds);

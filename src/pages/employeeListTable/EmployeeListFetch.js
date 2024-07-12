@@ -70,10 +70,11 @@ export class EmployeeListFetch {
   }
 
   //DELETE
-  async deleteEmployee(employeeId) {
+  // /delete-many
+  async deleteEmployee(employeeIds) {
     try {
-      await axios.delete(`${this.urlPath}/delete`, {
-        data: { id: parseInt(employeeId) },
+      await axios.delete(`${this.urlPath}/delete-many`, {
+        data: employeeIds,
       });
     } catch (error) {
       console.error('Error:', error);

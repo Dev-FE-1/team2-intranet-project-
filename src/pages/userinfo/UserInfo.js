@@ -222,7 +222,6 @@ export default class UserInfo {
   // 폼 제출 방지
   preventFormSubmission() {
     const form = this.el.querySelector('.user-info');
-
     form.addEventListener('submit', (event) => event.preventDefault());
     // if (this.permission !== 'user') {
     this.anminSaveUserData(form);
@@ -246,6 +245,7 @@ export default class UserInfo {
     });
   }
 
+  // 다른 페이지로 이동
   renderAnotherPage() {
     const routeView = document.querySelector('route-view');
     const employeeListTable = new EmployeeListTable(routeView, {});
@@ -255,6 +255,7 @@ export default class UserInfo {
       history.pushState('', '', '/employee-list');
       routeView.innerHTML = '';
       employeeListTable.render();
+      // 관리자가 아닐 경우에는 mypage로 이동
     } else {
       history.pushState('', '', '/mypage');
       routeView.innerHTML = '';
@@ -371,10 +372,12 @@ export default class UserInfo {
     this.validateInput('user-phone', validator.phoneValidator, '.user-info__error');
   }
 
+  // ID 중복 확인 함수
   async validatorIdDuplicate(employeeId) {
     return await this.employeeListFetch.getEmployeeListById(employeeId);
   }
 
+  // 아이디 중복 확인 버튼 로직, 이벤트 헨들러
   btnType() {
     const saveBtnType = this.el.querySelector('.user-info__type');
     const saveBtn = this.el.querySelector('.user-info__btn--save');
@@ -407,6 +410,7 @@ export default class UserInfo {
     });
   }
 
+  // 아이디 중복 확인 함수
   renderValidationID(employeeId) {
     const validator = new Validator();
     const waringId = document.querySelector('.user-info__error-id');
