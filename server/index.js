@@ -2,18 +2,14 @@ import { container } from './container.js';
 import express from 'express';
 import history from 'connect-history-api-fallback';
 import morgan from 'morgan';
-import { fileURLToPath } from 'url';
-import path from 'path';
 import { indb, initializeDatabase } from './initalizeData.js';
 import date from 'date-and-time';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-// app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
+app.use(express.static('dist'));
 app.use(express.json());
 app.use(
   history({
@@ -28,8 +24,6 @@ app.use(
     ],
   }),
 );
-
-app.use(express.static(path.join(__dirname, '../dist')));
 
 // 서버 포트 지정
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -8,7 +8,6 @@ import defalutProfileImg from '../../assets/images/avatar-default.jpg';
 
 import { EmployeeListTable } from '../employeeListTable/EmployeeListTable';
 import Mypage from '../mypage/Mypage';
-// const routeView = document.querySelector('route-view');
 
 const validator = new Validator();
 
@@ -182,144 +181,168 @@ export default class UserInfo {
         </div>
       </form>
     `;
-
-    // 해당 페이지가 관리자 권한을 가지고 있을 경우 아이디를 입력할 수 있고
-    // 입력 페이지에서만 아이디를 수정 할 수 있음.
-    this.renderUserEditPageNotAllowIdEdit();
-
-    // 폼 제출 방지
-    this.preventFormSubmission();
-
-    // 수정, 조회 페이지 전환
-    this.toggleFormMode();
-
     // 유저정보 불러오기
     this.loadUserData();
 
-    // 입력값 검증
-    // this.setupInputValidation();
+    // 관리자 모드와 유저(직원)모드를 설정함.
+    // 직원 모드 : 아이디 입력, 수정 불가
+    // 관리자 모드 : 아이디 입력, 수정 가능, 아이디 증복성 체크를함.
+    this.setAdminModeOrUserMode();
+
+    // 수정밑등록 모드 와 조회 모드
+    // 수정밑등록 화면에서는 유효성 검사를함.
+    // 조회 모드에서는 유효성 검사를 하지 않음.
+    this.setEditModeOrShowMode();
+
+    // 수정, 조회 페이지 전환
+    // 수정 모드와 조회 모드 전환
+    this.toggleFormMode();
+
+    // 버튼 핸들러 설정 적용
+    //  수정, 취소 버튼 클릭 이벤트 헨들러
+    this.setupButtonHandlers();
 
     // 프로필 이미지 컴포넌트 불러오기
-    const profileImg = this.profileImage;
-    this.renderProfileImage(profileImg);
+    // 직원에 등록된 프로필이미지 적용하기
+    this.renderProfileImage(this.profileImage);
+  }
 
-    this.setSaveButtonElemDisable();
-    // 수정 버튼 클릭 헨들러
-    // this.handleEditButton();
-
-    // // 처음 유저가 들어왔을 때
-    // // 모든 입력 값이  적절하면 저장을 누를 수 있다.
-    // this.onFocusOutEventvalidCheckerFormInput();
-
-    this.handleFocusOutEventForFormValidCheck();
-    // 페이지가 임직원 '조회' 페이지일 경우 이미지 변경 불가.
-    if (this.info === '조회') {
-      document.querySelector('.profile__btn-edit').style.display = 'none';
+  // 유저모드, 관리자 모드 전환
+  setAdminModeOrUserMode() {
+    // 관리자 모드
+    if (this.isAdminPage()) {
+      // 아이디 입력 활성화
+      // 아이디 중복성 체크 활성화
+      this.btnType();
       return;
     }
 
-    if (this.info === '수정') {
-      // 처음 유저가 수정, 등록창에 들어오면, 저장 버튼을 못누르게 함
-      this.onFocusOutEventvalidCheckerFormInput();
-      // 폼에서 유저가 무언가를 입력하고 이동하거나 탭으로 이동할 때마다
-      // 유저의 입력값에 대한 유효성읋 검사함.
-      this.handleFocusOutEventForFormValidCheck();
-
-      return;
-    }
-
-    if (this.info === '등록') {
-      // 처음 유저가 수정, 등록창에 들어오면, 저장 버튼을 못누르게 함
-      this.onFocusOutEventvalidCheckerFormInput();
-      // 폼에서 유저가 무언가를 입력하고 이동하거나 탭으로 이동할 때마다
-      // 유저의 입력값에 대한 유효성읋 검사함.
-      this.handleFocusOutEventForFormValidCheck();
-      this.renderUserEditPageNotAllowIdEdit();
+    // 유저모드
+    if (!this.isAdminPage()) {
+      // 아이디 입력 비활성화
+      this.setFormIdInputDisable();
       return;
     }
   }
 
-  // 관리자가 아닌 유저가 아이디를 수정하거나 입력하는 것을 막음.
-  renderUserEditPageNotAllowIdEdit() {
-    // 관리자 페이지에서만 등록 버튼을 누를 경우 아이디 중복 확인을 함.
-    const isAdmin = sessionStorage.getItem('admin') === 'true';
-    if (isAdmin) {
-      if (this.info === '수정' && this.info === '등록') {
-        // 아이디 중복 검사
-        this.checkIdDuplicated();
-      }
-    } else if (isAdmin === false) {
-      const userId = this.el.querySelector('#user-id');
-      userId.readOnly = true;
-      userId.style.border = 'none';
-      const duplicateValidedButton = document.querySelector('.user-info__type');
-      duplicateValidedButton.style.display = 'none';
+  // 수정 또는 등록페이지일 때
+  setEditModeOrShowMode() {
+    // 유효성 검사를 함
+    // submit이 가능하게함.
+    if (this.isEditOrRegisterPage()) {
+      // 저장 버튼 클릭 비활성화
+      this.setSaveButtonElemDisable();
+
+      // focusout 이벤트를 헨들러를 붙임.
+      this.handleFocusOutEventForValidCheck();
+
+      // 현재 화면에서 유효성을 체크함.
+      this.checkIsFormAllInputsValid();
+
+      // 폼 submit 이벤트 헨들러
+      // form Submit 이벤트를 이용해서 백엔드에 직원 정보 수정, 등록 데이터를 전송함.
+      this.handleFormSubmitEvent();
     }
   }
+
+  // ID 입력 차단
+  setFormIdInputDisable() {
+    const userId = this.el.querySelector('#user-id');
+    userId.readOnly = true;
+    userId.style.border = 'none';
+    const duplicateValidedButton = document.querySelector('.user-info__type');
+    duplicateValidedButton.style.display = 'none';
+  }
+
+  // 관리자 페이지인지 아닌지를 체크함.
+  isAdminPage() {
+    return sessionStorage.getItem('admin') === 'true';
+  }
+
+  // 수정 또는 등록 페이지인지 체크를함.
+  isEditOrRegisterPage() {
+    return this.info === '수정' || this.info === '등록';
+  }
+
+  // 유저가 저장을 클릭하고 나서 백엔드에 데이터가 전송 되기 까지 500ms 딜레이가 있을 때
+  // 저장 버튼 아래 "임직원 변경 사항 저장중.." 메시지가 뜨게함.
+  showDelaySubmitMessage() {
+    const delay_submit_message = document.querySelector('.user-info-submit-delay__message');
+    delay_submit_message.classList.add('toggle-f');
+  }
+
+  // form Submit 이벤트 리스너
+  // form 데이터를 백엔드에 전송함.
+  onFormSubmit = async (event) => {
+    event.preventDefault();
+    const form = this.el.querySelector('.user-info');
+    // 만약 폼에 입력된 값이 하나라도 유효성 검사 실패했다면
+    //  submit 이벤트를 중지시킴.
+    if (!this.checkIsFormAllInputsValid) return;
+
+    // `저장 버튼` 아래 "임직원 변경 사항 저장중.." 메시지가 뜨게함.
+    this.showDelaySubmitMessage();
+
+    // SessionStorage에 변경된 직원 데이터(직원 아이디,  비밀번호, 이름, 이메일, 직급)을 저장함.
+    this.saveUserDataOnSessionStorage(form);
+
+    // 변경된 직원 데이터를 DB에 저장.
+    await this.saveUserDataWhenFormSubmit(form);
+
+    // submit 전송하고 db에 반영되기 까지 0.3초 시간을 기다린다음.
+    // 유저(직원)일 경우 마이페이지로 이동하고,
+    // 관리자는 유저(직원)일 경우 관리자 직원 관리 페이지로 이동함.
+    setTimeout(() => this.renderEmployeeListPageOrMyPage(), 500);
+  };
 
   // 폼 제출
-  preventFormSubmission() {
-    const form = this.el.querySelector('.user-info');
-    this.setupButtonHandlers(form); // 버튼 핸들러 설정
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      this.handleFocusOutEventForFormValidCheck();
-      const IsFormInputAllValid = Object.values(isValidInputState).every(Boolean);
-      if (IsFormInputAllValid) {
-        const delay__message = document.querySelector('.user-info-submit-delay__message');
-        delay__message.classList.add('toggle-f');
-        setTimeout(async () => {
-          this.saveUserData(form);
-          await this.saveUserDataWhenFormSubmit(form);
-        }, 500);
-      }
-    });
-
-    // if (this.permission !== 'user') {
+  // 폼 submit 이벤트 헨들러
+  // form Submit 이벤트를 이용해서 백엔드에 직원 정보 수정, 등록 데이터를 전송함.
+  handleFormSubmitEvent() {
+    this.el.addEventListener('submit', (event) => this.onFormSubmit(event));
   }
 
-  // 버튼 핸들러
+  // 임직원 수정 페이지를 랜더링
+  // 수정 모드로 전환
+  switchToEditMode() {
+    this.info = '수정';
+    this.render();
+  }
+
+  // 버튼 이벤트 리스너
+  // 수정, 취소 버튼 클릭 이벤트 리스너
+  onClickEditButtonOrShowButton = (e) => {
+    // 수정 버튼을 클릭 했을 때, 현재 화면을 수정 페이지로 재랜더링.
+    if (e.target.classList.contains('user-info__btn--edit')) return this.switchToEditMode();
+    // 취소 버튼을 클릭 했을 때, 이전 화면으로 뒤로 가기
+    if (e.target.classList.contains('user-info__btn--cancel')) return history.back();
+  };
+
+  // 버튼 헨들러
+  // 수정, 취소 버튼 클릭 이벤트 헨들러
   setupButtonHandlers() {
-    this.el.querySelectorAll('.user-info__btns > button').forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        // 수정 버튼을 클릭 했을 때
-        if (e.target.classList.contains('user-info__btn--edit')) {
-          this.switchToEditMode(); // 수정 모드로 전환
-          return;
-        }
-
-        // 취소 버튼을 클릭 했을 때
-        if (e.target.classList.contains('user-info__btn--cancel')) {
-          // 해당 페이지가 등록 화면이면 취소 버튼을 누르면, 관리자 화면이므로, 관리자 홈으로 이동
-
-          if (this.info === '조회') {
-            return history.back();
-          }
-          if (this.info === '등록') {
-            return history.back();
-          }
-          // 해당 페이지가 수정 화면이면, 뒤로 가기를 함
-          if (this.info === '수정') return history.back();
-        }
-      });
-    });
+    // editAndCancelbuttons는 수정, 취소 버튼들임.
+    const editAndCancelbuttons = this.el.querySelectorAll('.user-info__btns > button');
+    editAndCancelbuttons.forEach((btn) =>
+      btn.addEventListener('click', this.onClickEditButtonOrShowButton),
+    );
   }
 
   // 다른 페이지로 이동
-  renderAnotherPage() {
-    const routeView = document.querySelector('route-view');
-    const employeeListTable = new EmployeeListTable(routeView, {});
-    const mypage = new Mypage(routeView, {});
-    // 관리자일 경우에만 employee-list로 이동
+  renderEmployeeListPageOrMyPage() {
+    // 관리자일 경우 /employee-list 직원 관리페이지로 이동
     if (sessionStorage.getItem('admin') === 'true') {
+      const routeView = document.querySelector('route-view');
+      const employeeListTable = new EmployeeListTable(routeView, {});
       history.pushState('', '', '/employee-list');
-      routeView.innerHTML = '';
       employeeListTable.render();
-      // 관리자가 아닐 경우에는 mypage로 이동
-    } else {
-      history.back();
-      // history.pushState('', '', '/mypage');
-      routeView.innerHTML = '';
+    }
+
+    // 직원일 경우 /userinfo 직원 마이페이지로 이동
+    if (sessionStorage.getItem('admin') === 'false') {
+      const routeView = document.querySelector('route-view');
+      const mypage = new Mypage(routeView, {});
+      history.pushState('', '', '/mypage');
       mypage.render();
     }
   }
@@ -334,25 +357,24 @@ export default class UserInfo {
     const employeeListFetch = new EmployeeListFetch();
     userInfotr['data-id'] = trdataId.dataset.dataId; // 데이터 아이디 설정
     userInfotr['data-profileImg'] = document.getElementById('img1').dataset.profileImage;
+
     if (this.info === '수정') {
       await employeeListFetch.updateEmployee(new UserInfoDTO(userInfotr));
     } else if (this.info === '등록') {
       await employeeListFetch.addEmployee(new UserInfoDTO(userInfotr));
     }
-    this.renderAnotherPage();
   }
   // 유저정보 수정
 
-  saveUserData(props) {
+  // 유저 정보를 SessionStorage에 저장
+  saveUserDataOnSessionStorage(props) {
     const formData = new FormData(props); // 폼 데이터 가져오기
-
     this.fields.forEach(({ id, key }) => {
       const value = formData.get(id); // 폼 데이터에서 값 가져오기
       if (value !== null) {
         sessionStorage.setItem(key, value);
       }
     });
-    history.back();
   }
 
   // 수정 모드와 조회 모드 전환
@@ -404,21 +426,6 @@ export default class UserInfo {
         this.el.querySelector(`#${id}`).value = this.state.user[this.userid][key] || '';
       });
     }
-  }
-  // 수정 모드로 전환
-  switchToEditMode() {
-    this.info = '수정';
-    // 처음 유저가 수정, 등록창에 들어오면, 저장 버튼을 못누르게 함
-
-    // 폼에서 유저가 무언가를 입력하고 이동하거나 탭으로 이동할 때마다
-    // 유저의 입력값에 대한 유효성읋 검사함.
-    this.checkIdDuplicated();
-    this.render();
-  }
-  // 조회 모드로 전환
-  switchToViewMode() {
-    this.info = '조회';
-    this.render();
   }
 
   // 프로필 이미지 컴포넌트 렌더링
@@ -473,30 +480,34 @@ export default class UserInfo {
       isValidInputState[inputElemId] = false;
     }
 
-    const IsFormInputAllValid = Object.values(isValidInputState).every(Boolean);
-
     // 유저가 폼에 입력을 모두 제대로 입력했으면, 저장 버튼을 누를 수 있게함.
-    if (IsFormInputAllValid) {
+    if (this.isValidStateAllTrue()) {
       this.setSaveButtonElemAble();
     }
   };
 
+  // 모든 유효성 검증에 대한 상태값들이 모두 true인지 확인.
+  isValidStateAllTrue() {
+    return Object.values(isValidInputState).every(Boolean);
+  }
+
   //  focusOut 발생시 마다 제대로 입력 되었는지 체크를함
   // 아이디, 패스워드, 이메일, 핸드폰 번호에 대한 각각의 유효성 검사를함.
   // 전체 이들 모두가 유효성 검사를 통과 해야 저장 버튼이 활성화됨
-  onFocusOutEventvalidCheckerFormInput = () => {
+  checkIsFormAllInputsValid = () => {
     const formInputDatas = this.getFormInputData();
     this.validCheckerFormInput('user-id', formInputDatas['user-id']);
     this.validCheckerFormInput('user-password', formInputDatas['user-password']);
     this.validCheckerFormInput('user-email', formInputDatas['user-email']);
     this.validCheckerFormInput('user-phone', formInputDatas['user-phone']);
+    return this.isValidStateAllTrue();
   };
 
   // focusOut 이벤트헨들러,  발생시 마다 제대로 입력 되었는지 체크를함
   // onFocusOutEvent 함수를 form에 붙임.
-  handleFocusOutEventForFormValidCheck = () => {
+  handleFocusOutEventForValidCheck = () => {
     const userformElem = document.querySelector('.user-info');
-    userformElem.addEventListener('focusout', this.onFocusOutEventvalidCheckerFormInput);
+    userformElem.addEventListener('focusout', this.checkIsFormAllInputsValid);
   };
 
   // ID 중복 확인 함수
@@ -505,28 +516,5 @@ export default class UserInfo {
   }
 
   // 아이디 중복 확인 버튼 로직, 이벤트 헨들러
-  checkIdDuplicated() {
-    const saveBtnType = this.el.querySelector('.user-info__type');
-    const errCheck = this.el.querySelector(`.user-id__error`);
-    saveBtnType.addEventListener('click', async () => {
-      const employeeId = document.querySelector('#user-id').value;
-
-      if (!employeeId) {
-        console.error(`employeeId가 없습니다.`);
-      }
-
-      // ID가 중복인지 아닌지를 확인함.
-      const isDuplicated = await this.validatorIdDuplicate(employeeId);
-
-      // 중복이 아니라면 사용가능한 아이디라는 메시지를 출력함.
-      if (isDuplicated === false) {
-        errCheck.textContent = '사용 가능한 아이디입니다.';
-      }
-
-      // 중복이라면 사용불가능한 아이디라는 메시지를 출력함.
-      if (isDuplicated) {
-        errCheck.textContent = '이미 존재하는 아이디입니다.';
-      }
-    });
-  }
+  btnType() {}
 }
