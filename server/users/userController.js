@@ -24,11 +24,11 @@ export class UserController {
   async createUser(req, res) {
     try {
       const user = await this.userService.createUser(req.body.data);
-      res.status(200).json(ResponseDTO.success(user));
 
       if (loadish.isEmpty(user)) {
         return res.status(500).json(ResponseDTO.fail('Failed to create user'));
       }
+      res.status(200).json(ResponseDTO.success(user));
     } catch (e) {
       console.error(e);
       res.status(500).json(ResponseDTO.fail('Failed to create user'));
