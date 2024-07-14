@@ -13,6 +13,7 @@ const validator = new Validator();
 
 const isValidAndReturnMessage = {
   'user-id': (inputValue) => validator.idValidator(inputValue),
+  'user-duplicate-id': (inputValue) => validator.idDuplicateValidator(inputValue),
   'user-email': (inputValue) => validator.emailValidator(inputValue),
   'user-password': (inputValue) => validator.passwordValidator(inputValue),
   'user-phone': (inputValue) => validator.phoneValidator(inputValue),
@@ -20,6 +21,7 @@ const isValidAndReturnMessage = {
 
 const isValidInputState = {
   'user-id': false,
+  'user-duplicate-id': false,
   'user-email': false,
   'user-password': false,
   'user-phone': false,
@@ -93,6 +95,7 @@ export default class UserInfo {
                     placeholder="아이디를 입력해주세요"
                   />
                   <p class="user-id__error user-info__error user-info__error-id"></p>
+                  <p class="user-duplicate-id__error  user-info__error"></p>
 
                   <button type="button" class="user-info__type">중복 확인</button>
                 </div>
@@ -496,7 +499,9 @@ export default class UserInfo {
   // 전체 이들 모두가 유효성 검사를 통과 해야 저장 버튼이 활성화됨
   checkIsFormAllInputsValid = () => {
     const formInputDatas = this.getFormInputData();
-    this.validCheckerFormInput('user-id', formInputDatas['user-id']);
+    this.isAdminPage() && this.isEditOrRegisterPage()
+      ? this.validCheckerFormInput('user-id', formInputDatas['user-id'])
+      : (isValidInputState['user-id'] = true);
     this.validCheckerFormInput('user-password', formInputDatas['user-password']);
     this.validCheckerFormInput('user-email', formInputDatas['user-email']);
     this.validCheckerFormInput('user-phone', formInputDatas['user-phone']);

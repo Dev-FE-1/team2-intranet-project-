@@ -1,4 +1,4 @@
-// import { EmployeeListFetch } from '../employeeListTable/EmployeeListFetch';
+import { EmployeeListFetch } from '../employeeListTable/EmployeeListFetch';
 export class Validator {
   constructor() {}
 
@@ -14,6 +14,14 @@ export class Validator {
     else if (!reg.test(id)) return '아이디는 영문과 숫자만 입력해주세요';
     else return 'success';
   }
+
+  async idDuplicateValidator(employeeId) {
+    const employeeListFetch = new EmployeeListFetch();
+    const isEmpty = await employeeListFetch.getEmployeeInFoListById(employeeId).isEmpty;
+    if (isEmpty) return 'success';
+    if (!isEmpty) return '아이디가 중복입니다. 다른 아이디를 입력하시오.';
+  }
+
   passwordValidator(password) {
     let reg = new RegExp('^[A-Za-z0-9#@!$%^&*]{8,20}$');
     if (password.length > 20) return '비밀번호는 20자 이하로 입력해주세요';

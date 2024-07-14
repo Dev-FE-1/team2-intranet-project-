@@ -115,6 +115,15 @@
 }
 
 /* 유효성 검사 실패 또는 성공 메시지 */
+.user-info .user-duplicate-id__error {
+  position: absolute;
+  width: 100%;
+  top: 204%;
+  left: 0;
+  font-size: 10px;
+}
+
+/* 유효성 검사 실패 또는 성공 메시지 */
 .user-info .user-info__error {
   position: absolute;
   width: 100%;
