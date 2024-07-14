@@ -3,7 +3,7 @@
   
 <img src="https://i.imgur.com/xYLC6sl.jpeg" alt="메인페이지" width="1980"/>
 
-[**🖥️인트라넷 서비스 demo (Render)**](https://intranet-solution.onrender.com/) / [**👩‍💼demo 2(Koyeb)**](https://profitable-daria-toyproject-group2-intranet-solution-7cbe0e98.koyeb.app/mypage)/ [**🔥개발 리포지토리**](https://github.com/Dev-FE-1/team2-intranet-project-) / [**😼배포 리포지토리**](https://github.com/DFE-1st-toy-project-group-2/intranet-solution)
+[**🖥️인트라넷 서비스 demo (Render)**](https://intranet-solution.onrender.com/) / [**👩‍💼demo 2(Koyeb)**](https://organic-meggy-toyproject-group2-intranet-solution-b9fd064a.koyeb.app/)/ [**🔥개발 리포지토리**](https://github.com/Dev-FE-1/team2-intranet-project-) / [**😼배포 리포지토리**](https://github.com/DFE-1st-toy-project-group-2/intranet-solution)
 
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FDev-FE-1%2Fteam2-intranet-project-&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/Dev-FE-1/team2-intranet-project-)
