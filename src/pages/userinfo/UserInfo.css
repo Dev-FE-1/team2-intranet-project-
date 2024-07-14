@@ -1,3 +1,12 @@
+.user-info-submit-delay__message {
+  display: none;
+  color: var(--color-teal-grean);
+}
+
+.toggle-f {
+  display: block;
+}
+
 .user-info__btns > button,
 .user-info__type {
   width: var(--size-button-medium);
@@ -73,9 +82,9 @@
   width: 100%;
   top: 104%;
   left: 0;
-  color: var(--color-vivid-red);
   font-size: 10px;
 }
+
 .user-info__list select {
   -webkit-appearance: none; /* for chrome */
   -moz-appearance: none; /*for firefox*/
@@ -103,6 +112,25 @@
   -webkit-appearance: none; /* for chrome */
   -moz-appearance: none; /*for firefox*/
   appearance: none;
+}
+
+/* 유효성 검사 실패 또는 성공 메시지 */
+.user-info .user-info__error {
+  position: absolute;
+  width: 100%;
+  top: 104%;
+  left: 0;
+  font-size: 10px;
+}
+
+/* 유효성 검사 성공 메시지 */
+.user-info .-success-green {
+  color: var(--color-teal-grean);
+}
+
+/* 유효성 검사 실패 메시지 */
+.user-info .-fail-red {
+  color: var(--color-vivid-red);
 }
 
 .user-info__list select option:checked {
