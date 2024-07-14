@@ -13,6 +13,18 @@ const PORT = process.env.PORT || 8080;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+app.use(
+  express.static(path.join(__dirname, '../dist'), {
+    setHeaders: (res, filePath) => {
+      if (path.extname(filePath) === '.css') {
+        res.setHeader('Content-Type', 'text/css');
+      } else if (path.extname(filePath) === '.js') {
+        res.setHeader('Content-Type', 'application/javascript');
+      }
+    },
+  }),
+);
+
 // app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use(express.json());
@@ -40,18 +52,6 @@ app.use(
   cors({
     origin: 'http://localhost:8080',
     credentials: true,
-  }),
-);
-
-app.use(
-  express.static(path.join(__dirname, '../dist'), {
-    setHeaders: (res, filePath) => {
-      if (path.extname(filePath) === '.css') {
-        res.setHeader('Content-Type', 'text/css');
-      } else if (path.extname(filePath) === '.js') {
-        res.setHeader('Content-Type', 'application/javascript');
-      }
-    },
   }),
 );
 
