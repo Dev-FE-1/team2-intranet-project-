@@ -23,13 +23,17 @@ export class Validator {
   }
   emailValidator(email) {
     const emailDomains = ['gmail.com', 'company.com', 'naver.com', 'daum.net', 'kakao.com'];
-    for (let i = 0; i < emailDomains.length; i++) {
-      let reg = new RegExp(`^[A-Za-z0-9]+@${emailDomains[i]}$`);
-      if (!reg.test(email)) return "도메인은 다음 중 하나여야 합니다.'gmail.com', 'company.com'";
-      else if (reg.test(email) && email.length > 30)
-        return '이메일은 30자 이하로 입력되어야 합니다.';
-      return 'success';
+    const emailRegex = new RegExp(`^[A-Za-z0-9._%+-]+@(${emailDomains.join('|')})$`);
+
+    if (email.length > 30) {
+      return '이메일은 30자 이하로 입력되어야 합니다.';
     }
+
+    if (!emailRegex.test(email)) {
+      return "도메인은 다음 중 하나여야 합니다: 'gmail.com', 'company.com', 'naver.com', 'daum.net', 'kakao.com'";
+    }
+
+    return 'success';
   }
   phoneValidator(phone) {
     let reg = new RegExp(/^\d{2,3}-\d{3,4}-\d{4}$/);

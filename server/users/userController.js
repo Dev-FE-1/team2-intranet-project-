@@ -55,8 +55,8 @@ export class UserController {
     try {
       const user = await this.userService.getUserByLoginId(employeeId);
       // 이미 있는 계정인지 확인 할 때 사용하는 변수
-      const isExist = loadish.isEmpty(user);
-      return res.status(200).json(ResponseDTO.success({ ...user, isExist }));
+      const isEmpty = loadish.isEmpty(user);
+      return res.status(200).json(ResponseDTO.success({ ...user, isEmpty }));
     } catch (e) {
       console.error(e);
       return res.status(500).json(ResponseDTO.fail(''));
