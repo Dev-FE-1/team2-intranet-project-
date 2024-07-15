@@ -5,7 +5,7 @@ import Modal from '../../components/modal/ModalInofo.js';
 import { Route } from '../router/route.js';
 import UserInfo from '../userinfo/UserInfo.js';
 import { EmployeeListFetch } from './EmployeeListFetch.js';
-
+import { Pagination } from './PageNation.js';
 export class EmployeeListTable {
   constructor(cotainer, props) {
     this.container = cotainer;
@@ -72,72 +72,23 @@ export class EmployeeListTable {
   async updateEmployeeListRows() {
     const employees = await this.fetchEmployees();
     this.renderTableRows({ cid: '.employee-list__rows', employees });
-    // this.attachEventListeners();
   }
 
   renderTableRows({ cid, employees }) {
     const employeeListTableRows = new EmployeeListTableRows({
       cid,
     });
-    const numberPerPage = 10;
-    const totalRows = employees.length;
-    const numberOfPages = Math.ceil(totalRows / numberPerPage);
+
+    const itemsPerPage = 10;
+    const totalItems = employees.length;
     let currentPage = 1;
 
-    const pageNation = document.querySelector('page-nation');
-    pageNation.innerHTML = /* HTML */ `
-      <div class="pagination">
-        <a
-          pagination-previous-anchor
-          href="#"
-          aria-label="Go to previous page"
-          class="pagination__btn-prev"
-        >
-          Previous
-        </a>
-        <ol class="pagination__page-numbers">
-          ${Array.from({ length: numberOfPages })
-            .map((_, index) => {
-              return /* HTML */ ` <li><a pagination-number-anchor href="#">${index + 1}</a></li> `;
-            })
-            .join('')}
-        </ol>
-        <a pagination-next-anchor href="" aria-label="Go to next page" class="pagination__btn-next">
-          Next
-        </a>
-      </div>
-    `;
-    loadTableRows({ currentPage, numberPerPage });
+    const pagNationContainer = document.querySelector('page-nation');
+    const pagination = new Pagination(pagNationContainer, totalItems, itemsPerPage, currentPage);
+    pagination.render();
 
-    this.container.addEventListener('click', (e) => {
-      if (e.target.matches('[pagination-number-anchor]')) {
-        e.preventDefault();
-        currentPage = parseInt(e.target.innerText);
-        loadTableRows({ currentPage, numberPerPage });
-      }
-    });
-
-    this.container.addEventListener('click', (e) => {
-      if (e.target.matches('[pagination-next-anchor]')) {
-        e.preventDefault();
-        if (currentPage === numberOfPages) {
-          return;
-        }
-        currentPage++;
-        loadTableRows({ currentPage, numberPerPage });
-      }
-    });
-
-    this.container.addEventListener('click', (e) => {
-      if (e.target.matches('[pagination-previous-anchor]')) {
-        e.preventDefault();
-        if (currentPage === 1) {
-          return;
-        }
-        currentPage--;
-        loadTableRows({ currentPage, numberPerPage });
-      }
-    });
+    const { rowStart, rowEnd } = pagination.getPageItems();
+    loadTableRows({ employees, rowStart, rowEnd });
 
     function setButtonStateFocus({ currentPage }) {
       const pageNationButtons = document.querySelectorAll('[pagination-number-anchor]');
@@ -149,17 +100,16 @@ export class EmployeeListTable {
       });
     }
 
-    function loadTableRows({ currentPage, numberPerPage }) {
-      const rowStart = (currentPage - 1) * numberPerPage;
-      const rowEnd = calcRowEnd({ totalRows });
+    function loadTableRows({ employees, rowStart, rowEnd }) {
       employeeListTableRows.render(employees.slice(rowStart, rowEnd));
+      currentPage = pagination.getCurrentPage();
       setButtonStateFocus({ currentPage });
     }
 
-    function calcRowEnd({ totalRows }) {
-      if (currentPage * numberPerPage > totalRows) return totalRows;
-      return currentPage * numberPerPage;
-    }
+    // function calcRowEnd({ totalRows }) {
+    //   if (currentPage * numberPerPage > totalRows) return totalRows;
+    //   return currentPage * numberPerPage;
+    // }
   }
 
   // 직원 검색 함수: 직원리스트를 매개변수 값으로 받고,
