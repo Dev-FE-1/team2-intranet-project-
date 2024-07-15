@@ -5,12 +5,15 @@ import Modal from '../../components/modal/ModalInofo.js';
 import { Route } from '../router/route.js';
 import UserInfo from '../userinfo/UserInfo.js';
 import { EmployeeListFetch } from './EmployeeListFetch.js';
+import Loading from '../../components/loading/Loading.js';
 
 export class EmployeeListTable {
   constructor(cotainer, props) {
     this.container = cotainer;
     this.props = props;
     this.employeeListFetch = new EmployeeListFetch();
+    this.loading = new Loading(this.container, {});
+    this.loading.render();
   }
 
   render() {
@@ -61,6 +64,7 @@ export class EmployeeListTable {
             <tbody class="employee-list__rows"></tbody>
           </table>
         </div>
+        <div class="page-nation-container"></div>
         <page-nation></page-nation>
         <div class="ex-modal-container"></div>
       </section>
@@ -84,7 +88,6 @@ export class EmployeeListTable {
     let currentPage = 1;
 
     const pageNation = document.querySelector('page-nation');
-
     pageNation.innerHTML = /* HTML */ `
       <div class="pagination ">
         <a
