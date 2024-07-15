@@ -87,7 +87,6 @@ export class Home {
     this.timepunchListener();
     this.startClock();
     this.updateWorkStatus();
-    console.log(new Date());
   }
 
   startClock() {
