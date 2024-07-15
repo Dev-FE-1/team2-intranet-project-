@@ -13,6 +13,7 @@ import Mypage from './mypage/Mypage';
 
 import Login from './login/userLogin.js';
 import LeaveApplicationList from './LeaveApplicationList/LeaveApplicationList.js';
+import Loading from '../components/loading/Loading.js';
 
 const app = document.querySelector('#app');
 
@@ -122,6 +123,34 @@ if (!sessionStorage.id) {
 
   window.addEventListener('load', () => {
     console.log('page loaded');
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const appContainer = document.getElementById('app');
+    const loading = new Loading(appContainer, {});
+    loading.render();
+
+    try {
+      // 데이터 로드 및 페이지 초기화
+      const initializeApp = async () => {
+        try {
+          // EmployeeListTable 초기화
+          const employeeListTable = new EmployeeListTable(appContainer, {});
+          // EmployeeListTable의 updateEmployeeListRows 메서드가 데이터를 로드합니다.
+          await employeeListTable.updateEmployeeListRows();
+          loading.hide();
+        } catch (error) {
+          console.error('Error initializing app:', error);
+          loading.hide();
+        }
+      };
+
+      // Promise 사용하여 초기화
+      initializeApp();
+    } catch (error) {
+      console.error('Error initializing app:', error);
+      loading.hide();
+    }
   });
 
   // // Update router
