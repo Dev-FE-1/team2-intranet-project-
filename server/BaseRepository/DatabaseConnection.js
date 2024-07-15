@@ -17,7 +17,7 @@ export class DatabaseConnection {
   async initialize(filename) {
     try {
       this.db = await open({
-        filename: filename || ':memory:',
+        filename: filename || './intranetv1.db',
         driver: sqlite3.Database,
       });
       console.log('Connected to the SQLite database.');
