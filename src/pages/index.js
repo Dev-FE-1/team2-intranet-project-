@@ -1,4 +1,5 @@
-// import 순서를 관리자와 사용자별 메뉴 순서에 맞게 수정했습니다.
+// 로딩 컴포넌트 추가
+import Loading from '../components/loading/Loading.js';
 import { Layout } from './layout/Layout.js';
 import { EmployeeListTable } from './employeeListTable/EmployeeListTable.js';
 // import { AttendanceList } from './attendanceList/AttendanceList.js';
@@ -90,9 +91,21 @@ if (!sessionStorage.id) {
     },
   };
 
-  const renderComponent = ({ ComponentClass, props }) => {
+  const renderComponent = async ({ ComponentClass, props }) => {
     const componentInstance = new ComponentClass(routeView, props);
-    componentInstance.render();
+
+    if (typeof componentInstance.loadData === 'function') {
+      const loading = new Loading(routeView);
+      loading.render();
+      try {
+        await componentInstance.render();
+        await componentInstance.loadData();
+      } finally {
+        loading.hide();
+      }
+    } else {
+      componentInstance.render();
+    }
   };
 
   function router(props = {}) {

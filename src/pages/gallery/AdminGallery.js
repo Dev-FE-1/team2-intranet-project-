@@ -4,6 +4,7 @@ export class AdminGallery {
   constructor(container, props = {}) {
     this.container = container;
     this.apiEndpoint = props.galleryDataPath || '/api/v1/gallery';
+    this.galleryCardData = [];
   }
 
   async getGalleryData() {
@@ -32,13 +33,19 @@ export class AdminGallery {
         <div class="gallery__container"></div>
       </div>
     `;
-    this.updateGalleryContainer();
   }
 
-  renderGalleryContainer(galleryCardData) {
+  // dataLoaded 메서드 추가
+  async loadData() {
+    // 데이터 로딩 및 UI 업데이트
+    this.galleryCardData = await this.getGalleryData();
+    this.renderGalleryContainer();
+  }
+
+  renderGalleryContainer() {
     const galleryContainer = this.container.querySelector('.gallery__container');
     galleryContainer.innerHTML = /* HTML */ `
-      ${galleryCardData.map((item) => this.cardTemplate(item)).join('')}
+      ${this.galleryCardData.map((item) => this.cardTemplate(item)).join('')}
     `;
   }
 
