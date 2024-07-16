@@ -1,5 +1,4 @@
-// 로딩 컴포넌트 추가
-import Loading from '../components/loading/Loading.js';
+// import 순서를 관리자와 사용자별 메뉴 순서에 맞게 수정했습니다.
 import { Layout } from './layout/Layout.js';
 import { EmployeeListTable } from './employeeListTable/EmployeeListTable.js';
 // import { AttendanceList } from './attendanceList/AttendanceList.js';
@@ -16,7 +15,6 @@ import Login from './login/userLogin.js';
 import LeaveApplicationList from './LeaveApplicationList/LeaveApplicationList.js';
 
 const app = document.querySelector('#app');
-const loading = new Loading(app);
 
 // isAdmin으로 admin 상태를 확인
 const isAdmin = sessionStorage.getItem('admin') === 'true';
@@ -92,36 +90,25 @@ if (!sessionStorage.id) {
     },
   };
 
-  const renderComponent = async ({ ComponentClass, props }) => {
+  const renderComponent = ({ ComponentClass, props }) => {
     const componentInstance = new ComponentClass(routeView, props);
     componentInstance.render();
-
-    if (typeof componentInstance.dataLoaded === 'function') {
-      await componentInstance.dataLoaded();
-    }
   };
 
-  async function router(props = {}) {
+  function router(props = {}) {
     const routes = isAdmin ? adminRoutes : userRoutes;
     const view = routes[location.pathname];
     if (view) {
       const { Component: ComponentClass, title: title } = view;
       document.title = title;
       routeView.innerHTML = '';
-      // 로딩 컴포넌트 표시
-      loading.render();
-
-      try {
-        await renderComponent({ ComponentClass, props });
-      } finally {
-        // 로딩 컴포넌트 숨기기
-        loading.fadeOutLoadingPage();
-      }
+      renderComponent({ ComponentClass, props });
     } else {
       history.replaceState('', '', '/');
-      await router();
+      router();
     }
   }
+
   // Handle navigation
   window.addEventListener('click', (e) => {
     const anchorElem = e.target.closest('a');
