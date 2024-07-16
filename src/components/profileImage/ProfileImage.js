@@ -1,8 +1,9 @@
 import './ProfileImage.css';
 import { editIcon } from '/src/utils/icons';
 import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
-import axios from 'axios';
 import { EmployeeListFetch } from '../../pages/employeeListTable/EmployeeListFetch';
+import { optimizePhoto } from './imageUtils';
+import { uploadToCloudinary } from './cloudinaryUploader';
 
 export default class ProfileImage {
   constructor(container, props = {}) {
@@ -15,7 +16,7 @@ export default class ProfileImage {
     this.employeeListFetch = new EmployeeListFetch();
     this.updateProfileImage();
   }
-  setAddEventListener() {
+  setAddEventListener = () => {
     this.container.addEventListener('submit', (e) => {
       e.preventDefault();
       console.log('프로필 사진이 변경되었습니다.');
@@ -23,7 +24,7 @@ export default class ProfileImage {
     const input = document.getElementById('fileField');
 
     const processReduce = async (photo) => {
-      const resizedPhoto = await this.optimizePhoto(photo);
+      const resizedPhoto = await optimizePhoto(photo, this.MAX_WIDTH, this.QUALITY);
       console.log(resizedPhoto);
 
       let reader = new FileReader();
@@ -31,7 +32,7 @@ export default class ProfileImage {
       this.resizedPhoto = resizedPhoto;
       reader.onload = async () => {
         document.getElementById('img1').src = reader.result; // data url
-        const imgUrl = await this.uploadToCloudinary(resizedPhoto); // 이미지 받기
+        const imgUrl = await uploadToCloudinary(resizedPhoto); // 이미지 받기
         document.getElementById('img1').dataset.profileImage = imgUrl;
       };
     };
@@ -54,8 +55,7 @@ export default class ProfileImage {
       this.removePhoto();
       subMenu.classList.remove('profile__submenu--active');
     });
-  }
-
+  };
   async fetchProfileImage() {
     const employeeId = sessionStorage.getItem('id');
 
@@ -108,58 +108,6 @@ export default class ProfileImage {
     this.setAddEventListener();
   }
 
-  // 사진 불러오기
-  readPhoto = async (photo) => {
-    const canvas = document.createElement('canvas');
-    const img = document.createElement('img');
-
-    // create img element from File object
-    img.src = await new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = (e) => resolve(e.target.result);
-      reader.readAsDataURL(photo);
-    });
-
-    await new Promise((resolve) => {
-      console.log(resolve);
-      img.onload = resolve;
-    });
-
-    // draw image in canvas element
-    canvas.width = img.width;
-    canvas.height = img.height;
-    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-
-    return canvas;
-  };
-
-  scaleCanvas = (canvas, scale) => {
-    const scaledCanvas = document.createElement('canvas');
-    scaledCanvas.width = canvas.width * scale;
-    scaledCanvas.height = canvas.height * scale;
-
-    scaledCanvas.getContext('2d').drawImage(canvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
-
-    return scaledCanvas;
-  };
-
-  optimizePhoto = async (photo) => {
-    let canvas = await this.readPhoto(photo);
-
-    console.log('이미지 등록되었습니다.');
-    while (canvas.width >= 2 * this.MAX_WIDTH) {
-      canvas = this.scaleCanvas(canvas, 0.5);
-    }
-
-    if (canvas.width > this.MAX_WIDTH) {
-      canvas = this.scaleCanvas(canvas, this.MAX_WIDTH / canvas.width);
-    }
-
-    return new Promise((resolve) => {
-      canvas.toBlob(resolve, 'image/jpeg', this.QUALITY);
-    });
-  };
-
   removePhoto() {
     const img = document.getElementById('img1');
     const input = document.getElementById('fileField');
@@ -170,34 +118,5 @@ export default class ProfileImage {
     input.value = '';
 
     console.log('프로필 사진이 제거되었습니다.');
-  }
-
-  async uploadToCloudinary(photo) {
-    const formData = new FormData();
-    formData.append('file', photo);
-    console.log(formData.get('file'));
-    formData.append('upload_preset', 'vvqjds26'); // Cloudinary 업로드 프리셋
-
-    try {
-      const cloudinaryResponse = await axios.post(
-        'https://api.cloudinary.com/v1_1/danwktom9/image/upload',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        },
-      );
-
-      console.log('Image uploaded to Cloudinary:', cloudinaryResponse.data);
-      const imageUrl = cloudinaryResponse.data.secure_url;
-      // console.log(imageUrl);
-      // 서버에 이미지 URL을 저장하도록 요청
-      // const serverResponse = await axios.post('/api/save-image-url', { imageUrl });
-      return imageUrl;
-      // console.log('Image URL saved to server:', serverResponse.data);
-    } catch (error) {
-      console.error('Error uploading image:', error);
-    }
   }
 }
