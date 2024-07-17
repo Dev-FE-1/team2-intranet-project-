@@ -5,12 +5,15 @@ import Modal from '../../components/modal/ModalInofo.js';
 import { Route } from '../router/route.js';
 import UserInfo from '../userinfo/UserInfo.js';
 import { EmployeeListFetch } from './EmployeeListFetch.js';
+import Loading from '../../components/loading/Loading.js';
 
 export class EmployeeListTable {
   constructor(cotainer, props) {
     this.container = cotainer;
     this.props = props;
     this.employeeListFetch = new EmployeeListFetch();
+    this.loading = new Loading(this.container, {});
+    this.loading.render();
   }
 
   render() {
@@ -61,6 +64,7 @@ export class EmployeeListTable {
             <tbody class="employee-list__rows"></tbody>
           </table>
         </div>
+        <div class="page-nation-container"></div>
         <page-nation></page-nation>
         <div class="ex-modal-container"></div>
       </section>
@@ -70,9 +74,14 @@ export class EmployeeListTable {
   }
 
   async updateEmployeeListRows() {
-    const employees = await this.fetchEmployees();
-    this.renderTableRows({ cid: '.employee-list__rows', employees });
-    // this.attachEventListeners();
+    try {
+      const employees = await this.fetchEmployees();
+      this.renderTableRows({ cid: '.employee-list__rows', employees });
+    } catch (error) {
+      console.error('Error fetching employee list:', error);
+    } finally {
+      this.loading.hide();
+    }
   }
 
   renderTableRows({ cid, employees }) {
@@ -85,6 +94,11 @@ export class EmployeeListTable {
     let currentPage = 1;
 
     const pageNation = document.querySelector('page-nation');
+    if (!pageNation) {
+      console.error('Error: page-nation element not found');
+      this.displayError('페이지 네이션 요소를 찾을 수 없습니다.');
+      return;
+    }
     pageNation.innerHTML = /* HTML */ `
       <div class="pagination">
         <a
