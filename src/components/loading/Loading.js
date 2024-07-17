@@ -114,6 +114,8 @@ export default class Loading {
   }
 
   hide() {
+    // 억지로 로딩 컴포넌트를 제거함
+
     const mask = document.querySelector('.mask');
     const html = document.querySelector('html');
 

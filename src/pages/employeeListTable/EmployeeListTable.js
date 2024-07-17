@@ -12,8 +12,6 @@ export class EmployeeListTable {
     this.container = cotainer;
     this.props = props;
     this.employeeListFetch = new EmployeeListFetch();
-    this.loading = new Loading(this.container, {});
-    this.loading.render();
   }
 
   render() {
@@ -63,24 +61,39 @@ export class EmployeeListTable {
             </thead>
             <tbody class="employee-list__rows"></tbody>
           </table>
+          <div class="loading-component-container"></div>
         </div>
         <div class="page-nation-container"></div>
         <page-nation></page-nation>
         <div class="ex-modal-container"></div>
       </section>
     `;
-    this.updateEmployeeListRows();
+    this.renderTableRowsByFetch();
+    this.renderTableRowsByFetch();
     this.attachEventListeners();
+    this.addLoadingComponent();
   }
 
-  async updateEmployeeListRows() {
+  addLoadingComponent() {
+    const loadingComponentContainer = document.querySelector('.loading-component-container');
+    this.loading = new Loading(loadingComponentContainer, {});
+    this.loading.render();
+  }
+
+  removeLoadingComponent() {
+    const loadingComponentContainer = document.querySelector('.loading-component-container');
+    loadingComponentContainer.remove();
+    this.loading.hide();
+  }
+
+  async renderTableRowsByFetch() {
     try {
       const employees = await this.fetchEmployees();
       this.renderTableRows({ cid: '.employee-list__rows', employees });
     } catch (error) {
       console.error('Error fetching employee list:', error);
     } finally {
-      this.loading.hide();
+      this.removeLoadingComponent();
     }
   }
 
@@ -94,64 +107,61 @@ export class EmployeeListTable {
     let currentPage = 1;
 
     const pageNation = document.querySelector('page-nation');
-    if (!pageNation) {
-      console.error('Error: page-nation element not found');
-      this.displayError('페이지 네이션 요소를 찾을 수 없습니다.');
-      return;
-    }
     pageNation.innerHTML = /* HTML */ `
-      <div class="pagination">
+      <div class="pagination ">
         <a
           pagination-previous-anchor
           href="#"
           aria-label="Go to previous page"
-          class="pagination__btn-prev"
+          class="pagination__btn-prev pagination__anchor"
         >
           Previous
         </a>
         <ol class="pagination__page-numbers">
           ${Array.from({ length: numberOfPages })
             .map((_, index) => {
-              return /* HTML */ ` <li><a pagination-number-anchor href="#">${index + 1}</a></li> `;
+              return /* HTML */ `
+                <li>
+                  <a pagination-number-anchor class="pagination__anchor" href="#">${index + 1}</a>
+                </li>
+              `;
             })
             .join('')}
         </ol>
-        <a pagination-next-anchor href="" aria-label="Go to next page" class="pagination__btn-next">
+        <a
+          pagination-next-anchor
+          href=""
+          aria-label="Go to next page"
+          class="pagination__anchor pagination__btn-next"
+        >
           Next
         </a>
       </div>
     `;
     loadTableRows({ currentPage, numberPerPage });
 
-    this.container.addEventListener('click', (e) => {
+    const onClickPageNation = (e) => {
+      const IsPaginationAnchor = e.target.closest('a')?.classList.contains('pagination__anchor');
+      if (!IsPaginationAnchor) return;
+      e.preventDefault();
       if (e.target.matches('[pagination-number-anchor]')) {
         e.preventDefault();
         currentPage = parseInt(e.target.innerText);
-        loadTableRows({ currentPage, numberPerPage });
       }
-    });
-
-    this.container.addEventListener('click', (e) => {
       if (e.target.matches('[pagination-next-anchor]')) {
         e.preventDefault();
-        if (currentPage === numberOfPages) {
-          return;
-        }
+        if (currentPage === numberOfPages) return;
         currentPage++;
-        loadTableRows({ currentPage, numberPerPage });
       }
-    });
-
-    this.container.addEventListener('click', (e) => {
       if (e.target.matches('[pagination-previous-anchor]')) {
         e.preventDefault();
-        if (currentPage === 1) {
-          return;
-        }
+        if (currentPage === 1) return;
         currentPage--;
-        loadTableRows({ currentPage, numberPerPage });
       }
-    });
+      loadTableRows({ currentPage, numberPerPage });
+    };
+
+    this.container.addEventListener('click', onClickPageNation);
 
     function setButtonStateFocus({ currentPage }) {
       const pageNationButtons = document.querySelectorAll('[pagination-number-anchor]');
@@ -259,7 +269,7 @@ export class EmployeeListTable {
           if (value) {
             const checkedEmployeeIds = this.getCheckedEmployeeIds();
             await this.employeeListFetch.deleteEmployee(checkedEmployeeIds);
-            this.updateEmployeeListRows();
+            this.renderTableRowsByFetch();
           }
           document.body.style.overflow = 'auto';
         });
