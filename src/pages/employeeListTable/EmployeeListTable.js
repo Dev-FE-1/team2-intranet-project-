@@ -201,7 +201,6 @@ export class EmployeeListTable {
 
   fetchEmployees = async () => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 5000));
       return await this.employeeListFetch.getEmployeeList();
     } catch (error) {
       console.error('Error get employees', error);
