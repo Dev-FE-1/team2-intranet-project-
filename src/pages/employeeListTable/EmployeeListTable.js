@@ -7,6 +7,7 @@ import UserInfo from '../userinfo/UserInfo.js';
 import { EmployeeListFetch } from './EmployeeListFetch.js';
 import Loading from '../../components/loading/Loading.js';
 import { Pagination } from './Pagination.js';
+import { SearchComponent } from './SearchComponent.js';
 
 export class EmployeeListTable {
   constructor(cotainer, props) {
@@ -28,12 +29,7 @@ export class EmployeeListTable {
               ><button id="employee-delete" class="c-button c-button-delete">임직원 삭제</button></a
             >
           </div>
-          <div class="employee-list__header__search">
-            <form action="#" class="employee-list__header__search-form">
-              <label for="search">검색</label>
-              <input type="search" id="search" placeholder="이름 또는 이메일로 검색하기" />
-            </form>
-          </div>
+          <div class="employee-list__header__search"></div>
         </div>
         <div class="table-wrap">
           <table>
@@ -70,8 +66,17 @@ export class EmployeeListTable {
       </section>
     `;
     this.renderTableRowsByFetch();
+    this.rednerSearchComponent();
     this.attachEventListeners();
     this.addLoadingComponent();
+  }
+
+  rednerSearchComponent() {
+    this.employeeListTableSearch = new SearchComponent(
+      document.querySelector('.employee-list__header__search'),
+      this.searchEmployees,
+    );
+    this.employeeListTableSearch.render();
   }
 
   addLoadingComponent() {
@@ -83,12 +88,11 @@ export class EmployeeListTable {
   removeLoadingComponent() {
     const loadingComponentContainer = document.querySelector('.loading-component-container');
     loadingComponentContainer.remove();
-    this.loading.hide();
   }
 
   async renderTableRowsByFetch() {
     try {
-      const employees = await this.fetchEmployees();
+      const employees = await this.employeeListFetch.getEmployeeList();
       if (!employees) {
         throw new Error('직원 데이터가 없거나 오류가 발생했습니다.');
       }
@@ -114,7 +118,8 @@ export class EmployeeListTable {
 
   // 직원 검색 함수: 직원리스트를 매개변수 값으로 받고,
   // 리스트를 하나씩 순차적으로 확인하면서 name, email, position중에 한글자라도 동일한 것이 있으면
-  searchEmployees = async ({ userSearchInput, employees }) => {
+  searchEmployees = async (userSearchInput) => {
+    const employees = await this.employeeListFetch.getEmployeeList();
     const searchResult = employees.filter(
       (employee) =>
         employee.name.includes(userSearchInput) ||
@@ -122,15 +127,6 @@ export class EmployeeListTable {
         employee.position.includes(userSearchInput),
     );
     this.renderTableRows({ employees: searchResult });
-  };
-
-  fetchEmployees = async () => {
-    try {
-      return await this.employeeListFetch.getEmployeeList();
-    } catch (error) {
-      console.error('Error get employees', error);
-      return [];
-    }
   };
 
   // 직원 삭제 버튼 클릭시 모달창 생성 함수: 삭제버튼을 클릭하면 모달창이 생성되고, 삭제버튼을 누르면 모달창이 사라짐.
@@ -194,37 +190,8 @@ export class EmployeeListTable {
     }
   };
 
-  oncheckAllCheckboxes = (e) => {
-    if (e.target.id === 'selectAll') {
-      const checkboxes = document.querySelectorAll('.c-checkbox__input');
-      checkboxes.forEach((checkbox) => {
-        checkbox.checked = e.target.checked;
-      });
-    }
-  };
-
-  // 검색바의 검색아이콘 토글 함수: 직원 검색바 입력시, 검색 아이콘 색깔이 진한 검정색으로 바뀌게함.
-  onInputToggleSearchIcon = (e) => {
-    if (e.target.id === 'search') {
-      this.container.classList.toggle('active', e.target.value.length > 0);
-    }
-  };
-
-  // 직원 리스트 검색 요소에 붙여진 submit핸들러함수: 직원 검색바에 입력하고 enter를 눌렀을 때를 감지
-  onSubmitTpSearch = async (e) => {
-    const searchForm = e.target.classList.contains('employee-list__header__search-form');
-    if (searchForm) {
-      e.preventDefault();
-      const userSearchInput = e.target.querySelector('input').value;
-      const employees = await this.fetchEmployees();
-      this.searchEmployees({ userSearchInput, employees });
-    }
-  };
-
   attachEventListeners = () => {
-    this.container.addEventListener('input', this.onInputToggleSearchIcon);
     this.container.addEventListener('change', this.oncheckAllCheckboxes);
-    this.container.addEventListener('submit', this.onSubmitTpSearch);
     this.container.addEventListener('click', this.deleteEmployee);
     const tableRow = this.container.querySelector('.employee-list__rows');
     tableRow.addEventListener('click', this.onClickTableRowrouteToUserInfo);
