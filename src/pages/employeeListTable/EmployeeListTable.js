@@ -12,8 +12,6 @@ export class EmployeeListTable {
     this.container = cotainer;
     this.props = props;
     this.employeeListFetch = new EmployeeListFetch();
-    this.loading = new Loading(this.container, {});
-    this.loading.render();
   }
 
   render() {
@@ -63,6 +61,7 @@ export class EmployeeListTable {
             </thead>
             <tbody class="employee-list__rows"></tbody>
           </table>
+          <div class="loading-component-container"></div>
         </div>
         <div class="page-nation-container"></div>
         <page-nation></page-nation>
@@ -70,12 +69,32 @@ export class EmployeeListTable {
       </section>
     `;
     this.renderTableRowsByFetch();
+    this.renderTableRowsByFetch();
     this.attachEventListeners();
+    this.addLoadingComponent();
+  }
+
+  addLoadingComponent() {
+    const loadingComponentContainer = document.querySelector('.loading-component-container');
+    this.loading = new Loading(loadingComponentContainer, {});
+    this.loading.render();
+  }
+
+  removeLoadingComponent() {
+    const loadingComponentContainer = document.querySelector('.loading-component-container');
+    loadingComponentContainer.remove();
+    this.loading.hide();
   }
 
   async renderTableRowsByFetch() {
-    const employees = await this.fetchEmployees();
-    this.renderTableRows({ cid: '.employee-list__rows', employees });
+    try {
+      const employees = await this.fetchEmployees();
+      this.renderTableRows({ cid: '.employee-list__rows', employees });
+    } catch (error) {
+      console.error('Error fetching employee list:', error);
+    } finally {
+      this.removeLoadingComponent();
+    }
   }
 
   renderTableRows({ cid, employees }) {
@@ -182,6 +201,7 @@ export class EmployeeListTable {
 
   fetchEmployees = async () => {
     try {
+      await new Promise((resolve) => setTimeout(resolve, 5000));
       return await this.employeeListFetch.getEmployeeList();
     } catch (error) {
       console.error('Error get employees', error);
