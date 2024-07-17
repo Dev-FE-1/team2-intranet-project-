@@ -65,14 +65,13 @@ export class EmployeeListTable {
         <div class="ex-modal-container"></div>
       </section>
     `;
-    this.updateEmployeeListRows();
+    this.renderTableRowsByFetch();
     this.attachEventListeners();
   }
 
-  async updateEmployeeListRows() {
+  async renderTableRowsByFetch() {
     const employees = await this.fetchEmployees();
     this.renderTableRows({ cid: '.employee-list__rows', employees });
-    // this.attachEventListeners();
   }
 
   renderTableRows({ cid, employees }) {
@@ -85,59 +84,62 @@ export class EmployeeListTable {
     let currentPage = 1;
 
     const pageNation = document.querySelector('page-nation');
+
     pageNation.innerHTML = /* HTML */ `
-      <div class="pagination">
+      <div class="pagination ">
         <a
           pagination-previous-anchor
           href="#"
           aria-label="Go to previous page"
-          class="pagination__btn-prev"
+          class="pagination__btn-prev pagination__anchor"
         >
           Previous
         </a>
         <ol class="pagination__page-numbers">
           ${Array.from({ length: numberOfPages })
             .map((_, index) => {
-              return /* HTML */ ` <li><a pagination-number-anchor href="#">${index + 1}</a></li> `;
+              return /* HTML */ `
+                <li>
+                  <a pagination-number-anchor class="pagination__anchor" href="#">${index + 1}</a>
+                </li>
+              `;
             })
             .join('')}
         </ol>
-        <a pagination-next-anchor href="" aria-label="Go to next page" class="pagination__btn-next">
+        <a
+          pagination-next-anchor
+          href=""
+          aria-label="Go to next page"
+          class="pagination__anchor pagination__btn-next"
+        >
           Next
         </a>
       </div>
     `;
     loadTableRows({ currentPage, numberPerPage });
 
-    this.container.addEventListener('click', (e) => {
+    const onClickPageNation = (e) => {
+      const IsPaginationAnchor = e.target.closest('a')?.classList.contains('pagination__anchor');
+      if (!IsPaginationAnchor) return;
+      e.preventDefault();
       if (e.target.matches('[pagination-number-anchor]')) {
         e.preventDefault();
         currentPage = parseInt(e.target.innerText);
-        loadTableRows({ currentPage, numberPerPage });
       }
-    });
-
-    this.container.addEventListener('click', (e) => {
       if (e.target.matches('[pagination-next-anchor]')) {
         e.preventDefault();
-        if (currentPage === numberOfPages) {
-          return;
-        }
+        if (currentPage === numberOfPages) return;
         currentPage++;
-        loadTableRows({ currentPage, numberPerPage });
       }
-    });
-
-    this.container.addEventListener('click', (e) => {
       if (e.target.matches('[pagination-previous-anchor]')) {
         e.preventDefault();
-        if (currentPage === 1) {
-          return;
-        }
+        if (currentPage === 1) return;
         currentPage--;
-        loadTableRows({ currentPage, numberPerPage });
       }
-    });
+      loadTableRows({ currentPage, numberPerPage });
+    };
+
+    this.container.addEventListener('click', onClickPageNation);
 
     function setButtonStateFocus({ currentPage }) {
       const pageNationButtons = document.querySelectorAll('[pagination-number-anchor]');
@@ -245,7 +247,7 @@ export class EmployeeListTable {
           if (value) {
             const checkedEmployeeIds = this.getCheckedEmployeeIds();
             await this.employeeListFetch.deleteEmployee(checkedEmployeeIds);
-            this.updateEmployeeListRows();
+            this.renderTableRowsByFetch();
           }
           document.body.style.overflow = 'auto';
         });
