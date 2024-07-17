@@ -1,7 +1,7 @@
 import avatarDefaultImg from '../../assets/images/avatar-default.jpg';
 export class EmployeeListTableRows {
-  constructor({ cid: container = '.employee-list__rows' }) {
-    this.container = document.querySelector(`${container}`);
+  constructor({ container } = {}) {
+    this.container = container ?? document.querySelector('.employee-list__rows');
     this.defaultProfileImg = avatarDefaultImg;
   }
 

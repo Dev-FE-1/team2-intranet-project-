@@ -6,6 +6,7 @@ import { Route } from '../router/route.js';
 import UserInfo from '../userinfo/UserInfo.js';
 import { EmployeeListFetch } from './EmployeeListFetch.js';
 import Loading from '../../components/loading/Loading.js';
+import { Pagination } from './Pagination.js';
 
 export class EmployeeListTable {
   constructor(cotainer, props) {
@@ -69,7 +70,6 @@ export class EmployeeListTable {
       </section>
     `;
     this.renderTableRowsByFetch();
-    this.renderTableRowsByFetch();
     this.attachEventListeners();
     this.addLoadingComponent();
   }
@@ -89,7 +89,10 @@ export class EmployeeListTable {
   async renderTableRowsByFetch() {
     try {
       const employees = await this.fetchEmployees();
-      this.renderTableRows({ cid: '.employee-list__rows', employees });
+      if (!employees) {
+        throw new Error('직원 데이터가 없거나 오류가 발생했습니다.');
+      }
+      this.renderTableRows({ employees });
     } catch (error) {
       console.error('Error fetching employee list:', error);
     } finally {
@@ -97,98 +100,20 @@ export class EmployeeListTable {
     }
   }
 
-  renderTableRows({ cid, employees }) {
-    const employeeListTableRows = new EmployeeListTableRows({
-      cid,
+  renderTableRows({ employees }) {
+    const pageNation = new Pagination({
+      tableTotalItems: employees,
+      container: document.querySelector('page-nation'),
+      renderTableRow: new EmployeeListTableRows(document.querySelector('.employee-list__rows'))
+        .render,
+      numberPerPage: 10,
+      currentPage: 1,
     });
-    const numberPerPage = 10;
-    const totalRows = employees.length;
-    const numberOfPages = Math.ceil(totalRows / numberPerPage);
-    let currentPage = 1;
-
-    const pageNation = document.querySelector('page-nation');
-    pageNation.innerHTML = /* HTML */ `
-      <div class="pagination ">
-        <a
-          pagination-previous-anchor
-          href="#"
-          aria-label="Go to previous page"
-          class="pagination__btn-prev pagination__anchor"
-        >
-          Previous
-        </a>
-        <ol class="pagination__page-numbers">
-          ${Array.from({ length: numberOfPages })
-            .map((_, index) => {
-              return /* HTML */ `
-                <li>
-                  <a pagination-number-anchor class="pagination__anchor" href="#">${index + 1}</a>
-                </li>
-              `;
-            })
-            .join('')}
-        </ol>
-        <a
-          pagination-next-anchor
-          href=""
-          aria-label="Go to next page"
-          class="pagination__anchor pagination__btn-next"
-        >
-          Next
-        </a>
-      </div>
-    `;
-    loadTableRows({ currentPage, numberPerPage });
-
-    const onClickPageNation = (e) => {
-      const IsPaginationAnchor = e.target.closest('a')?.classList.contains('pagination__anchor');
-      if (!IsPaginationAnchor) return;
-      e.preventDefault();
-      if (e.target.matches('[pagination-number-anchor]')) {
-        e.preventDefault();
-        currentPage = parseInt(e.target.innerText);
-      }
-      if (e.target.matches('[pagination-next-anchor]')) {
-        e.preventDefault();
-        if (currentPage === numberOfPages) return;
-        currentPage++;
-      }
-      if (e.target.matches('[pagination-previous-anchor]')) {
-        e.preventDefault();
-        if (currentPage === 1) return;
-        currentPage--;
-      }
-      loadTableRows({ currentPage, numberPerPage });
-    };
-
-    this.container.addEventListener('click', onClickPageNation);
-
-    function setButtonStateFocus({ currentPage }) {
-      const pageNationButtons = document.querySelectorAll('[pagination-number-anchor]');
-      pageNationButtons.forEach((button) => {
-        button.classList.remove('pagination--focus');
-        if (parseInt(button.innerText) === currentPage) {
-          button.classList.add('pagination--focus');
-        }
-      });
-    }
-
-    function loadTableRows({ currentPage, numberPerPage }) {
-      const rowStart = (currentPage - 1) * numberPerPage;
-      const rowEnd = calcRowEnd({ totalRows });
-      employeeListTableRows.render(employees.slice(rowStart, rowEnd));
-      setButtonStateFocus({ currentPage });
-    }
-
-    function calcRowEnd({ totalRows }) {
-      if (currentPage * numberPerPage > totalRows) return totalRows;
-      return currentPage * numberPerPage;
-    }
+    pageNation.render();
   }
 
   // 직원 검색 함수: 직원리스트를 매개변수 값으로 받고,
   // 리스트를 하나씩 순차적으로 확인하면서 name, email, position중에 한글자라도 동일한 것이 있으면
-  // 일치하는 리스트 요소 값들을 넣고 테이블 로우 부분만 다시 랜더링함.
   searchEmployees = async ({ userSearchInput, employees }) => {
     const searchResult = employees.filter(
       (employee) =>
@@ -196,7 +121,7 @@ export class EmployeeListTable {
         employee.email.includes(userSearchInput) ||
         employee.position.includes(userSearchInput),
     );
-    this.renderTableRows({ employees: searchResult, cid: '.employee-list__rows' });
+    this.renderTableRows({ employees: searchResult });
   };
 
   fetchEmployees = async () => {
@@ -208,76 +133,29 @@ export class EmployeeListTable {
     }
   };
 
-  // 검색바의 검색아이콘 토글 함수: 직원 검색바 입력시, 검색 아이콘 색깔이 진한 검정색으로 바뀌게함.
-  onInputToggleSearchIcon() {
-    this.container.addEventListener('input', (e) => {
-      if (e.target.id === 'search') {
-        this.container.classList.toggle('active', e.target.value.length > 0);
-      }
-    });
-  }
-
-  // 직원 리스트 검색 요소에 붙여진 submit핸들러함수: 직원 검색바에 입력하고 enter를 눌렀을 때를 감지
-  onSubmitSearchEmployees() {
-    this.container.addEventListener('submit', async (e) => {
-      const searchForm = e.target.classList.contains('employee-list__header__search-form');
-      if (searchForm) {
-        e.preventDefault();
-        const userSearchInput = e.target.querySelector('input').value;
-        const employees = await this.fetchEmployees();
-        this.searchEmployees({ userSearchInput, employees });
-      }
-    });
-  }
-
-  deleteEmployee(e) {
+  // 직원 삭제 버튼 클릭시 모달창 생성 함수: 삭제버튼을 클릭하면 모달창이 생성되고, 삭제버튼을 누르면 모달창이 사라짐.
+  deleteEmployee = (e) => {
     if (e.target.id === 'employee-delete') {
       const modal = new Modal('삭제');
-      this.container.appendChild(modal.el);
+      // this.container.appendChild(modal.el); // 모달창이 뜸
+      console.log('modal', modal.el);
+      const modalContainer = this.container.querySelector('.ex-modal-container');
+      modalContainer.innerHTML = '';
+      modalContainer.appendChild(modal.el);
 
-      modal.onClickDeleteButton((value) => {
-        if (value) {
-          const modal = document.querySelector('.modal');
-          this.container.removeChild(modal);
-        }
-      });
+      // 모달 팝업되면 body 스크롤링 금지
+      document.body.style.overflow = 'hidden';
 
-      modal.onClickCancelButton((value) => {
+      modal.onClickDeleteButton(async (value) => {
         if (value) {
-          const modal = document.querySelector('.modal');
-          this.container.removeChild(modal);
+          const checkedEmployeeIds = this.getCheckedEmployeeIds();
+          await this.employeeListFetch.deleteEmployee(checkedEmployeeIds);
+          this.renderTableRowsByFetch();
         }
+        document.body.style.overflow = 'auto';
       });
     }
-  }
-
-  // 직원 삭제 버튼 클릭시 모달창 생성 함수: 삭제버튼을 클릭하면 모달창이 생성되고, 삭제버튼을 누르면 모달창이 사라짐.
-  onClickDeleteEmployee() {
-    const deleteEmployee = (e) => {
-      if (e.target.id === 'employee-delete') {
-        const modal = new Modal('삭제');
-        // this.container.appendChild(modal.el); // 모달창이 뜸
-        console.log('modal', modal.el);
-        const modalContainer = this.container.querySelector('.ex-modal-container');
-        modalContainer.innerHTML = '';
-        modalContainer.appendChild(modal.el);
-
-        // 모달 팝업되면 body 스크롤링 금지
-        document.body.style.overflow = 'hidden';
-
-        modal.onClickDeleteButton(async (value) => {
-          if (value) {
-            const checkedEmployeeIds = this.getCheckedEmployeeIds();
-            await this.employeeListFetch.deleteEmployee(checkedEmployeeIds);
-            this.renderTableRowsByFetch();
-          }
-          document.body.style.overflow = 'auto';
-        });
-      }
-    };
-
-    this.container.addEventListener('click', deleteEmployee);
-  }
+  };
 
   getCheckedEmployeeIds() {
     const checkboxInputs = document.querySelectorAll('.employee-list__rows .c-checkbox__input');
@@ -300,46 +178,55 @@ export class EmployeeListTable {
     };
   }
 
-  onClickTableRow() {
+  onClickTableRowrouteToUserInfo = (e) => {
     const pathMappings = {
       '/userinfo': { title: 'CORENET - 인트라넷 솔루션', ComponentClass: UserInfo },
     };
     const routeView = document.querySelector('route-view');
     const href = '/userinfo';
+    const row = e.target.closest('TR');
+    if (e.target.closest('td').classList.contains('employee-list__info') && row) {
+      e.preventDefault();
+      const props = this.getRowData(e.target.parentNode);
+      const route = new Route({ pathMappings, routeView });
+      props['info'] = '조회';
+      route.router(props, href);
+    }
+  };
 
-    const routeToUserInfo = (e) => {
-      console.log(`log ${e.target}`);
-      const row = e.target.closest('TR');
-      if (e.target.closest('td').classList.contains('employee-list__info') && row) {
-        e.preventDefault();
-        const props = this.getRowData(e.target.parentNode);
-        const route = new Route({ pathMappings, routeView });
-        props['info'] = '조회';
-        route.router(props, href);
-      }
-    };
+  oncheckAllCheckboxes = (e) => {
+    if (e.target.id === 'selectAll') {
+      const checkboxes = document.querySelectorAll('.c-checkbox__input');
+      checkboxes.forEach((checkbox) => {
+        checkbox.checked = e.target.checked;
+      });
+    }
+  };
 
-    const tableRow = this.container.querySelector('.employee-list__rows');
-    tableRow.addEventListener('click', routeToUserInfo);
-  }
+  // 검색바의 검색아이콘 토글 함수: 직원 검색바 입력시, 검색 아이콘 색깔이 진한 검정색으로 바뀌게함.
+  onInputToggleSearchIcon = (e) => {
+    if (e.target.id === 'search') {
+      this.container.classList.toggle('active', e.target.value.length > 0);
+    }
+  };
 
-  onCheckAllCheckboxes() {
-    const checkAllCheckboxes = (e) => {
-      if (e.target.id === 'selectAll') {
-        const checkboxes = document.querySelectorAll('.c-checkbox__input');
-        checkboxes.forEach((checkbox) => {
-          checkbox.checked = e.target.checked;
-        });
-      }
-    };
-    this.container.addEventListener('change', checkAllCheckboxes);
-  }
+  // 직원 리스트 검색 요소에 붙여진 submit핸들러함수: 직원 검색바에 입력하고 enter를 눌렀을 때를 감지
+  onSubmitTpSearch = async (e) => {
+    const searchForm = e.target.classList.contains('employee-list__header__search-form');
+    if (searchForm) {
+      e.preventDefault();
+      const userSearchInput = e.target.querySelector('input').value;
+      const employees = await this.fetchEmployees();
+      this.searchEmployees({ userSearchInput, employees });
+    }
+  };
 
   attachEventListeners = () => {
-    this.onInputToggleSearchIcon();
-    this.onSubmitSearchEmployees();
-    this.onClickDeleteEmployee();
-    this.onClickTableRow();
-    this.onCheckAllCheckboxes();
+    this.container.addEventListener('input', this.onInputToggleSearchIcon);
+    this.container.addEventListener('change', this.oncheckAllCheckboxes);
+    this.container.addEventListener('submit', this.onSubmitTpSearch);
+    this.container.addEventListener('click', this.deleteEmployee);
+    const tableRow = this.container.querySelector('.employee-list__rows');
+    tableRow.addEventListener('click', this.onClickTableRowrouteToUserInfo);
   };
 }
