@@ -22,7 +22,6 @@ export class Home {
     this.status = Number(user.status);
     this.container = container;
 
-    console.log(typeof this.status);
     this.timeFormatter = new Intl.DateTimeFormat('ko-KR', {
       hour: '2-digit',
       minute: '2-digit',
@@ -88,7 +87,6 @@ export class Home {
     this.startClock();
     this.updateWorkStatus();
   }
-
   startClock() {
     this.updateCurrentTime();
     setInterval(this.updateCurrentTime, 1000);
