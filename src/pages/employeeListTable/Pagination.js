@@ -1,25 +1,17 @@
-import { EmployeeListTableRows } from './EmployeeListTableRows.js';
-export class PageNation {
-  constructor({
-    container,
-    tableTotalItems,
-    tableRowRender,
-    numberPerPage,
-    totalRows,
-    currentPage,
-  }) {
+export class Pagination {
+  constructor({ container, tableTotalItems, renderTableRow, numberPerPage, currentPage }) {
     this.tableTotalItems = tableTotalItems;
-    this.container = container;
+    this.container = container ?? document.querySelector('page-nation');
     this.numberPerPage = numberPerPage;
-    this.totalRows = totalRows;
+    this.totalRows = tableTotalItems.length;
     this.numberOfPages = Math.ceil(this.totalRows / this.numberPerPage);
-    this.renderTableRows = new EmployeeListTableRows().render ?? tableRowRender;
+    this.renderTableRows = renderTableRow;
     this.currentPage = currentPage ?? 1;
   }
 
   getStartRowAndEndRowNumberOnCurrentPage() {
     const rowStartNumber = (this.currentPage - 1) * this.numberPerPage;
-    const rowEndNumber = Math.min(rowStartNumber + this.numberOfPages, this.currentPage);
+    const rowEndNumber = Math.min(rowStartNumber + this.numberPerPage, this.totalRows);
     return {
       rowStartNumber,
       rowEndNumber,
@@ -44,7 +36,7 @@ export class PageNation {
     }
   }
 
-  setCurrentPage(e) {
+  setCurrentPage = (e) => {
     e.preventDefault();
     const anchorButton = e.target.closest('a');
     if (anchorButton.matches('[pagination-number-anchor]')) {
@@ -56,7 +48,7 @@ export class PageNation {
     if (anchorButton.matches('[pagination-previous-anchor]')) {
       this.prevPage();
     }
-  }
+  };
 
   renerCurrentPageTableRows() {
     const { rowStartNumber, rowEndNumber } = this.getStartRowAndEndRowNumberOnCurrentPage();
@@ -64,13 +56,13 @@ export class PageNation {
     this.renderTableRows(currentPageRows);
   }
 
-  onClickAnchorButtons(e) {
+  onClickAnchorButtons = (e) => {
     const IsPaginationAnchor = e.target.closest('a')?.classList.contains('pagination__anchor');
     if (!IsPaginationAnchor) return;
     this.setCurrentPage(e);
     this.setButtonAnchorFocus();
     this.renerCurrentPageTableRows();
-  }
+  };
 
   attachEventListener() {
     this.container.addEventListener('click', this.onClickAnchorButtons);
@@ -120,5 +112,7 @@ export class PageNation {
       </div>
     `;
     this.attachEventListener();
+    this.renerCurrentPageTableRows();
+    this.setButtonAnchorFocus();
   }
 }
