@@ -120,10 +120,6 @@ if (!sessionStorage.id) {
     }
   });
 
-  window.addEventListener('load', () => {
-    console.log('page loaded');
-  });
-
   // // Update router
   window.addEventListener('popstate', router);
   window.addEventListener('DOMContentLoaded', router);
