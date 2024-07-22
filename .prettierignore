@@ -1,0 +1,9 @@
+dist
+build
+coverage
+node_modules
+package-lock.json
+package.json
+design
+src/assets/images
+project-structure.md

@@ -1,0 +1,232 @@
+/* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
+.scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll {
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+
+.attendance-list {
+  --size-attendance-list-width: 800px;
+  --size-attendance-list-height: 450px;
+  --size-header-height: 200px;
+  --size-header-padding: 0px 40px;
+  --size-item-height: 90px;
+  --font-xlarge: 24px;
+  --size-img: 50px;
+}
+
+.attendance-list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--color-pale-gray);
+  padding: 2rem 2rem 1rem;
+  box-shadow: var(--box-flat-shadow);
+}
+
+.attendance-list header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.attendance-list header h1 {
+  position: relative;
+  width: 100%;
+  font-family: 'Open sans', sans-serif;
+  font-weight: 700;
+  color: var(--color-ocean-blue);
+  font-size: var(--font-medium);
+  line-height: 2;
+}
+
+.attendance-list header h1::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  left: 0;
+  bottom: 0;
+  background-color: var(--color-pale-gray);
+}
+.attendance-list header a {
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-button-medium);
+  height: var(--size-button-height);
+  border: none;
+  border-radius: 5px;
+  background-color: var(--color-slate-blue);
+  font-size: var(--font-small);
+  color: var(--color-white);
+  cursor: pointer;
+}
+.attendance-list__header a span:first-child {
+  margin-right: 5px;
+}
+/* 근태신청 바로가기 안의 화살표 아이콘 */
+.attendance-list a::after {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-left: 0.1rem;
+  background: url('/src/assets/images/arrow_forward_icon.svg') no-repeat;
+  background-size: contain;
+  font-size: 0;
+  content: '';
+}
+
+.attendance-list .attendance-items {
+  display: flex;
+  flex-direction: column;
+  height: calc((100vh - 218px) / 2 - 48px);
+  overflow-y: scroll;
+  /* background-color: var(--color-pale-gray); */
+}
+
+.attendance-list .attendance-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+  font-size: var(--font-small);
+  padding: 1.1rem;
+}
+
+.attendance-list .attendance-item:not(:last-child)::after {
+  content: ' ';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px solid var(--color-pale-gray);
+}
+.attendance-item__status {
+  display: flex;
+  align-items: center;
+}
+.attendance-item__status > h2 {
+  font-weight: 400;
+  font-size: var(--font-micro);
+}
+.attendance-item__status > p {
+  margin-left: 20px;
+  width: 28vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.attendance-list .l-attendance-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-left: 20px;
+}
+
+.attendance-item img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.attendance-item .attendance-item__name {
+  color: var(--color-dark-gray);
+  width: 4rem;
+  padding-left: 10px;
+}
+
+.-attendance-annual-leave {
+  color: var(--color-slate-blue);
+}
+
+.-attendance-half-day {
+  color: var(--color-teal-grean);
+}
+
+.-attendance-early-out {
+  color: var(--color-coral-light);
+}
+
+.-attendance-etc {
+  color: var(--color-simple-gray);
+}
+
+@media all and (max-width: 900px) {
+  .attendance-list .attendance-items {
+    height: auto;
+  }
+  .attendance-item__status {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .attendance-item__status > p {
+    margin-left: 0;
+  }
+}
+@media all and (max-width: 680px) {
+  .attendance-item__status > p {
+    width: 40vw;
+    margin-left: 0;
+  }
+}
+@media all and (max-width: 570px) {
+  .attendance-list {
+    padding: 1rem;
+  }
+
+  .attendance-item__status > p {
+    width: 40vw;
+    margin-left: 0;
+  }
+
+  .attendance-list .l-attendance-item {
+    width: auto;
+  }
+
+  .attendance-list header a {
+    width: var(--size-button-small);
+    top: 0.5rem;
+    right: 1rem;
+  }
+  .attendance-list header a span:last-child {
+    display: none;
+  }
+  .attendance-item__status > p {
+    margin-left: 0rem;
+  }
+}
+@media all and (max-width: 520px) {
+  .attendance-list header a {
+    top: 0.5rem;
+    right: 1rem;
+  }
+}
+@media all and (max-width: 490px) {
+  .user-dashboard__wrap {
+    padding: 0;
+  }
+  .attendance-item .attendance-item__name {
+    display: none;
+  }
+  .attendance-list .attendance-item {
+    padding: 0.5rem;
+  }
+  .attendance-item__status > p {
+    width: 50vw;
+  }
+}
+@media all and (max-width: 430px) {
+  .attendance-item__status > p {
+    width: 45vw;
+  }
+}

@@ -1,0 +1,222 @@
+.container {
+  max-width: auto;
+}
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99;
+}
+.wrapper::before {
+  /* content: ''; */
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  background: url('/src/assets/images/technology-3.png)');
+  background-position: 50% 50%;
+  opacity: 0.4;
+}
+.login-background {
+  width: 50vw;
+  height: 100vh;
+  background: url('/src/assets/images/bg2.png') no-repeat center center var(--color-french-skyblue);
+  background-size: contain;
+}
+.login__wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50vw;
+  height: 100vh;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* font-size: 1.5rem; */
+  text-transform: uppercase;
+  font-family: 'Pretendard', sans-serif;
+}
+.logo img {
+  width: 60px;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+  text-transform: uppercase;
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.login__title {
+  text-align: center;
+}
+
+.login__description {
+  text-align: center;
+  font-weight: 300;
+  display: flex;
+  flex-direction: column;
+  font-size: var(--font-large);
+  padding: 2rem 0 1.5rem;
+}
+
+.login__description p:last-child span:last-child {
+  margin-bottom: 1.5rem;
+  /* font-size: var(--font-small); */
+}
+.product-name {
+  color: var(--color-ocean-blue);
+  font-weight: 700;
+}
+
+.login__group {
+  width: 360px;
+  height: 100px;
+}
+.login__label {
+  display: block;
+  font-size: 0.9em;
+  padding: 0.2rem 0 0.2rem;
+  color: var(--color-french-skyblue);
+  transition: all 300ms ease-in;
+}
+
+.login__password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.login__input {
+  border: none;
+  outline: none;
+  background: white;
+  padding: 0.5rem 0.2rem;
+  border-bottom: 1px solid var(--color-french-skyblue);
+  width: 100%;
+  transition: all 300ms ease-in;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+.login__input::placeholder {
+  font-weight: 300;
+}
+.login__input:focus {
+  border-bottom: 1px solid var(--color-ocean-blue);
+  background-color: rgba(152, 190, 255, 0.169);
+}
+.login__input:focus + label.login__label {
+  color: var(--color-ocean-blue);
+}
+.login__toggle-password {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
+  line-height: 1.5;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.usernameError,
+.passwordError {
+  color: var(--color-vivid-red);
+  font-size: 0.9em;
+  margin-top: 0.5em;
+  display: block;
+}
+
+.login__checkboxgroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: var(--font-medium);
+}
+
+.login__button {
+  display: block;
+  width: 100%;
+  height: 48px;
+  color: var(--color-white);
+  background-color: var(--color-french-skyblue);
+  border: none;
+  border-radius: 4px;
+  margin-top: 36px;
+  margin-bottom: 16px;
+  transition: all 300ms ease-in;
+}
+.login__button:hover,
+.login__button:focus {
+  background-color: var(--color-ocean-blue);
+}
+.login__footer {
+  text-align: center;
+}
+
+.login__continue {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  font-size: var(--font-small);
+  color: var(--color-regular-gray);
+  font-weight: 300;
+}
+
+.login__continue::before,
+.login__continue::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-light-gray);
+}
+
+.login__continue::before {
+  margin-right: 10px;
+}
+
+.login__continue::after {
+  margin-left: 10px;
+}
+
+.forgotpass-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 10px 0;
+}
+.forgotpass-info span:last-child {
+  color: var(--color-dark-gray);
+  font-weight: 300;
+  font-size: var(--font-small);
+}
+@media all and (max-width: 900px) {
+  .login-background {
+    width: 0;
+  }
+}
+@media all and (max-width: 424px) {
+  .login__group {
+    width: 260px;
+  }
+}

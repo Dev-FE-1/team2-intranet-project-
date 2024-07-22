@@ -1,0 +1,312 @@
+.employee-list {
+  /* list-table */
+  --size-img-small: 36px;
+  --size-tablePadding: 1.5rem;
+  --size-employee-list-width: 30vw;
+  --size-employee-list-height: 90vh;
+  --color-lightest-gray: #eeeeee;
+  --size-button-height: 32px;
+  --postion-seacrhIcon-left: 0.9rem;
+  --size-l-table-header-margin: 30px;
+
+  --size-tr-height: 50px;
+  --size-tr-width: 550px;
+}
+
+.employee-list__heading {
+  font-size: var(--font-large);
+  display: none;
+}
+.employee-list {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  min-height: calc(100vh - 160px);
+  height: auto;
+}
+
+/* 직원등록,삭제 버튼 */
+.employee-list__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 1000px;
+  padding: 25px 0;
+}
+
+.employee-default-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.employee-list__header__button {
+  margin-left: 20px;
+}
+.employee-list__header__button a {
+  display: inline-block;
+}
+.employee-list__header__button .c-button {
+  width: var(--size-button-small);
+  height: var(--size-button-height);
+  border: none;
+  border-radius: 5px;
+  font-size: var(--font-small);
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #424a530a;
+}
+
+.employee-list__header__button .c-button-enroll {
+  background-color: var(--color-ocean-blue);
+  color: var(--color-white);
+}
+
+.employee-list__header__button .c-button-enroll a {
+  color: var(--color-white);
+}
+
+.employee-list__header__button .c-button-delete {
+  background-color: var(--color-white);
+  color: var(--color-vivid-red);
+  border: 1px solid var(--color-pale-gray);
+  margin-left: 8px;
+}
+
+/* 직원검색 */
+.employee-list__header__search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.employee-list__header__search input {
+  position: relative;
+  width: var(--size-button-xlarge);
+  height: var(--size-button-height);
+  font-size: var(--font-small);
+  padding-left: 2rem;
+  border: 1px solid var(--color-light-gray);
+  border-radius: 5px;
+}
+
+/* 검색 아이콘 */
+.employee-list form::after {
+  display: block;
+  position: absolute;
+  top: 4px;
+  left: 5px;
+  width: 30px;
+  height: 30px;
+  filter: opacity(50%);
+  background-image: url(/src/assets/images/search_icon.svg);
+  background-repeat: no-repeat;
+  content: ' ';
+}
+
+/* 검색 아이콘에 데이터가 입력되면 색깔이 어두워짐 */
+.active form::after {
+  filter: opacity(100%);
+}
+
+.employee-list__header__search input::placeholder {
+  color: var(--color-dark-gray);
+  font-size: var(--font-small);
+}
+
+/* 직원목록 */
+.table-wrap {
+  position: relative;
+  height: 507px;
+}
+.employee-list table {
+  width: 1000px;
+  border-collapse: collapse;
+}
+.employee-list table thead {
+  border-bottom: 1px solid var(--color-pale-gray);
+}
+.employee-list table tbody tr {
+  cursor: pointer;
+  /* display: flex;
+  align-items: center; */
+}
+.employee-list table label,
+.employee-list .employee-list__header__search-form label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  margin: -1px;
+  clip: rect(0, 0, 0, 0);
+}
+.employee-list table label .employee-list th:first-child {
+  width: 0.5vw;
+  padding-right: 0rem;
+}
+.employee-list tr:nth-child(2n) {
+  background-color: rgba(152, 190, 255, 0.169); /* --color-jordy-blue / opacity: 0.169 */
+}
+.employee-list th,
+.employee-list td {
+  margin: 0;
+  padding: 5px 8px;
+  text-align: center;
+}
+
+.employee-list th {
+  color: var(--color-black);
+  font-weight: 400;
+  line-height: 36px;
+}
+.employee-list td {
+  color: var(--color-dark-gray);
+}
+.employee-list tr:hover td {
+  color: var(--color-ocean-blue);
+}
+.employee-list td img {
+  display: block;
+  width: 36px;
+  height: 36px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.c-checkbox__input {
+  cursor: pointer;
+}
+
+/* 노트북 & 테블릿 가로 (해상도 1024px ~ 1279px)*/
+@media all and (min-width: 1024px) and (max-width: 1279px) {
+}
+
+/* 테블릿 가로 (해상도 768px ~ 1023px)*/
+@media all and (max-width: 1023px) {
+  .employee-list {
+    padding-top: 80px;
+    height: auto;
+    margin-bottom: 150px;
+  }
+  .employee-list table {
+    width: calc(100vw - 5rem);
+  }
+  .employee-list__header {
+    width: calc(100vw - 5rem);
+  }
+  .employee-list__heading {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    background-color: rgba(255, 255, 255, 1);
+    border-bottom: 1px solid var(--color-pale-gray);
+    z-index: 10;
+  }
+
+  .employee-list tr {
+    width: calc(100vw - 5rem);
+    height: 46px;
+  }
+  .employee-list th,
+  .employee-list td {
+    font-size: var(--font-small);
+  }
+}
+
+/* 모바일 가로 & 테블릿 세로 (해상도 480px ~ 767px)*/
+@media all and (max-width: 767px) {
+  .employee-list {
+    min-height: 100vh;
+    height: auto;
+  }
+  .employee-list__header {
+    width: calc(100vw - 3rem);
+    flex-direction: column-reverse;
+  }
+
+  .employee-list table {
+    width: calc(100vw - 3rem);
+  }
+  .employee-list table colgroup col:last-child {
+    display: none;
+  }
+  .employee-list table thead tr th:nth-child(2),
+  .employee-list table tbody tr td:nth-child(2) {
+    display: none;
+  }
+
+  .employee-list tr {
+    width: calc(100vw - 5rem);
+    height: 46px;
+  }
+  .employee-list th,
+  .employee-list td {
+    font-size: var(--font-micro);
+  }
+  .employee-list__header__search {
+    margin-bottom: 20px;
+  }
+  .employee-list__header__button {
+    margin: 0;
+  }
+}
+
+@media all and (max-width: 518px) {
+  .employee-list {
+    min-height: 100vh;
+    height: auto;
+  }
+  .employee-list table col {
+    width: 0;
+  }
+
+  .employee-list table colgroup col:nth-child(5),
+  .employee-list table colgroup col:nth-child(6) {
+    display: none;
+  }
+  .employee-list table thead tr th:nth-child(2),
+  .employee-list table tbody tr td:nth-child(2) {
+    display: none;
+  }
+  .employee-list table thead tr th:nth-child(4),
+  .employee-list table tbody tr td:nth-child(4) {
+    display: none;
+  }
+}
+
+/* 모바일 세로 (해상도 ~ 479px)*/
+@media all and (max-width: 479px) {
+  .employee-list {
+    min-height: 100vh;
+    height: auto;
+  }
+  .employee-list__header {
+    width: 90vw;
+    flex-direction: column-reverse;
+  }
+
+  .employee-list table {
+    width: 90vw;
+  }
+
+  .employee-list tr {
+    height: 46px;
+  }
+  .employee-list th,
+  .employee-list td {
+    font-size: var(--font-micro);
+  }
+  .employee-list__header__search {
+    margin-bottom: 20px;
+  }
+  .employee-list__header__button {
+    margin: 0;
+  }
+}

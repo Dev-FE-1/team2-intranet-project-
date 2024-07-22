@@ -1,0 +1,56 @@
+{
+  "name": "team2-intranet-project-",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "server": "nodemon server/index.js",
+    "start": "node server/index.js",
+    "build": "vite build",
+    "preview": "vite preview",
+    "prepare": "husky"
+  },
+  "eslintConfig": {
+    "extends": [
+      "prettier"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --quiet --fix",
+      "prettier --write --ignore-unknown"
+    ],
+    "*.{json,html,css}": [
+      "prettier --write --ignore-unknown"
+    ]
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.5.0",
+    "eslint": "^9.5.0",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.4.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.7",
+    "nodemon": "^3.1.4",
+    "prettier": "3.3.2",
+    "vite": "^5.2.0"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.5.2",
+    "awilix": "^10.0.2",
+    "axios": "^1.7.2",
+    "cloudinary": "^2.2.0",
+    "connect-history-api-fallback": "^2.0.0",
+    "cors": "^2.8.5",
+    "date-and-time": "^3.4.0",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "handlebars": "^4.7.8",
+    "lodash": "^4.17.21",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
+  }
+}

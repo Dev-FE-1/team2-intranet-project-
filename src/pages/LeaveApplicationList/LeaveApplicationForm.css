@@ -1,0 +1,181 @@
+.applicaion-form-wrap {
+  margin: 2rem;
+}
+.applicaion-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+.applicaion-form__heading {
+  font-size: var(--font-large);
+  display: none;
+}
+.applicaion-form__profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.profile-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.form > div {
+  flex-direction: column;
+  align-items: stretch;
+}
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: flex-end;
+}
+
+.radio-tile-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.radio-tile-group .input-container {
+  position: relative;
+  margin: 1.5em 0rem 0rem 0.5rem;
+}
+.radio-tile-group .input-container .radio-button {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  cursor: pointer;
+  box-shadow: var(--box-flat-shadow);
+}
+.radio-tile-group .input-container .radio-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-ocean-blue);
+  /* border-radius: 2px; */
+  padding: 0.3rem;
+  transition: transform 300ms ease;
+}
+
+.radio-tile-group .input-container .radio-tile-label {
+  text-align: center;
+  font-size: var(--font-small);
+  letter-spacing: 1px;
+  color: var(--color-ocean-blue);
+}
+.radio-tile-group .input-container .radio-button:checked + .radio-tile {
+  background-color: var(--color-ocean-blue);
+  border: 1px solid var(--color-ocean-blue);
+  color: white;
+  /* transform: scale(1.1, 1.1); */
+}
+
+.radio-tile-group .input-container .radio-button:checked + .radio-tile .radio-tile-label {
+  color: white;
+  background-color: var(--color-ocean-blue);
+}
+
+.apply-title,
+.apply-description {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#applicationTitle,
+#applicationDesc {
+  width: 350px;
+  outline: none;
+  border: 1px solid var(--color-light-gray);
+  padding: 5px 8px;
+  font-size: var(--font-small);
+  box-shadow: var(--box-flat-shadow);
+}
+.apply-title label,
+.apply-description label {
+  display: inline-block;
+  width: 40px;
+  font-size: 14px;
+  margin: 12px 0 5px;
+}
+#applicationDesc {
+  height: 150px;
+  resize: none;
+}
+.btn-group {
+  margin-top: 30px;
+}
+.btn-applyform {
+  border: none;
+  outline: none;
+  width: var(--size-button-medium);
+  height: var(--size-button-height);
+  background-color: var(--color-slate-blue);
+  box-shadow: var(--box-flat-shadow);
+  font-size: var(--font-small);
+  color: var(--color-white);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.btn-goback {
+  border: none;
+  outline: none;
+  width: var(--size-button-small);
+  height: var(--size-button-height);
+  background-color: var(--color-light-gray);
+  box-shadow: var(--box-flat-shadow);
+  font-size: var(--font-small);
+  color: var(--color-dark-gray);
+  border-radius: 2px;
+  cursor: pointer;
+}
+/* 유효성검사 에러메시지 */
+.error-radio,
+.error-title {
+  height: 12px;
+  font-size: 10px;
+  color: red;
+}
+/* 테블릿 가로 (해상도 768px ~ 1023px)*/
+@media all and (max-width: 1023px) {
+  .applicaion-form__heading {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    background-color: rgba(255, 255, 255, 1);
+    border-bottom: 1px solid var(--color-pale-gray);
+    z-index: 10;
+  }
+  .applicaion-form {
+    margin-top: 205px;
+    margin-bottom: 160px;
+    height: 100vh;
+    overflow: scroll;
+  }
+  .btn-group {
+    margin-top: 0;
+    margin-bottom: 180px;
+  }
+}

@@ -1,0 +1,65 @@
+@import '/src/assets/style/core/reset.css';
+:root {
+  --color-black: #181818;
+  --color-white: #ffffff;
+  --color-brace: #aaac49;
+  --color-caramel: #ffda98;
+  --color-teal-grean: #0c8681;
+
+  /* primary */
+  --color-ocean-blue: #4b49ac;
+  --color-jordy-blue: #98bdff;
+  /* supporting */
+  --color-french-skyblue: #7da0fa;
+  --color-slate-blue: #7978e9;
+  --color-coral-light: #f3797e;
+  --color-vivid-red: #d8262e;
+
+  /* Grayscale */
+  --color-simple-gray: #6b6b6b;
+  --color-dark-gray: #545454;
+  --color-regular-gray: #b9b9b9;
+  --color-light-gray: #d0d7de;
+  --color-pale-gray: #efefef;
+
+  /* font-size */
+  --font-large: 18px;
+  --font-medium: 16px;
+  --font-small: 14px;
+  --font-micro: 12px;
+
+  /* size */
+  --base-space: 8px;
+  --size-border: 4px;
+
+  --size-button-small: 100px;
+  --size-button-medium: 150px;
+  --size-button-large: 200px;
+  --size-button-xlarge: 250px;
+  --size-button-jumbo: 300px;
+
+  --size-button-height: 32px;
+
+  /* box-shadow */
+  --box-floating-shadow: 0px 6px 12px -3px #424a530a, 0px 6px 18px 0px #424a531f;
+  --box-flat-shadow: 1px 1px 2px var(--color-light-gray);
+}
+
+body {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  font-optical-sizing: auto;
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+/* 스크린리더에 읽히지만 보이지 않게 함 */
+.readable-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  margin: -1px;
+  clip: rect(0, 0, 0, 0);
+}

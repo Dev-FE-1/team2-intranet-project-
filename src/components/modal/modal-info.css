@@ -1,0 +1,108 @@
+.modal-info .modal__btn {
+  width: var(--size-button-medium);
+  height: 36px;
+  border-radius: 4px;
+  border: none;
+  color: var(--color-white);
+  font-size: var(--font-small);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.modal-info {
+  display: none;
+}
+.modal-info.show {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  opacity: 1;
+  z-index: 20;
+}
+.modal-info .modal__wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  width: 500px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  padding: 50px 25px 40px;
+  background-color: var(--color-white);
+}
+.modal__text {
+  margin: 0 auto;
+}
+.modal-info .modal__text h1 {
+  margin-bottom: 0.5rem;
+  font-size: var(--font-large);
+}
+.modal-info .modal__text p {
+  font-size: var(--font-micro);
+  color: var(--color-dark-gray);
+  text-align: center;
+}
+
+.modal-info .modal__btn--cancel {
+  margin-right: 20px;
+  border: none;
+  outline: none;
+  color: var(--color-black);
+  background-color: var(--color-light-gray);
+  box-shadow: var(--box-flat-shadow);
+}
+.modal-info .modal__btn--click {
+  /* border: 1px solid var(--color-coral-light); */
+  background-color: var(--color-vivid-red);
+}
+.modal-info .modal__btn--start {
+  background-color: var(--color-ocean-blue);
+}
+.modal-info .modal--close {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 1rem;
+  right: 1.5rem;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+/* 테블릿 가로 (해상도 768px ~ 1023px)*/
+@media all and (max-width: 1023px) {
+  .modal-info .modal__wrap {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 30%;
+    top: auto;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+  }
+}
+@media all and (max-width: 375px) {
+  .modal-info .modal__text h1 {
+    font-size: var(--font-medium);
+  }
+  .modal-info .modal__btn {
+    width: var(--size-button-small);
+    /* font-size: var(--font-micro); */
+  }
+  .modal-info .modal__wrap {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+}

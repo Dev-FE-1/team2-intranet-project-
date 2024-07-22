@@ -1,0 +1,62 @@
+.myApplication-toggle {
+  font-size: 14px;
+}
+
+#myApplicationList-container {
+  width: 300px;
+  height: var(--size-button-height);
+  margin: auto;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  cursor: pointer;
+}
+
+.myApplicationList-inner-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: inherit;
+  height: inherit;
+  text-transform: uppercase;
+  border-radius: 4px;
+}
+
+.myApplicationList-inner-container:first-child {
+  background: #e9e9e9;
+  color: #a9a9a9;
+}
+
+.myApplicationList-inner-container:nth-child(2) {
+  background: var(--color-slate-blue);
+  color: white;
+  clip-path: inset(0 50% 0 0);
+  transition: 0.3s cubic-bezier(0, 0, 0, 1);
+}
+
+.myApplicationList-toggle {
+  width: 50%;
+  position: absolute;
+  height: inherit;
+  display: flex;
+  box-sizing: border-box;
+}
+
+.myApplicationList-toggle p {
+  margin: auto;
+}
+
+.myApplicationList-toggle:nth-child(1) {
+  right: 0;
+}
+@media all and (max-width: 800px) {
+  #myApplicationList-container {
+    width: calc(100vw - 5rem);
+    margin-top: 2rem;
+  }
+}
+@media all and (max-width: 428px) {
+  #myApplicationList-container {
+    width: calc(100vw - 3rem);
+  }
+}

@@ -1,0 +1,125 @@
+/* profile image */
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: center;
+  position: relative;
+  width: 200px;
+  min-height: 250px;
+  margin: 0 auto;
+}
+.profile__image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center center;
+}
+.profile__btn-edit {
+  display: flex;
+  padding: 3px 7px 3px 4px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-light-gray);
+  border-radius: 8px;
+  transform: translate(-50px, -40px);
+  cursor: pointer;
+}
+
+.profile__input-file {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  margin: -1px;
+  clip: rect(0, 0, 0, 0);
+}
+.profile__input-file + label {
+  display: block;
+  padding: 5px 15px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.profile__input-file + label + * {
+  pointer-events: none;
+}
+
+.profile__submenu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  flex-direction: column;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-light-gray);
+  border-radius: 8px;
+  margin-top: 20px;
+  padding: 10px 0;
+  box-shadow: var(--box-floating-shadow);
+  transform: translate(2px, 200px);
+}
+.profile__submenu:after {
+  content: '';
+  position: absolute;
+  border-style: solid;
+  border-width: 0 10px 15px 10px;
+  border-color: var(--color-white) transparent;
+  display: block;
+  width: 0;
+  z-index: 1;
+  top: -13.5px;
+  left: 20px;
+}
+.profile__submenu--active {
+  display: flex;
+}
+.profile__submenu:before {
+  content: '';
+  position: absolute;
+  border-style: solid;
+  border-width: 0 10px 15px 10px;
+  border-color: var(--color-light-gray) transparent;
+  display: block;
+  width: 0;
+  z-index: 0;
+  top: -15px;
+  left: 20px;
+}
+
+.profile__btn-remove {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  padding: 5px 15px;
+}
+
+.profile__input-file + label:hover,
+.profile__btn-remove:hover {
+  background-color: var(--color-jordy-blue);
+}
+/* 테블릿 가로 (해상도 768px ~ 1023px)*/
+@media all and (max-width: 1023px) {
+}
+/* 모바일 가로 & 테블릿 세로 (해상도 480px ~ 767px)*/
+@media all and (max-width: 767px) {
+  .profile {
+    min-height: auto;
+  }
+  .profile__image {
+    width: 150px;
+    height: 150px;
+  }
+  .profile__submenu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(2px, 145px);
+    z-index: 10;
+  }
+}
+/* 모바일 세로 (해상도 ~ 479px)*/
+@media screen and (max-width: 479px) {
+}
