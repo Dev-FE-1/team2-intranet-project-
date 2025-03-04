@@ -166,16 +166,4 @@ npm run start
 - [요구사항정의서](https://github.com/Dev-FE-1/team2-intranet-project-/blob/main/design/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%EC%A0%95%EC%9D%98%EC%84%9C.md)
 - [프로젝트정의서](https://github.com/Dev-FE-1/team2-intranet-project-/blob/main/design/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%A0%95%EC%9D%98%EC%84%9C.md)
 
-## 역할 분담
-
-팀원의 역량에 따라 기능(컴포넌트) 단위로 분담 </br></br>
-![기능별 역할 분담표](https://i.imgur.com/NUgqk5t.png)
-
-## 팀원 역량 확인
-
-아래 5가지 항목에 대하여 각자 자신이 생각하는 항목별 이해도 및 능력치를 3단계(높음, 보통, 낮음)로 점수를 매겼습니다.  
-\*5가지 항목 : HTML, CSS, JavaScript, 버전관(Git/GitHub), 백엔드 및 데이터
-
-> 객관적인 수치라 할 수는 없으나 효율적인 역할 분담 및 협업을 위해 참고하고자 작성하게 되었습니다. </br>
-
 ![팀원 역량 확인표](https://i.imgur.com/5J7M6kt.png)
