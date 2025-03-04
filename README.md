@@ -165,5 +165,3 @@ npm run start
 - [기능정의서](https://github.com/Dev-FE-1/team2-intranet-project-/blob/main/design/%EA%B8%B0%EB%8A%A5%EC%A0%95%EC%9D%98%EC%84%9C.md)
 - [요구사항정의서](https://github.com/Dev-FE-1/team2-intranet-project-/blob/main/design/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%EC%A0%95%EC%9D%98%EC%84%9C.md)
 - [프로젝트정의서](https://github.com/Dev-FE-1/team2-intranet-project-/blob/main/design/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%A0%95%EC%9D%98%EC%84%9C.md)
-
-![팀원 역량 확인표](https://i.imgur.com/5J7M6kt.png)
